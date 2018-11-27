@@ -32,7 +32,7 @@ class HomePage extends React.Component {
                     {renderBudgetTile({
                         budgets: this.state.budgets,
                         handleClick: (budgetId) => {
-                            this.updateStateAndRoute(budgetId)
+                            this.setState({budgetId})
                         }
                     })}
                 </ol>
@@ -44,10 +44,6 @@ class HomePage extends React.Component {
         YnabService
             .getBudgets(this.state.api)
             .then(response => this.setState({budgets: response.data.budgets}))
-    }
-
-    updateStateAndRoute = (budgetId) => {
-        this.setState({budgetId});
     }
 }
 

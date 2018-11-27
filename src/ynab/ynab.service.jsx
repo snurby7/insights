@@ -7,6 +7,10 @@ const YnabService = {
     getBudgets: () => {
         const api = YnabService.getYnabApi();
         return api.budgets.getBudgets();
+    },
+    getAccounts: (budgetId) => {
+        const api = YnabService.getYnabApi();
+        return api.accounts.getAccounts(budgetId)
     }
 };
 
