@@ -2,19 +2,17 @@ import React from 'react';
 import YnabService from '../../ynab/ynab.service';
 
 function renderBudgetAccount(props) {
+    if(props.closed) return null;
     return (
-        !props.closed && <div key={props.id}>
+        <div key={props.id}>
             {props.name} - ${props.balance / 1000 }
         </div>
     )
 }
 
 class Accounts extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            accounts: []
-        }
+    state = {
+        accounts: []
     }
 
     render() {

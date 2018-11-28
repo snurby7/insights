@@ -1,5 +1,6 @@
 import React from 'react';
 import Accounts from './accounts/accounts';
+import Categories from './categories/categories';
 
 class BudgetHome extends React.Component {
     constructor(props) {
@@ -10,7 +11,10 @@ class BudgetHome extends React.Component {
         return (
             <div>
                 Budget Home {this.props.budgetId}
-                <Accounts budgetId={this.props.budgetId}/>
+                <div className="element-container">
+                    <Accounts budgetId={this.props.budgetId}/>
+                    <Categories budgetId={this.props.budgetId}/>
+                </div>
             </div>
         );
     }

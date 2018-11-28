@@ -22,7 +22,8 @@ class HomePage extends React.Component {
     render() {
         const {budgetId} = this.state;
         if (budgetId !== null) {
-            // seems fishy, sure I'll be able to come back later and figure out how to correctly route.
+            // seems fishy, sure I'll be able to come back later and figure out how to
+            // correctly route.
             const budgetRoute = `/budget/${budgetId}`
             return <Redirect to={budgetRoute} push={true}/>
         }
