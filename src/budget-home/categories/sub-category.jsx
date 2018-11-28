@@ -1,9 +1,12 @@
 import React from 'react';
 
-function displayCategoryItem(props) {
+function displayCategoryItem(props, biggestCatgory) {
+    const styles = {
+        color: props.id === biggestCatgory.id ? 'red': 'black'
+    }
     return (
         <li key={props.id}>
-            {props.name} - <strong>${props.activity / 1000}</strong>
+            {props.name} - <strong style={styles}>${props.activity / 1000}</strong>
         </li>
     )
 }
@@ -22,7 +25,7 @@ class SubCategory extends React.Component {
             <div>
                 The biggest offender is {this.getBiggestOffender()}
                 <ol>
-                    {this.state.subCategories.map(x => displayCategoryItem(x))}
+                    {this.state.subCategories.map(x => displayCategoryItem(x, this.state.biggestSpendingCategory))}
                 </ol>
             </div>
         );
