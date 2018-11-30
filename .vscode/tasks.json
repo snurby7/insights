@@ -10,6 +10,18 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "type": "shell",
+            "label": "Kibana Docker",
+            "command": "docker run -d --rm --link elastic:elastic-url -e \"ELASTICSEARCH_URL=http://elastic-url:9200\" -e ELASTICSEARCH_PASSWORD=\"secret\"  -p 5601:5601 --name kibana docker.elastic.co/kibana/kibana:6.5.1",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Elastic Docker",
+            "command": "docker run -d --rm -p 9200:9200 -p 9300:9300 -e \"discovery.type=single-node\" -e \"transport.host=127.0.0.1\" -e ELASTIC_PASSWORD=secret --name elastic docker.elastic.co/elasticsearch/elasticsearch:6.5.1",
+            "problemMatcher": []
         }
     ]
 }
