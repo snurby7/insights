@@ -15,6 +15,10 @@ const YnabService = {
     getCategories: (budgetId) => {
         const api = YnabService.getYnabApi();
         return api.categories.getCategories(budgetId);
+    },
+    getPayees: (budgetId) => {
+        const api = YnabService.getYnabApi();
+        return api.payees.getPayees(budgetId);
     }
 };
 
