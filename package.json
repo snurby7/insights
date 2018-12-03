@@ -2,26 +2,35 @@
   "name": "insights",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Ryan Bruns",
+    "email": "ryan.bruns7@gmail.com",
+    "url": "https://ryanbruns.com"
+  },
+  "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "ynab": "^1.9.0"
   },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "client": "cd client/src && yarn start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "dev:server": "cd client && yarn build && cd .. && yarn start"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
+  "keywords": [
+    "node",
+    "express",
+    "create-react-app"
   ]
 }

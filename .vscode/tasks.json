@@ -4,8 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "type": "npm",
-            "script": "start",
+            "type": "shell",
+            "label": "yarn dev",
+            "command": "yarn dev",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -22,6 +23,6 @@
             "label": "Elastic Docker",
             "command": "docker run -d --rm -p 9200:9200 -p 9300:9300 -e \"discovery.type=single-node\" -e \"transport.host=127.0.0.1\" -e ELASTIC_PASSWORD=secret --name elastic docker.elastic.co/elasticsearch/elasticsearch:6.5.1",
             "problemMatcher": []
-        }
+        },
     ]
 }
