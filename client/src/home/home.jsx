@@ -1,8 +1,8 @@
 import React from 'react';
-import YnabService from '../ynab/ynab.service';
 import {Redirect} from 'react-router'
 
 function renderBudgetTile(props) {
+    console.log(props);
     return props
         .budgets
         .map(budget => <li key={budget.id}>
@@ -42,10 +42,15 @@ class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        YnabService
-            .getBudgets(this.state.api)
-            .then(response => this.setState({budgets: response.data.budgets}))
+        this.getBudgets('/api/budgets');
     }
+
+    async getBudgets(route) {
+        const response = await fetch(route);
+        const budgets = await response.json();
+        this.setState({budgets})
+    };
+
 }
 
 export default HomePage;

@@ -10,7 +10,7 @@ node_modules
 
 # production
 /build
-client/src/data/user-config.jsx
+client/data/user-config.js
 
 # misc
 .DS_Store
