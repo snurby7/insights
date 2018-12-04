@@ -12,6 +12,11 @@ const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 // API calls
 app.get('/api/budgets', async(req, res) => {
@@ -19,16 +24,16 @@ app.get('/api/budgets', async(req, res) => {
     res.send(response.data.budgets);
 });
 
-app.get('/api/accounts', (req, res) => {
-    const response = await ynab.accounts.getAccounts(request.budgetId);
+app.get('/api/accounts', async(req, res) => {
+    const response = await ynab.accounts.getAccounts(req.query.budgetId);
     res.send(response.data.accounts);
 });
-app.get('/api/categories', (req, res) => {
-    const response = await ynab.categories.getCategories(request.budgetId);
-    res.send(response.data.categories);
+app.get('/api/categories', async(req, res) => {
+    const response = await ynab.categories.getCategories(req.query.budgetId);
+    res.send(response.data.category_groups);
 });
-app.get('/api/payees', (req, res) => {
-    const response = await ynab.payees.getPayees(request.budgetId);
+app.get('/api/payees', async(req, res) => {
+    const response = await ynab.payees.getPayees(req.query.budgetId);
     res.send(response.data.payees);
 });
 

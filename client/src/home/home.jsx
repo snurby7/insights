@@ -2,7 +2,6 @@ import React from 'react';
 import {Redirect} from 'react-router'
 
 function renderBudgetTile(props) {
-    console.log(props);
     return props
         .budgets
         .map(budget => <li key={budget.id}>

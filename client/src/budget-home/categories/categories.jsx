@@ -1,5 +1,4 @@
 import React from 'react';
-import YnabService from '../../ynab/ynab.service';
 
 import SiteUtility from '../../utilities/site-utility';
 import SubCategory from './sub-category';
@@ -32,12 +31,17 @@ class Categories extends React.Component {
     }
 
     componentDidMount() {
-        YnabService
-            .getCategories(this.props.budgetId)
-            .then(response => {
-                this.setState({categories: response.data.category_groups})
-            })
+        this.getCategories(`http://${window.location.hostname}:5000/api/categories`, this.props.budgetId);
     }
+
+    async getCategories(route, budgetId) {
+        const url = new URL(route);
+        const params = {budgetId};
+        url.search = new URLSearchParams(params);
+        const response = await fetch(url);
+        const categories = await response.json();
+        this.setState({categories})
+    };
 }
 
 export default Categories;

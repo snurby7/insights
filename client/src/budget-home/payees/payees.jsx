@@ -1,5 +1,5 @@
 import React from 'react';
-import YnabService from '../../ynab/ynab.service';
+const urlFormatter = require('url')
 
 function renderPayee(props) {
     return (!props.deleted && <li key={props.id}>{props.name}</li>)
@@ -51,10 +51,17 @@ class Payees extends React.Component {
     }
 
     componentDidMount() {
-        YnabService
-            .getPayees(this.props.budgetId)
-            .then(response => this.setState({payees: response.data.payees, masterPayees: response.data.payees}))
+        this.getPayees(`/api/payees`, this.props.budgetId);
     }
+
+    async getPayees(route, budgetId) {
+        const data = {budgetId};
+        route += urlFormatter.format({query: data});
+        console.log(route);
+        const response = await fetch(route);
+        const payees = await response.json();
+        this.setState({payees: payees, masterPayees: payees})
+    };
 }
 
 export default Payees;

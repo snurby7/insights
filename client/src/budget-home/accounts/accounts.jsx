@@ -1,5 +1,5 @@
 import React from 'react';
-import YnabService from '../../ynab/ynab.service';
+const urlFormatter = require('url')
 
 function renderBudgetAccount(props) {
     if(props.closed) return null;
@@ -25,10 +25,17 @@ class Accounts extends React.Component {
     }
 
     componentDidMount() {
-        YnabService
-            .getAccounts(this.props.budgetId)
-            .then(response => this.setState({accounts: response.data.accounts}))
+        this.getAccounts(`/api/accounts`, this.props.budgetId);
     }
+
+    async getAccounts(route, budgetId) {
+        const data = {budgetId};
+        route += urlFormatter.format({query: data});
+        console.log(route);
+        const response = await fetch(route);
+        const accounts = await response.json();
+        this.setState({accounts})
+    };
 }
 
 export default Accounts;
