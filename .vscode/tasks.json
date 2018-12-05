@@ -24,5 +24,17 @@
             "command": "docker run -d --rm -p 9200:9200 -p 9300:9300 -e \"discovery.type=single-node\" -e \"transport.host=127.0.0.1\" -e ELASTIC_PASSWORD=secret --name elastic docker.elastic.co/elasticsearch/elasticsearch:6.5.1",
             "problemMatcher": []
         },
+        {
+            "type": "shell",
+            "label": "Mongo",
+            "command": "docker run --name ynab -d mongo:latest",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Mongo-Express",
+            "command": "docker run --link ynab:mongo -p 8081:8081 mongo-express",
+            "problemMatcher": []
+        },
     ]
 }
