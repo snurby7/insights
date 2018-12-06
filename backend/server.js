@@ -33,11 +33,10 @@ app.use(function (req, res, next) {
 });
 
 // API calls
-app.get('/api/budgets', async(req, res) => {
-    const response = await ynabApi
-        .budgets
-        .getBudgets();
-    res.send(response.data.budgets);
+app.get('/api/budgets', (req, res) => {
+    db.collection('budgets').find().toArray().then(result =>
+        res.send(result)
+    , error => console.log(error));
 });
 
 app.get('/api/accounts', async(req, res) => {
@@ -59,12 +58,18 @@ app.get('/api/payees', async(req, res) => {
     res.send(response.data.payees);
 });
 app.get('/api/test', async(req, res) => {
-    db.collection('budgets').insertOne({_id: 1, name:'waffle' }).then(() => {
-        return res.json({success: true});
-    }, error => {
-        return res.json({success: false, error});
-    })
+    // updateBudgets();
 });
+
+// TODO make this actually update the budgets instead of hack delete them all and then insert
+async function updateBudgets() {
+    // db.collection('budgets').deleteMany({})
+    const response = await ynabApi
+        .budgets
+        .getBudgets();
+    const budgets =  response.data.budgets;
+    await db.collection('budgets').insertMany(budgets);
+}
 
 if (process.env.NODE_ENV === 'production') {
     // Serve any static files

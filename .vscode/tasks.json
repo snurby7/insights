@@ -5,7 +5,7 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "yarn dev",
+            "label": "API/UI: yarn dev",
             "command": "yarn dev",
             "group": {
                 "kind": "build",
@@ -14,18 +14,18 @@
         },
         {
             "type": "shell",
-            "label": "yarn dev server",
+            "label": "API: yarn dev server",
             "command": "yarn server",
         },
         {
             "type": "shell",
-            "label": "Mongo",
+            "label": "Docker: Mongo",
             "command": "docker run --name ynab -d mongo:latest",
             "problemMatcher": []
         },
         {
             "type": "shell",
-            "label": "Mongo-Express",
+            "label": "Docker: Mongo-Express",
             "command": "docker run --link ynab:mongo -p 8081:8081 mongo-express",
             "problemMatcher": []
         },
