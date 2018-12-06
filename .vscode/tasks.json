@@ -14,6 +14,11 @@
         },
         {
             "type": "shell",
+            "label": "yarn dev server",
+            "command": "yarn server",
+        },
+        {
+            "type": "shell",
             "label": "Mongo",
             "command": "docker run --name ynab -d mongo:latest",
             "problemMatcher": []
