@@ -1,5 +1,5 @@
 import React from 'react';
-const urlFormatter = require('url')
+import ApiUtility from '../../utilities/api-utility';
 
 function renderPayee(props) {
     return (!props.deleted && <li key={props.id}>{props.name}</li>)
@@ -55,12 +55,9 @@ class Payees extends React.Component {
     }
 
     async getPayees(route, budgetId) {
-        const data = {budgetId};
-        route += urlFormatter.format({query: data});
-        console.log(route);
-        const response = await fetch(route);
-        const payees = await response.json();
-        this.setState({payees: payees, masterPayees: payees})
+        ApiUtility.getRequest(route, {
+            budgetId
+        }, (payees) => this.setState({payees: payees, masterPayees: payees}))
     };
 }
 

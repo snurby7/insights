@@ -2,12 +2,15 @@ import React from 'react';
 
 import SiteUtility from '../../utilities/site-utility';
 import SubCategory from './sub-category';
+import ApiUtility from '../../utilities/api-utility';
 
 function createMasterCategoryView(props) {
-    if(props.hidden) return null;
+    if (props.hidden)
+        return null;
     return (
         <div key={props.id}>
-            <h3>{props.name} - ${SiteUtility.accumulate(props.categories.map(x => x.activity)) / 1000}</h3>
+            <h3>{props.name}
+                - ${SiteUtility.accumulate(props.categories.map(x => x.activity)) / 1000}</h3>
             <SubCategory subCategories={props.categories}/>
         </div>
 
@@ -31,16 +34,13 @@ class Categories extends React.Component {
     }
 
     componentDidMount() {
-        this.getCategories(`http://${window.location.hostname}:5000/api/categories`, this.props.budgetId);
+        this.getCategories(`/api/categories`, this.props.budgetId);
     }
 
     async getCategories(route, budgetId) {
-        const url = new URL(route);
-        const params = {budgetId};
-        url.search = new URLSearchParams(params);
-        const response = await fetch(url);
-        const categories = await response.json();
-        this.setState({categories})
+        ApiUtility.getRequest(route, {
+            budgetId
+        }, (categories) => this.setState({categories}))
     };
 }
 

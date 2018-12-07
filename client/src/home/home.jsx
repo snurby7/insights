@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router'
+import ApiUtility from '../utilities/api-utility';
 
 function renderBudgetTile(props) {
     return props
@@ -45,9 +46,7 @@ class HomePage extends React.Component {
     }
 
     async getBudgets(route) {
-        const response = await fetch(route);
-        const budgets = await response.json();
-        this.setState({budgets})
+        ApiUtility.getRequest(route, null, (budgets) => this.setState({budgets}) );
     };
 
 }

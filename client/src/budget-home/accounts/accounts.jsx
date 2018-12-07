@@ -1,5 +1,5 @@
 import React from 'react';
-const urlFormatter = require('url')
+import ApiUtility from '../../utilities/api-utility';
 
 function renderBudgetAccount(props) {
     if(props.closed) return null;
@@ -29,12 +29,7 @@ class Accounts extends React.Component {
     }
 
     async getAccounts(route, budgetId) {
-        const data = {budgetId};
-        route += urlFormatter.format({query: data});
-        console.log(route);
-        const response = await fetch(route);
-        const accounts = await response.json();
-        this.setState({accounts})
+        await ApiUtility.getRequest(route, {budgetId}, (accounts) => this.setState({accounts}));
     };
 }
 
