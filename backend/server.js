@@ -35,8 +35,9 @@ app.use(function (req, res, next) {
 // API calls
 app.get('/api/budgets', (req, res) => {
     db.collection('budgets').find().toArray().then(result =>
-        res.send(result)
-    , error => console.log(error));
+        res.send(result),
+        error => console.log(error)
+    );
 });
 
 app.get('/api/accounts', async(req, res) => {
@@ -57,18 +58,37 @@ app.get('/api/payees', async(req, res) => {
         .getPayees(req.query.budgetId);
     res.send(response.data.payees);
 });
+app.get('/api/transactions/all', async(req, res) => {
+    const transactions = await ynabApi
+        .transactions
+        .getTransactions(req.query.budgetId);
+    res.send(transactions.data.transactions);
+});
+app.get('/api/transactions/payee', async(req, res) => {
+    const query = req.query;
+    const transactionByPayee = await ynabApi
+        .transactions
+        .getTransactionsByPayee(query.budgetId, query.payeeId);
+    res.send(transactionByPayee.data.transactions);
+});
+
 app.get('/api/test', async(req, res) => {
+    res.send({success: true, message: 'hi there'})
     // updateBudgets();
 });
 
-// TODO make this actually update the budgets instead of hack delete them all and then insert
 async function updateBudgets() {
-    // db.collection('budgets').deleteMany({})
     const response = await ynabApi
         .budgets
         .getBudgets();
-    const budgets =  response.data.budgets;
-    await db.collection('budgets').insertMany(budgets);
+    const budgets = response.data.budgets;
+    await Promise.all(budgets.map(async(budget) =>
+        await db
+            .collection('budgets')
+            .updateOne({
+                'id': budget.id
+            }, {$set: budget}, {upsert: true})
+    ));
 }
 
 if (process.env.NODE_ENV === 'production') {

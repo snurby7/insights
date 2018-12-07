@@ -16,6 +16,7 @@
             "type": "shell",
             "label": "API: yarn dev server",
             "command": "yarn server",
+            "problemMatcher": []
         },
         {
             "type": "shell",
@@ -28,6 +29,6 @@
             "label": "Docker: Mongo-Express",
             "command": "docker run --link ynab:mongo -p 8081:8081 mongo-express",
             "problemMatcher": []
-        },
+        }
     ]
 }
