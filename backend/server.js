@@ -5,8 +5,6 @@ const path = require('path');
 const userConfiguration = require('../data/user-config')
 const bodyParser = require('body-parser');
 
-const Data = require('./data');
-
 const app = express();
 
 // this is our MongoDB database
@@ -73,8 +71,7 @@ app.get('/api/transactions/payee', async(req, res) => {
 });
 
 app.get('/api/test', async(req, res) => {
-    res.send({success: true, message: 'hi there'})
-    // updateBudgets();
+    res.send({success: true, message: transactions.length})
 });
 
 async function updateBudgets() {
@@ -88,6 +85,18 @@ async function updateBudgets() {
             .updateOne({
                 'id': budget.id
             }, {$set: budget}, {upsert: true})
+    ));
+}
+
+async function updateAllTransactions(budgetId) {
+    const response = await ynabApi.transactions.getTransactions(budgetId);
+    const transactions = response.data.transactions;
+    await Promise.all(transactions.map(async(transaction) =>
+        await db
+            .collection('transactions')
+            .updateOne({
+                'id': transaction.id
+            }, {$set: transaction}, {upsert: true})
     ));
 }
 
