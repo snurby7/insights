@@ -1,12 +1,12 @@
 import './index.css';
+import 'typeface-roboto';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import HomePage from './home/home';
-
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import BudgetHome from './budget-home/budget-home';
-import Payees from './budget-home/payees/payees';
+import Payees from './payees/payees';
 
 const Index = () => <HomePage/>;
 const BudgetHomeComponent = ({match}) => <BudgetHome budgetId={match.params.budgetId}/>;
