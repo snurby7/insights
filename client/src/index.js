@@ -19,8 +19,8 @@ class InsightApp extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={NewIndex}/>
-          {/* <Route exact path="/" component={Index}/> */}
+          <Route exact path="/" component={Index}/>
+          <Route exact path="/new" component={NewIndex}/>
           <Route exact path="/budget/:budgetId" component={BudgetHomeComponent}/>
           <Route exact path="/budget/:budgetId/payees" component={PayeesComponent}/>
         </Switch>
