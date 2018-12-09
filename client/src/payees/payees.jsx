@@ -1,21 +1,12 @@
 import React from 'react';
 import ApiUtility from '../utilities/api-utility';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
+import TransactionsDialog from './transactions/transactions-dialog';
 
 function renderPayee(props) {
     return (!props.payee.deleted && <li key={props.payee.id}>{props.payee.name}
         <Button onClick={() => props.onClick(props.payee)} variant="outlined">Transactions</Button>
     </li>)
-}
-
-function Transition(props) {
-    return <Slide direction="up" {...props}/>;
 }
 
 class Payees extends React.Component {
@@ -27,7 +18,7 @@ class Payees extends React.Component {
             payees: [],
             selectedPayee: {},
             transactions: [],
-            value: '',
+            value: ''
         }
     }
 
@@ -48,7 +39,10 @@ class Payees extends React.Component {
 
     handleClickOpen(selectedPayee) {
         this.setState({selectedPayee})
-        ApiUtility.getRequest('/api/transactions/payee', {budgetId: this.props.budgetId, payeeId: selectedPayee.id}, (transactions) => this.setState({open: true, transactions}))
+        ApiUtility.getRequest('/api/transactions/payee', {
+            budgetId: this.props.budgetId,
+            payeeId: selectedPayee.id
+        }, (transactions) => this.setState({open: true, transactions}))
     }
 
     handleClose = () => {
@@ -74,27 +68,12 @@ class Payees extends React.Component {
                             onClick: (payee) => this.handleClickOpen(payee)
                         }))}
                 </ol>
-                <Dialog
-                    open={this.state.open}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    onClose={this.handleClose}
-                    aria-labelledby="alert-dialog-slide-title"
-                    aria-describedby="alert-dialog-slide-description">
-                    <DialogTitle id="alert-dialog-slide-title">
-                        Viewing Transactions for {this.state.selectedPayee.name}
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-slide-description">
-                            {this.state.transactions.length}
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                            Close
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                <TransactionsDialog
+                    onClose={() => this.setState({open: false})}
+                    selectedPayee={this.state.selectedPayee}
+                    transactions={this.state.transactions}
+                    open={this.state.open}>
+                </TransactionsDialog>
             </div>
         );
     }

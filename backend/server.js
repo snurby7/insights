@@ -67,6 +67,9 @@ app.get('/api/transactions/payee', async(req, res) => {
     const transactionByPayee = await ynabApi
         .transactions
         .getTransactionsByPayee(query.budgetId, query.payeeId);
+    // db.collection('transactions').find({
+
+    // })
     res.send(transactionByPayee.data.transactions);
 });
 
