@@ -3,6 +3,7 @@ import React from 'react';
 import SiteUtility from '../../utilities/site-utility';
 import SubCategory from './sub-category';
 import ApiUtility from '../../utilities/api-utility';
+import YnabDataUtility from '../../utilities/ynab-data-utility';
 
 function createMasterCategoryView(props) {
     if (props.hidden)
@@ -10,7 +11,7 @@ function createMasterCategoryView(props) {
     return (
         <div key={props.id}>
             <h3>{props.name}
-                - ${SiteUtility.accumulate(props.categories.map(x => x.activity)) / 1000}</h3>
+                - ({YnabDataUtility.format(SiteUtility.accumulate(props.categories.map(x => x.activity)))})</h3>
             <SubCategory subCategories={props.categories}/>
         </div>
 
