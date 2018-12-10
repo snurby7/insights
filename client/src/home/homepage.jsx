@@ -178,7 +178,7 @@ class HomePage extends React.Component {
                       fullWidth
                       variant={budget.buttonVariant}
                       color="primary"
-                      onClick={() => this.setState({budgetId: budget.id})}
+                      onClick={() => this.setState({ budgetId: budget.id })}
                     >
                       View {budget.name}
                     </Button>

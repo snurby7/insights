@@ -1,14 +1,35 @@
 import React from "react";
-import ApiUtility from "../utilities/api-utility";
+import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
 import TransactionsDialog from "./transactions/transactions-dialog";
+import ApiUtility from "../utilities/api-utility";
+
+const styles = theme => ({
+  "@global": {
+    body: {
+      backgroundColor: theme.palette.common.white
+    }
+  },
+  buttonMarginLeft: {
+    marginLeft: theme.spacing.unit * 2
+  },
+  listMargin: {
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit
+  }
+});
 
 function renderPayee(props) {
   return (
     !props.payee.deleted && (
-      <li key={props.payee.id}>
+      <li className={props.classes.listMargin} key={props.payee.id}>
         {props.payee.name}
-        <Button onClick={() => props.onClick(props.payee)} variant="outlined">
+        <Button
+          className={props.classes.buttonMarginLeft}
+          onClick={() => props.onClick(props.payee)}
+          variant="outlined"
+        >
           Transactions
         </Button>
       </li>
@@ -16,10 +37,14 @@ function renderPayee(props) {
   );
 }
 
+// TODO turn this into a table.
+
 class Payees extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      classes: props.classes,
       masterPayees: [],
       open: false,
       payees: [],
@@ -59,6 +84,7 @@ class Payees extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <h2>Payees ({this.state.payees.length})</h2>
@@ -74,7 +100,8 @@ class Payees extends React.Component {
           {this.state.payees.map(x =>
             renderPayee({
               payee: x,
-              onClick: payee => this.handleClickOpen(payee)
+              onClick: payee => this.handleClickOpen(payee),
+              classes: this.state.classes
             })
           )}
         </ol>
@@ -103,4 +130,8 @@ class Payees extends React.Component {
   }
 }
 
-export default Payees;
+Payees.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Payees);
