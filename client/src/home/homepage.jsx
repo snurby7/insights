@@ -1,5 +1,4 @@
 import React from "react";
-import classNames from "classnames";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
@@ -15,6 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
 import ApiUtility from "../utilities/api-utility";
+
+import { Redirect } from "react-router";
 
 const styles = theme => ({
   "@global": {
@@ -33,7 +34,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(900 + theme.spacing.unit * 3 * 2)]: {
-      width: 900,
+      width: 1000,
       marginLeft: "auto",
       marginRight: "auto"
     }
@@ -64,16 +65,13 @@ const styles = theme => ({
   }
 });
 
-const footers = [];
-
-class HomePage2 extends React.Component {
+class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    console.log();
-
     this.state = {
       classes: props.classes,
-      budgets: []
+      budgets: [],
+      budgetId: null
     };
   }
 
@@ -86,6 +84,14 @@ class HomePage2 extends React.Component {
   }
 
   render() {
+    const { budgetId } = this.state;
+    if (budgetId !== null) {
+      // seems fishy, sure I'll be able to come back later and figure out how to
+      // correctly route.
+      const budgetRoute = `/budget/${budgetId}`;
+      return <Redirect to={budgetRoute} push={true} />;
+    }
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -136,9 +142,9 @@ class HomePage2 extends React.Component {
               // Enterprise card is full width at sm breakpoint
               <Grid
                 item
-                key={budget.title}
+                key={budget.id}
                 xs={12}
-                sm={budget.title === "Enterprise" ? 12 : 6}
+                sm={budget.name === "Sample" ? 12 : 6}
                 md={4}
               >
                 <Card>
@@ -146,26 +152,25 @@ class HomePage2 extends React.Component {
                     title={budget.title}
                     subheader={budget.subheader}
                     titleTypographyProps={{ align: "center" }}
-                    subheaderTypographytProps={{ align: "center" }}
+                    subheaderTypographyProps={{ align: "center" }}
                     action={budget.title === "Pro" ? <StarIcon /> : null}
                     className={this.state.classes.cardHeader}
                   />
                   <CardContent>
                     <div className={this.state.classes.budgetCard}>
                       <Typography
-                        component="h2"
+                        component="h4"
                         variant="h3"
                         color="textPrimary"
                       >
-                        ${budget.price}
-                      </Typography>
-                      <Typography variant="h6" color="textSecondary">
-                        /mo
+                        {budget.name}
                       </Typography>
                     </div>
-
                     <Typography variant="subtitle1" align="center">
-                      example
+                      Began - {budget.first_month}
+                    </Typography>
+                    <Typography variant="subtitle1" align="center">
+                      Latest - {budget.last_month}
                     </Typography>
                   </CardContent>
                   <CardActions className={this.state.classes.cardActions}>
@@ -173,8 +178,9 @@ class HomePage2 extends React.Component {
                       fullWidth
                       variant={budget.buttonVariant}
                       color="primary"
+                      onClick={() => this.setState({budgetId: budget.id})}
                     >
-                      {budget.buttonText}
+                      View {budget.name}
                     </Button>
                   </CardActions>
                 </Card>
@@ -182,40 +188,13 @@ class HomePage2 extends React.Component {
             ))}
           </Grid>
         </main>
-        {/* Footer */}
-        <footer
-          className={classNames(
-            this.state.classes.footer,
-            this.state.classes.layout
-          )}
-        >
-          <Grid container spacing={32} justify="space-evenly">
-            {footers.map(footer => (
-              <Grid item xs key={footer.title}>
-                <Typography variant="h6" color="textPrimary" gutterBottom>
-                  {footer.title}
-                </Typography>
-                {footer.description.map(item => (
-                  <Typography
-                    key={item}
-                    variant="subtitle1"
-                    color="textSecondary"
-                  >
-                    {item}
-                  </Typography>
-                ))}
-              </Grid>
-            ))}
-          </Grid>
-        </footer>
-        {/* End footer */}
       </React.Fragment>
     );
   }
 }
 
-HomePage2.propTypes = {
+HomePage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(HomePage2);
+export default withStyles(styles)(HomePage);

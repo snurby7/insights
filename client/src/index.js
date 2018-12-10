@@ -3,14 +3,12 @@ import 'typeface-roboto';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HomePage from './home/home';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import BudgetHome from './budget-home/budget-home';
 import Payees from './payees/payees';
-import HomePage2 from './home/home2.0';
+import HomePage from './home/homepage';
 
-const Index = () => <HomePage/>;
-const NewIndex = () => <HomePage2/>
+const HomePageRoute = () => <HomePage/>
 const BudgetHomeComponent = ({match}) => <BudgetHome budgetId={match.params.budgetId}/>;
 const PayeesComponent = ({match}) => <Payees budgetId={match.params.budgetId}/>;
 
@@ -19,8 +17,7 @@ class InsightApp extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={Index}/>
-          <Route exact path="/new" component={NewIndex}/>
+          <Route exact path="/" component={HomePageRoute}/>
           <Route exact path="/budget/:budgetId" component={BudgetHomeComponent}/>
           <Route exact path="/budget/:budgetId/payees" component={PayeesComponent}/>
         </Switch>
