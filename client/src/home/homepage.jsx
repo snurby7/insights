@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -8,26 +7,20 @@ import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
-import StarIcon from "@material-ui/icons/StarBorder";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import StarIcon from "@material-ui/icons/StarBorder";
 
 import ApiUtility from "../utilities/api-utility";
 
 import { Redirect } from "react-router";
+import YnabAppBar from "../common/ynab-app-bar";
 
 const styles = theme => ({
   "@global": {
     body: {
       backgroundColor: theme.palette.common.white
     }
-  },
-  appBar: {
-    position: "relative"
-  },
-  toolbarTitle: {
-    flex: 1
   },
   layout: {
     width: "auto",
@@ -71,7 +64,8 @@ class HomePage extends React.Component {
     this.state = {
       classes: props.classes,
       budgets: [],
-      budgetId: null
+      budgetId: null,
+      navigateRoute: ''
     };
   }
 
@@ -84,37 +78,21 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { budgetId } = this.state;
+    const { budgetId, navigateRoute } = this.state;
     if (budgetId !== null) {
-      // seems fishy, sure I'll be able to come back later and figure out how to
-      // correctly route.
       const budgetRoute = `/budget/${budgetId}`;
       return <Redirect to={budgetRoute} push={true} />;
     }
+    if(navigateRoute !== null && navigateRoute.length > 0) {
+      return <Redirect to={navigateRoute} push={true}/>
+    }
+
+
 
     return (
       <React.Fragment>
         <CssBaseline />
-        <AppBar
-          position="static"
-          color="default"
-          className={this.state.classes.appBar}
-        >
-          <Toolbar>
-            <Typography
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={this.state.classes.toolbarTitle}
-            >
-              Insights
-            </Typography>
-            <Button>Admin</Button>
-            <Button color="primary" variant="outlined">
-              Login
-            </Button>
-          </Toolbar>
-        </AppBar>
+        <YnabAppBar/>
         <main className={this.state.classes.layout}>
           {/* Hero unit */}
           <div className={this.state.classes.heroContent}>
