@@ -15,7 +15,10 @@ function Transition(props) {
 function renderTransactions(props) {
   return (
     <li key={props.id}>
-      Category {props.category_name} for {YnabDataUtility.format(props.amount)}
+      <div>Account - {props.account_name}</div>
+      <div>Date - {props.date}</div>
+      <div>Category - {props.category_name}</div>
+      <div>Amount - {YnabDataUtility.format(props.amount)}</div>
     </li>
   );
 }
@@ -24,16 +27,16 @@ class TransactionsDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedPayee: {},
+      payeeName: {},
       transactions: [],
-      open: false,
+      open: props.open,
       onClose: props.onClose
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     return {
-      selectedPayee: props.selectedPayee,
+      payeeName: props.payeeName,
       transactions: props.transactions,
       open: props.open
     };
@@ -56,11 +59,11 @@ class TransactionsDialog extends React.Component {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle id="alert-dialog-slide-title">
-            Viewing Transactions for {this.state.selectedPayee.name}
+            Viewing Transactions for {this.state.payeeName}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              Total transaction(s) {this.state.transactions.length}!
+              Total transaction(s) - {this.state.transactions.length}!
             </DialogContentText>
             <ol>{this.state.transactions.map(x => renderTransactions(x))}</ol>
           </DialogContent>

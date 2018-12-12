@@ -64,8 +64,7 @@ class HomePage extends React.Component {
     this.state = {
       classes: props.classes,
       budgets: [],
-      budgetId: null,
-      navigateRoute: ''
+      budgetId: null
     };
   }
 
@@ -78,21 +77,16 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { budgetId, navigateRoute } = this.state;
+    const { budgetId } = this.state;
     if (budgetId !== null) {
       const budgetRoute = `/budget/${budgetId}`;
       return <Redirect to={budgetRoute} push={true} />;
     }
-    if(navigateRoute !== null && navigateRoute.length > 0) {
-      return <Redirect to={navigateRoute} push={true}/>
-    }
-
-
 
     return (
       <React.Fragment>
         <CssBaseline />
-        <YnabAppBar/>
+        <YnabAppBar />
         <main className={this.state.classes.layout}>
           {/* Hero unit */}
           <div className={this.state.classes.heroContent}>

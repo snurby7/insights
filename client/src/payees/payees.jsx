@@ -84,7 +84,6 @@ class Payees extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <h2>Payees ({this.state.payees.length})</h2>
@@ -107,7 +106,7 @@ class Payees extends React.Component {
         </ol>
         <TransactionsDialog
           onClose={() => this.setState({ open: false })}
-          selectedPayee={this.state.selectedPayee}
+          payeeName={this.state.selectedPayee.name}
           transactions={this.state.transactions}
           open={this.state.open}
         />

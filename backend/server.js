@@ -5,7 +5,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const userConfiguration = require("../data/user-config");
 const ynabDataUtility = require("./updates/ynab-update-methods");
-
+const ynabDataProcessing = require ('./processing/ynab-data-processing');
 const app = express();
 
 // this is our MongoDB database
@@ -45,7 +45,11 @@ app.get("/api/budgets", (req, res) => {
 });
 
 app.get("/api/accounts", async (req, res) => {
-    const accounts = await db.collection('accounts').find({}).sort({name: 1}).toArray();
+  const accounts = await db
+    .collection("accounts")
+    .find({})
+    .sort({ name: 1 })
+    .toArray();
   res.send(accounts);
 });
 
@@ -64,6 +68,7 @@ app.get("/api/payees", async (req, res) => {
 });
 
 app.get("/api/transactions/all", async (req, res) => {
+  // TODO Add the budgetId onto this so it's not just pulling everything.
   const transactions = await db
     .collection("transactions")
     .find({})
@@ -73,6 +78,7 @@ app.get("/api/transactions/all", async (req, res) => {
 });
 
 app.get("/api/transactions/payee", async (req, res) => {
+  // TODO Add the budgetId onto this so it's not just pulling everything.
   const query = req.query;
   const transactions = await db
     .collection("transactions")
@@ -82,6 +88,16 @@ app.get("/api/transactions/payee", async (req, res) => {
     .sort({ name: 1 })
     .toArray();
   res.send(transactions);
+});
+
+app.get("/api/transactions/aggregate", async (req, res) => {
+  // TODO Add the budgetId onto this so it's not just pulling everything.
+  const results = await db
+    .collection("transactions")
+    .find({})
+    .toArray();
+  const result = ynabDataProcessing.aggregateTransactionsByDay(results);
+  res.send(result);
 });
 
 app.get("/api/test", async (req, res) => {
