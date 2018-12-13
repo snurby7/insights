@@ -8,7 +8,7 @@ function displayCategoryItem(props, biggestCatgory) {
   return (
     <li key={props.id}>
       {props.name} -{" "}
-      <strong style={styles}>{YnabDataUtility.format(props.activity)}</strong>
+      <strong style={styles}>({YnabDataUtility.format(props.activity)})</strong>
     </li>
   );
 }

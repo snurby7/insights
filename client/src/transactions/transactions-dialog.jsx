@@ -6,7 +6,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { Button } from "@material-ui/core";
-import YnabDataUtility from "../../utilities/ynab-data-utility";
+import YnabDataUtility from "../utilities/ynab-data-utility";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;

@@ -5,7 +5,6 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -14,7 +13,6 @@ import StarIcon from "@material-ui/icons/StarBorder";
 import ApiUtility from "../utilities/api-utility";
 
 import { Redirect } from "react-router";
-import YnabAppBar from "../common/ynab-app-bar";
 
 const styles = theme => ({
   "@global": {
@@ -85,8 +83,6 @@ class HomePage extends React.Component {
 
     return (
       <React.Fragment>
-        <CssBaseline />
-        <YnabAppBar />
         <main className={this.state.classes.layout}>
           {/* Hero unit */}
           <div className={this.state.classes.heroContent}>

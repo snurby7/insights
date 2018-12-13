@@ -1,6 +1,4 @@
-import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
-import YnabAppBar from "../common/ynab-app-bar";
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -10,8 +8,6 @@ class AdminPage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <CssBaseline />
-        <YnabAppBar />
         <div>
           Welcome to the Admin Page more coming soon
           <div>

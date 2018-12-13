@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
-import TransactionsDialog from "./transactions/transactions-dialog";
+import TransactionsDialog from "../transactions/transactions-dialog";
 import ApiUtility from "../utilities/api-utility";
 
 const styles = theme => ({
@@ -38,7 +38,6 @@ function renderPayee(props) {
 }
 
 // TODO turn this into a table.
-
 class Payees extends React.Component {
 
   constructor(props) {
@@ -85,32 +84,34 @@ class Payees extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>Payees ({this.state.payees.length})</h2>
-        <label>
-          Name:
-          <input
-            type="text"
-            value={this.state.value}
-            onChange={event => this.handleInputChange(event)}
+      <React.Fragment>
+        <div>
+          <h2>Payees ({this.state.payees.length})</h2>
+          <label>
+            Name:
+            <input
+              type="text"
+              value={this.state.value}
+              onChange={event => this.handleInputChange(event)}
+            />
+          </label>
+          <ol>
+            {this.state.payees.map(x =>
+              renderPayee({
+                payee: x,
+                onClick: payee => this.handleClickOpen(payee),
+                classes: this.state.classes
+              })
+            )}
+          </ol>
+          <TransactionsDialog
+            onClose={() => this.setState({ open: false })}
+            payeeName={this.state.selectedPayee.name}
+            transactions={this.state.transactions}
+            open={this.state.open}
           />
-        </label>
-        <ol>
-          {this.state.payees.map(x =>
-            renderPayee({
-              payee: x,
-              onClick: payee => this.handleClickOpen(payee),
-              classes: this.state.classes
-            })
-          )}
-        </ol>
-        <TransactionsDialog
-          onClose={() => this.setState({ open: false })}
-          payeeName={this.state.selectedPayee.name}
-          transactions={this.state.transactions}
-          open={this.state.open}
-        />
-      </div>
+        </div>
+      </React.Fragment>
     );
   }
 
