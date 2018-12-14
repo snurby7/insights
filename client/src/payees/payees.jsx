@@ -2,44 +2,29 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 import TransactionsDialog from "../transactions/transactions-dialog";
 import ApiUtility from "../utilities/api-utility";
 
 const styles = theme => ({
-  "@global": {
-    body: {
-      backgroundColor: theme.palette.common.white
-    }
+  root: {
+    marginTop: theme.spacing.unit * 3,
+    overflowX: "auto",
+    maxHeight: 400,
+    maxWidth: 700
   },
-  buttonMarginLeft: {
-    marginLeft: theme.spacing.unit * 2
-  },
-  listMargin: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
+  table: {
+    maxHeight: 400,
+    maxWidth: 700
   }
 });
 
-function renderPayee(props) {
-  return (
-    !props.payee.deleted && (
-      <li className={props.classes.listMargin} key={props.payee.id}>
-        {props.payee.name}
-        <Button
-          className={props.classes.buttonMarginLeft}
-          onClick={() => props.onClick(props.payee)}
-          variant="outlined"
-        >
-          Transactions
-        </Button>
-      </li>
-    )
-  );
-}
-
-// TODO turn this into a table.
 class Payees extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -87,23 +72,35 @@ class Payees extends React.Component {
       <React.Fragment>
         <div>
           <h2>Payees ({this.state.payees.length})</h2>
-          <label>
-            Name:
-            <input
-              type="text"
-              value={this.state.value}
-              onChange={event => this.handleInputChange(event)}
-            />
-          </label>
-          <ol>
-            {this.state.payees.map(x =>
-              renderPayee({
-                payee: x,
-                onClick: payee => this.handleClickOpen(payee),
-                classes: this.state.classes
-              })
-            )}
-          </ol>
+          <Paper className={this.state.classes.root}>
+            <Table className={this.state.classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Transactions</TableCell>
+                  <TableCell>Payee Name</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.payees.map(payee => {
+                  return (
+                    <TableRow key={payee.id}>
+                      <TableCell component="th" scope="payee">
+                        <Button
+                          onClick={() => this.handleClickOpen(payee)}
+                          variant="outlined"
+                        >
+                          View
+                        </Button>
+                      </TableCell>
+                      <TableCell component="th" scope="payee">
+                        {payee.name}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </Paper>
           <TransactionsDialog
             onClose={() => this.setState({ open: false })}
             payeeName={this.state.selectedPayee.name}
