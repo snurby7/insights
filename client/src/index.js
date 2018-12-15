@@ -22,15 +22,18 @@ class InsightApp extends React.Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <YnabAppBar />
         <Router>
-          <Switch>
-            <Route exact path="/" component={HomePageRoute}/>
-            <Route exact path="/admin" component={AdminRoute}/>
-            <Route exact path="/budget/:budgetId" component={BudgetHomeRoute}/>
-            <Route exact path="/budget/:budgetId/payees" component={PayeesRoute}/>
-            <Route exact path="/budget/:budgetId/transactions" component={TransactionsRoute}/>
-          </Switch>
+          <div>
+            <YnabAppBar />
+            <Switch>
+              <Route exact path="/" component={HomePageRoute}/>
+              <Route exact path="/admin" component={AdminRoute}/>
+              <Route exact path="/budget/:budgetId" component={BudgetHomeRoute}/>
+              <Route exact path="/budget/:budgetId/payees" component={PayeesRoute}/>
+              <Route exact path="/budget/:budgetId/transactions" component={TransactionsRoute}/>
+            </Switch>
+            {/* TODO footer component with key metrics, short and sweet high leve. */}
+          </div>
         </Router>
       </React.Fragment>
     );
