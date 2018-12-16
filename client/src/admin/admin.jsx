@@ -37,7 +37,7 @@ class AdminPage extends React.Component {
     const buttonData = [];
     buttonData.push({
       id: 1,
-      displayValue: "Refresh Categories",
+      displayValue: "Refresh Payees",
       onClick: () => this.refreshData("/api/admin/updatePayees")
     });
     return buttonData;
