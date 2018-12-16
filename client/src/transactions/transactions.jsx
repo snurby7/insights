@@ -1,15 +1,17 @@
 import React from 'react';
+import TransactionsByDay from './sub-transactions/transactions-by-day';
 
 class Transactions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      transactsions: {}
+      transactions: {},
+      budgetId: props.budgetId
      }
   }
   render() {
     return ( <div>
-      Transactions
+      <TransactionsByDay budgetId={this.state.budgetId}/>
     </div> );
   }
 }

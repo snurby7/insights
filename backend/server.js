@@ -92,12 +92,12 @@ app.get("/api/transactions/payee", async (req, res) => {
 
 app.get("/api/transactions/aggregate", async (req, res) => {
   // TODO Add the budgetId onto this so it's not just pulling everything.
+  // TODO Update will need to affect the getAll to append on the budgetId
   const results = await db
     .collection("transactions")
-    .find({})
+    .find({ })
     .toArray();
-  const result = ynabDataProcessing.aggregateTransactionsByDay(results);
-  res.send(result);
+  res.send(ynabDataProcessing.aggregateTransactionsByDay(results));
 });
 
 app.get("/api/test", async (req, res) => {
