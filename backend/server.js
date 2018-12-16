@@ -100,6 +100,11 @@ app.get("/api/transactions/aggregate", async (req, res) => {
   res.send(ynabDataProcessing.aggregateTransactionsByDay(results));
 });
 
+app.post('/api/admin/updatePayees', async(req, res) => {
+  await ynabDataUtility.updateAllPayees(db, req.body.budgetId);
+  res.send({success: 'updated all payees'});
+});
+
 app.get("/api/test", async (req, res) => {
   res.send({ success: true, message: "hi there" });
 });
