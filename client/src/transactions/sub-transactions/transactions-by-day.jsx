@@ -19,7 +19,7 @@ class TransactionsByDay extends React.Component {
     ApiUtility.getRequest(
       "/api/transactions/aggregate",
       {
-        budgetId: this.state.budgestId
+        budgetId: this.state.budgetId
       },
       aggregations => this.setState({aggregations})
     );

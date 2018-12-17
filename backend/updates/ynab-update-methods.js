@@ -2,7 +2,6 @@ const ynab = require("ynab");
 const userConfiguration = require("../../data/user-config");
 const ynabApi = new ynab.API(userConfiguration.userConfigToken());
 
-
 exports.updateBudgets = async function(db) {
   const response = await ynabApi.budgets.getBudgets();
   const budgets = response.data.budgets;
@@ -61,9 +60,15 @@ exports.updateAllTransactions = async function(db, budgetId) {
           {
             id: transaction.id
           },
-          { $set: transaction },
+          { $set: mapOnBudgetId(transaction, budgetId) },
           { upsert: true }
         )
     )
   );
 };
+
+function mapOnBudgetId(transaction, budgetId) {
+  if(transaction['budgetId']) throw Error('Transaction has a budgetId');
+  transaction.budgetId = budgetId;
+  return transaction;
+}

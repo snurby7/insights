@@ -91,18 +91,34 @@ app.get("/api/transactions/payee", async (req, res) => {
 });
 
 app.get("/api/transactions/aggregate", async (req, res) => {
-  // TODO Add the budgetId onto this so it's not just pulling everything.
-  // TODO Update will need to affect the getAll to append on the budgetId
   const results = await db
     .collection("transactions")
-    .find({ })
+    .find({
+      budgetId: req.query.budgetId
+     })
     .toArray();
   res.send(ynabDataProcessing.aggregateTransactionsByDay(results));
 });
 
-app.post('/api/admin/updatePayees', async(req, res) => {
+app.post('/api/admin/update/budgets', async(req, res) => {
+  await ynabDataUtility.updateBudgets(db);
+  res.send({success: 'updated all budgets'});
+});
+app.post('/api/admin/update/payees', async(req, res) => {
   await ynabDataUtility.updateAllPayees(db, req.body.budgetId);
   res.send({success: 'updated all payees'});
+});
+app.post('/api/admin/update/accounts', async(req, res) => {
+  await ynabDataUtility.updateAccounts(db, req.body.budgetId);
+  res.send({success: 'updated all accounts'});
+});
+app.post('/api/admin/update/transactions', async(req, res) => {
+  await ynabDataUtility.updateAllTransactions(db, req.body.budgetId);
+  res.send({success: 'updated all transactions'});
+});
+app.post('/api/admin/update/categories', async(req, res) => {
+  await ynabDataUtility.updateAllPayees(db, req.body.budgetId);
+  res.send({success: 'updated all categories'});
 });
 
 app.get("/api/test", async (req, res) => {

@@ -18,7 +18,7 @@ function renderTransactions(props) {
       <div>Account - {props.account_name}</div>
       <div>Date - {props.date}</div>
       <div>Category - {props.category_name}</div>
-      <div>Amount - {YnabDataUtility.format(props.amount)}</div>
+      <div>Amount - ({YnabDataUtility.format(props.amount)})</div>
     </li>
   );
 }
