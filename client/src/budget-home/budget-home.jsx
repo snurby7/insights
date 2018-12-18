@@ -1,7 +1,8 @@
+import Button from "@material-ui/core/Button";
 import React from 'react';
+import {Redirect} from 'react-router'
 import Accounts from './accounts/accounts';
 import Categories from './categories/categories';
-import {Redirect} from 'react-router'
 
 class BudgetHome extends React.Component {
     constructor(props) {
@@ -19,8 +20,9 @@ class BudgetHome extends React.Component {
         return (
             <div>
                 <h3>Welcome to your budget Home</h3>
-                <button onClick={() => this.setState({routeExtension: 'payees'})}>View Payees</button>
-                <button onClick={() => this.setState({routeExtension: 'transactions'})}>View Transactions</button>
+                <Button onClick={() => this.setState({routeExtension: 'life-energy'})}>View Life Energy</Button>
+                <Button onClick={() => this.setState({routeExtension: 'payees'})}>View Payees</Button>
+                <Button onClick={() => this.setState({routeExtension: 'transactions'})}>View Transactions</Button>
                 <div className="element-container">
                     <Accounts budgetId={this.props.budgetId}/>
                     <Categories budgetId={this.props.budgetId}/>

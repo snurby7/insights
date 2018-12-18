@@ -51,6 +51,7 @@ exports.updateAllPayees = async function(db, budgetId) {
   );
 };
 exports.updateAllTransactions = async function(db, budgetId) {
+  // TODO give this the ability to update a month vs all ever.
   const response = await ynabApi.transactions.getTransactions(budgetId);
   const transactions = response.data.transactions;
   await Promise.all(

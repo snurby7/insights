@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import ApiUtility from "../utilities/api-utility";
 
 function renderRefreshButton(props) {
@@ -10,9 +11,9 @@ function renderRefreshButton(props) {
       variant={props.variant}
       color={props.color}
       disabled={hasDisabledKey ? props.isDisabled : !props.budgetId}
-      onClick={() => props.onClick()}
+      onClick={() => props.onClick(props.route)}
     >
-      {props.displayValue}
+      {props.loadingState[props.route] && <CircularProgress/>}{props.displayValue}
     </Button>
   );
 }
@@ -30,42 +31,53 @@ class AdminPage extends React.Component {
     super(props);
     this.state = {
       budgets: [],
-      budgetId: null
+      budgetId: null,
+      loadingState: {}
     };
   }
 
   getButtonsToRender() {
-    const budgetId = this.state.budgetId;
+    const {loadingState, budgetId} = this.state;
     return [
       {
         id: 1,
         displayValue: "Refresh Payees",
         budgetId,
-        onClick: () => this.refreshData("/api/admin/update/payees")
+        loadingState,
+        route: "/api/admin/update/payees",
+        onClick: (route) => this.refreshData(route)
       },
       {
         id: 2,
         displayValue: "Refresh Accounts",
         budgetId,
-        onClick: () => this.refreshData("/api/admin/update/accounts")
+        loadingState,
+        route: "/api/admin/update/accounts",
+        onClick: (route) => this.refreshData(route)
       },
       {
         id: 3,
         displayValue: "Refresh Transactions",
         budgetId,
-        onClick: () => this.refreshData("/api/admin/update/transactions")
+        loadingState,
+        route: "/api/admin/update/transactions",
+        onClick: (route) => this.refreshData(route)
       },
       {
         id: 4,
         displayValue: "Refresh Categories",
         budgetId,
-        onClick: () => this.refreshData("/api/admin/update/categories")
+        loadingState,
+        route: "/api/admin/update/categories",
+        onClick: (route) => this.refreshData(route)
       },
       {
         id: 5,
         displayValue: "Refresh Budgets",
         isDisabled: false,
-        onClick: () => this.refreshData("/api/admin/update/budgets")
+        loadingState,
+        route: "/api/admin/update/budgets",
+        onClick: (route) => this.refreshData(route)
       }
     ];
   }
@@ -78,12 +90,16 @@ class AdminPage extends React.Component {
 
   refreshData(route) {
     const budgetId = this.state.budgetId;
+    const loadingState = this.state.loadingState;
+    loadingState[route] = true;
+    this.setState({loadingState});
     ApiUtility.postRequest(route, { budgetId }).then(
-      success => {
-        console.log(success);
-      },
-      error => console.log(error)
-    );
+      success => console.log(success),
+      () => alert(`${route} request has failed!`)
+    ).finally(() => {
+      loadingState[route] = false
+      this.setState({loadingState});
+    });
   }
 
   render() {
