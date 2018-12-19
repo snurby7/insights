@@ -106,7 +106,7 @@ class AdminPage extends React.Component {
     return (
       <React.Fragment>
         <div>
-          Welcome to the Admin AdminPage Styling will be coming soon!
+          Welcome to the AdminPage Styling will be coming soon!
           <div>
             <div>
               {this.state.budgets.map(budget =>
