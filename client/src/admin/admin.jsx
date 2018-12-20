@@ -1,125 +1,98 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import CircularProgress from '@material-ui/core/CircularProgress';
 import ApiUtility from "../utilities/api-utility";
+import GridDisplay from "../common/grid-display";
 
-function renderRefreshButton(props) {
-  const hasDisabledKey = Object.keys(props).some(x => x === "isDisabled");
-  return (
-    <Button
-      key={props.id}
-      variant={props.variant}
-      color={props.color}
-      disabled={hasDisabledKey ? props.isDisabled : !props.budgetId}
-      onClick={() => props.onClick(props.route)}
-    >
-      {props.loadingState[props.route] && <CircularProgress/>}{props.displayValue}
-    </Button>
-  );
-}
-
-function renderBudgetButton(props, callback) {
-  return (
-    <Button key={props.id} onClick={() => callback()}>
-      {props.name}
-    </Button>
-  );
-}
+// TODO make this look less bad.
 
 class AdminPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       budgets: [],
-      budgetId: null,
-      loadingState: {}
+      budgetId: null
     };
   }
 
   getButtonsToRender() {
-    const {loadingState, budgetId} = this.state;
     return [
       {
         id: 1,
-        displayValue: "Refresh Payees",
-        budgetId,
-        loadingState,
-        route: "/api/admin/update/payees",
-        onClick: (route) => this.refreshData(route)
+        cardTitle: "Payees",
+        subTitles: ["Refresh all payees from YNAB and store results"],
+        onClick: () => this.refreshData("/api/admin/update/payees"),
+        buttonText: "Update"
       },
       {
         id: 2,
-        displayValue: "Refresh Accounts",
-        budgetId,
-        loadingState,
-        route: "/api/admin/update/accounts",
-        onClick: (route) => this.refreshData(route)
+        cardTitle: "Accounts",
+        subTitles: ["Refresh all accounts from YNAB and store results"],
+        onClick: () => this.refreshData("/api/admin/update/accounts"),
+        buttonText: "Update"
       },
       {
         id: 3,
-        displayValue: "Refresh Transactions",
-        budgetId,
-        loadingState,
-        route: "/api/admin/update/transactions",
-        onClick: (route) => this.refreshData(route)
+        cardTitle: "Transactions",
+        subTitles: ["Refresh all transactions from YNAB and story results"],
+        onClick: () => this.refreshData("/api/admin/update/transactions"),
+        buttonText: "Update"
       },
       {
         id: 4,
-        displayValue: "Refresh Categories",
-        budgetId,
-        loadingState,
-        route: "/api/admin/update/categories",
-        onClick: (route) => this.refreshData(route)
+        cardTitle: "Categories",
+        subTitles: ["Refresh all transactions from YNAB and story results"],
+        onClick: () => this.refreshData("/api/admin/update/categories"),
+        buttonText: "Update"
       },
       {
         id: 5,
-        displayValue: "Refresh Budgets",
-        isDisabled: false,
-        loadingState,
-        route: "/api/admin/update/budgets",
-        onClick: (route) => this.refreshData(route)
+        cardTitle: "Budgets",
+        subTitles: ["Refresh all transactions from YNAB and story results"],
+        onClick: () => this.refreshData("/api/admin/update/budgets"),
+        buttonText: "Update"
       }
     ];
   }
 
+  convertBudgetsToDisplayData(budgets) {
+    const convertedBudgets = budgets.map(budget => ({
+      id: budget.id,
+      cardTitle: budget.name,
+      onClick: () => this.setState({ budgetId: budget.id }),
+      buttonText: `Select ${budget.name}`
+    }));
+    this.setState({ budgets: convertedBudgets });
+  }
+
   componentDidMount() {
     ApiUtility.getRequest("/api/budgets").then(budgets => {
-      this.setState({ budgets });
+      this.convertBudgetsToDisplayData(budgets);
     });
   }
 
   refreshData(route) {
     const budgetId = this.state.budgetId;
-    const loadingState = this.state.loadingState;
-    loadingState[route] = true;
-    this.setState({loadingState});
     ApiUtility.postRequest(route, { budgetId }).then(
       success => console.log(success),
       () => alert(`${route} request has failed!`)
-    ).finally(() => {
-      loadingState[route] = false
-      this.setState({loadingState});
-    });
+    );
   }
 
   render() {
     return (
       <React.Fragment>
         <div>
-          Welcome to the AdminPage Styling will be coming soon!
           <div>
-            <div>
-              {this.state.budgets.map(budget =>
-                renderBudgetButton(budget, () =>
-                  this.setState({ budgetId: budget.id })
-                )
-              )}
-            </div>
-            <div>
-              {this.getButtonsToRender().map(button =>
-                renderRefreshButton(button)
-              )}
-            </div>
+            <GridDisplay displayData={this.state.budgets} />
+          </div>
+          <hr />
+          <div>
+            {/* TODO make this a nice transition when it shows up */}
+            {this.state.budgetId && (
+              <div>
+                <h3>Actions</h3>
+                <GridDisplay displayData={this.getButtonsToRender()} />
+              </div>
+            )}
           </div>
         </div>
       </React.Fragment>

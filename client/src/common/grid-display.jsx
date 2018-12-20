@@ -59,7 +59,7 @@ class GridDisplay extends React.Component {
                   subheader={data.cardSubHeader}
                   titleTypographyProps={{ align: "center" }}
                   subheaderTypographyProps={{ align: "center" }}
-                  action={<StarIcon />}
+                  action={data.enableAction ? <StarIcon />: null}
                   className={this.state.classes.cardHeader}
                 />
                 <CardContent>
@@ -68,7 +68,7 @@ class GridDisplay extends React.Component {
                       {data.name}
                     </Typography>
                   </div>
-                  {data.subTitles.map((x, index) => {
+                  {data.subTitles && data.subTitles.map((x, index) => {
                     return (
                       <Typography key={index} variant="subtitle1" align="center">
                         {x}
@@ -81,6 +81,7 @@ class GridDisplay extends React.Component {
                     fullWidth
                     variant={data.buttonVariant}
                     color="primary"
+                    disabled={data.isDisabled}
                     onClick={() => data.onClick()}
                   >
                     {data.buttonText}
