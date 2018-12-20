@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Route } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import RoutingButton from "./routing-button";
 
 const styles = theme => ({
   "@global": {
@@ -22,33 +21,14 @@ const styles = theme => ({
   }
 });
 
-// TODO make this a component for reuse.
-function createLinkButton(props) {
-  return (
-    <Route
-      render={({ history }) => (
-        <Button
-          variant={props.variant}
-          color={props.color}
-          onClick={() => {
-            history.push(props.route);
-          }}
-        >
-          {props.displayName}
-        </Button>
-      )}
-    />
-  );
-}
-
 class YnabAppBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      classes: props.classes,
-      navigateRoute: ""
+      classes: props.classes
     };
   }
+
   render() {
     return (
       <AppBar
@@ -63,10 +43,20 @@ class YnabAppBar extends React.Component {
             noWrap
             className={this.state.classes.toolbarTitle}
           >
-            {createLinkButton({ displayName: "Insights", route: "/" })}
+            <RoutingButton
+              displayData={{ displayName: "Insights", route: "/" }}
+            />
           </Typography>
-          {createLinkButton({ displayName: "Admin", route: "/admin" })}
-          {createLinkButton({ displayName: "Login", variant: "outlined", color: "primary" })}
+          <RoutingButton
+            displayData={{ displayName: "Admin", route: "/admin" }}
+          />
+          <RoutingButton
+            displayData={{
+              displayName: "Login",
+              variant: "outlined",
+              color: "primary"
+            }}
+          />
         </Toolbar>
       </AppBar>
     );

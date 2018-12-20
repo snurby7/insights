@@ -76,8 +76,9 @@ class GridDisplay extends React.Component {
                     );
                   })}
                 </CardContent>
-                <CardActions className={this.state.classes.cardActions}>
-                  <Button
+                {/* TODO this could probably be made to accept an array of buttons */}
+                {data.buttonText && <CardActions className={this.state.classes.cardActions}>
+                  {<Button
                     fullWidth
                     variant={data.buttonVariant}
                     color="primary"
@@ -85,8 +86,8 @@ class GridDisplay extends React.Component {
                     onClick={() => data.onClick()}
                   >
                     {data.buttonText}
-                  </Button>
-                </CardActions>
+                  </Button>}
+                </CardActions>}
               </Card>
             </Grid>
           ))}
