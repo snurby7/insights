@@ -7,6 +7,7 @@ import ApiUtility from "../utilities/api-utility";
 
 import { Redirect } from "react-router";
 import GridDisplay from "../common/grid-display";
+import InsightRoutes from '../common/routes';
 
 const styles = theme => ({
   "@global": {
@@ -42,11 +43,7 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    this.getBudgets("/api/budgets");
-  }
-
-  async getBudgets(route) {
-    ApiUtility.getRequest(route, null, budgets => this.convertBudgetsToDisplayData(budgets));
+      ApiUtility.getRequest(InsightRoutes.getBudgets, null, budgets => this.convertBudgetsToDisplayData(budgets));
   }
 
   convertBudgetsToDisplayData(budgets) {

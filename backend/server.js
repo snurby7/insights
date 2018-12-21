@@ -5,7 +5,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const userConfiguration = require("../data/user-config");
 const ynabDataUtility = require("./updates/ynab-update-methods");
-const ynabDataProcessing = require ('./processing/ynab-data-processing');
+const ynabDataProcessing = require("./processing/ynab-data-processing");
 const app = express();
 
 // this is our MongoDB database
@@ -37,11 +37,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get("/api/budgets", (req, res) => {
-  db.collection("budgets")
+app.get("/api/budgets", async (req, res) => {
+  const response = await db.collection("budgets")
     .find()
     .toArray()
-    .then(result => res.send(result), error => console.log(error));
+    res.send(response);
 });
 
 app.get("/api/accounts", async (req, res) => {
@@ -95,30 +95,30 @@ app.get("/api/transactions/aggregate", async (req, res) => {
     .collection("transactions")
     .find({
       budgetId: req.query.budgetId
-     })
+    })
     .toArray();
   res.send(ynabDataProcessing.aggregateTransactionsByDay(results));
 });
 
-app.post('/api/admin/update/budgets', async(req, res) => {
+app.post("/api/admin/update/budgets", async (req, res) => {
   await ynabDataUtility.updateBudgets(db);
-  res.send({success: 'updated all budgets'});
+  res.send({ success: "updated all budgets" });
 });
-app.post('/api/admin/update/payees', async(req, res) => {
+app.post("/api/admin/update/payees", async (req, res) => {
   await ynabDataUtility.updateAllPayees(db, req.body.budgetId);
-  res.send({success: 'updated all payees'});
+  res.send({ success: "updated all payees" });
 });
-app.post('/api/admin/update/accounts', async(req, res) => {
+app.post("/api/admin/update/accounts", async (req, res) => {
   await ynabDataUtility.updateAccounts(db, req.body.budgetId);
-  res.send({success: 'updated all accounts'});
+  res.send({ success: "updated all accounts" });
 });
-app.post('/api/admin/update/transactions', async(req, res) => {
+app.post("/api/admin/update/transactions", async (req, res) => {
   await ynabDataUtility.updateAllTransactions(db, req.body.budgetId);
-  res.send({success: 'updated all transactions'});
+  res.send({ success: "updated all transactions" });
 });
-app.post('/api/admin/update/categories', async(req, res) => {
+app.post("/api/admin/update/categories", async (req, res) => {
   await ynabDataUtility.updateAllPayees(db, req.body.budgetId);
-  res.send({success: 'updated all categories'});
+  res.send({ success: "updated all categories" });
 });
 
 app.get("/api/test", async (req, res) => {

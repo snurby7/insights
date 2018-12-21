@@ -1,0 +1,12 @@
+exports.getBudgets = "/api/budgets";
+exports.getAccounts = "/api/accounts";
+exports.getCategories = "/api/categories";
+exports.getPayees = "/api/payees";
+exports.getAllTransactions = "/api/transactions/all";
+exports.getTransactionsByPayee = "/api/transactions/payee";
+exports.getTransactionsByDay = "/api/transactions/aggregate";
+exports.postUpdateBudgets = "/api/admin/update/budgets";
+exports.postUpdatePayees = "/api/admin/update/payees";
+exports.postUpdateAccounts = "/api/admin/update/accounts";
+exports.postUpdateTransactions = "/api/admin/update/transactions";
+exports.postUpdateCategories = "/api/admin/update/categories";
