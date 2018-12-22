@@ -2,6 +2,7 @@ import React from "react";
 import ApiUtility from "../utilities/api-utility";
 import GridDisplay from "../common/grid-display";
 import InsightRoutes from '../common/routes';
+import RoutingButton from "../common/routing-button";
 // TODO make this look less bad.
 // TODO add income fields to this so it's less hardcoded to add to life energy page
 
@@ -10,7 +11,7 @@ class AdminPage extends React.Component {
     super(props);
     this.state = {
       budgets: [],
-      budgetId: null
+      selectedBudget: null
     };
   }
 
@@ -58,7 +59,7 @@ class AdminPage extends React.Component {
     const convertedBudgets = budgets.map(budget => ({
       id: budget.id,
       cardTitle: budget.name,
-      onClick: () => this.setState({ budgetId: budget.id }),
+      onClick: () => this.setState({ selectedBudget: budget }),
       buttonText: `Select ${budget.name}`
     }));
     this.setState({ budgets: convertedBudgets });
@@ -74,7 +75,7 @@ class AdminPage extends React.Component {
   }
 
   refreshData(route) {
-    const budgetId = this.state.budgetId;
+    const budgetId = this.state.selectedBudget.id;
     ApiUtility.postRequest(route, { budgetId }).then(
       success => console.log(success),
       () => alert(`${route} request has failed!`)
@@ -82,17 +83,24 @@ class AdminPage extends React.Component {
   }
 
   render() {
+    const selectedBudget = this.state.selectedBudget;
+    const {id, name} = selectedBudget || {};
+    const userDisplayData = {
+      route: selectedBudget ? `/admin/${id}/users`: null,
+      displayName: `Manage users for ${name} `
+    }
     return (
       <div>
         <div>
           <GridDisplay displayData={this.state.budgets} />
         </div>
-        <hr />
         <div>
           {/* TODO make this a nice transition when it shows up */}
-          {this.state.budgetId && (
+          {selectedBudget && (
             <div>
-              <h3>Actions</h3>
+              <hr />
+              <RoutingButton displayData={userDisplayData}/>
+              <h3>Refresh Options for {name}</h3>
               <GridDisplay displayData={this.getButtonsToRender()} />
             </div>
           )}

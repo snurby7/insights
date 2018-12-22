@@ -11,6 +11,7 @@ import HomePage from './home/homepage';
 import LifeEnergy from './life-energy/life-energy';
 import Payees from './payees/payees';
 import Transactions from './transactions/transactions';
+import UserManagement from './admin/management/user-management';
 import YnabAppBar from './common/ynab-app-bar';
 
 const AdminRoute = () => <AdminPage/>
@@ -19,6 +20,7 @@ const HomePageRoute = () => <HomePage/>
 const LifeEnergyRoute = ({match}) => <LifeEnergy budgetId={match.params.budgetId}/>
 const PayeesRoute = ({match}) => <Payees budgetId={match.params.budgetId}/>;
 const TransactionsRoute = ({match}) => <Transactions budgetId={match.params.budgetId}/>;
+const UserManagementRoute = ({match}) => <UserManagement budgetId={match.params.budgetId}/>;
 
 class InsightApp extends React.Component {
   render() {
@@ -31,6 +33,7 @@ class InsightApp extends React.Component {
             <Switch>
               <Route exact path="/" component={HomePageRoute}/>
               <Route exact path="/admin" component={AdminRoute}/>
+              <Route exact path="/admin/:budgetId/users" component={UserManagementRoute}/>
               <Route exact path="/budget/:budgetId" component={BudgetHomeRoute}/>
               <Route exact path="/budget/:budgetId/life-energy" component={LifeEnergyRoute}/>
               <Route exact path="/budget/:budgetId/payees" component={PayeesRoute}/>
