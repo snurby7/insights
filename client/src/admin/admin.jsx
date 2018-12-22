@@ -1,7 +1,7 @@
 import React from "react";
 import ApiUtility from "../utilities/api-utility";
 import GridDisplay from "../common/grid-display";
-import {InsightRoutes} from '../common/routes'
+import InsightRoutes from '../common/routes';
 // TODO make this look less bad.
 // TODO add income fields to this so it's less hardcoded to add to life energy page
 
@@ -20,7 +20,7 @@ class AdminPage extends React.Component {
         id: 1,
         cardTitle: "Payees",
         subTitles: ["Refresh all payees from YNAB and store results"],
-        onClick: () => this.refreshData("/api/admin/update/payees"),
+        onClick: () => this.refreshData(InsightRoutes.postUpdatePayees),
         buttonText: "Update"
       },
       {
@@ -65,7 +65,7 @@ class AdminPage extends React.Component {
   }
 
   componentDidMount() {
-    ApiUtility.getRequest("/api/budgets").then(budgets => {
+    ApiUtility.getRequest(InsightRoutes.getBudgets).then(budgets => {
       this.convertBudgetsToDisplayData(budgets);
     });
   }

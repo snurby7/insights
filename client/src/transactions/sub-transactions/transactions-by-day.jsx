@@ -1,5 +1,6 @@
 import React from "react";
 import ApiUtility from "../../utilities/api-utility";
+import InsightRoutes from "../../common/routes";
 
 class TransactionsByDay extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class TransactionsByDay extends React.Component {
 
   componentDidMount() {
     ApiUtility.getRequest(
-      "/api/transactions/aggregate",
+      InsightRoutes.getTransactionsByDay,
       {
         budgetId: this.state.budgetId
       },

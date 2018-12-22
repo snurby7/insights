@@ -1,12 +1,15 @@
-exports.getBudgets = "/api/budgets";
-exports.getAccounts = "/api/accounts";
-exports.getCategories = "/api/categories";
-exports.getPayees = "/api/payees";
-exports.getAllTransactions = "/api/transactions/all";
-exports.getTransactionsByPayee = "/api/transactions/payee";
-exports.getTransactionsByDay = "/api/transactions/aggregate";
-exports.postUpdateBudgets = "/api/admin/update/budgets";
-exports.postUpdatePayees = "/api/admin/update/payees";
-exports.postUpdateAccounts = "/api/admin/update/accounts";
-exports.postUpdateTransactions = "/api/admin/update/transactions";
-exports.postUpdateCategories = "/api/admin/update/categories";
+const InsightRoutes = {
+  getBudgets:  "/api/budgets",
+  getAccounts:  "/api/accounts",
+  getCategories:  "/api/categories",
+  getPayees:  "/api/payees",
+  getAllTransactions:  "/api/transactions/all",
+  getTransactionsByPayee:  "/api/transactions/payee",
+  getTransactionsByDay:  "/api/transactions/aggregate",
+  postUpdateBudgets:  "/api/admin/update/budgets",
+  postUpdatePayees:  "/api/admin/update/payees",
+  postUpdateAccounts:  "/api/admin/update/accounts",
+  postUpdateTransactions:  "/api/admin/update/transactions",
+  postUpdateCategories:  "/api/admin/update/categories"
+}
+export default InsightRoutes;

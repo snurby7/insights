@@ -10,6 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TransactionsDialog from "../transactions/transactions-dialog";
 import ApiUtility from "../utilities/api-utility";
+import InsightRoutes from "../common/routes";
 
 const styles = theme => ({
   root: {
@@ -55,7 +56,7 @@ class Payees extends React.Component {
   handleClickOpen(selectedPayee) {
     this.setState({ selectedPayee });
     ApiUtility.getRequest(
-      "/api/transactions/payee",
+      InsightRoutes.getTransactionsByPayee,
       {
         payeeId: selectedPayee.id
       },
