@@ -1,6 +1,7 @@
 import React from 'react';
 import ApiUtility from '../../utilities/api-utility';
 import YnabDataUtility from '../../utilities/ynab-data-utility';
+import InsightRoutes from '../../common/routes';
 
 function renderBudgetAccount(props) {
     if(props.closed) return null;
@@ -16,6 +17,11 @@ class Accounts extends React.Component {
         accounts: []
     }
 
+    async getAccountsByBudgetId(budgetId) {
+        const accounts = await ApiUtility.getRequest(InsightRoutes.getAccounts, {budgetId});
+        this.setState({accounts});
+    }
+
     render() {
         return (
             <div>
@@ -26,12 +32,9 @@ class Accounts extends React.Component {
     }
 
     componentDidMount() {
-        this.getAccounts(`/api/accounts`, this.props.budgetId);
+        const budgetId = this.props.budgetId;
+        this.getAccountsByBudgetId(budgetId);
     }
-
-    async getAccounts(route, budgetId) {
-        await ApiUtility.getRequest(route, {budgetId}, (accounts) => this.setState({accounts}));
-    };
 }
 
 export default Accounts;

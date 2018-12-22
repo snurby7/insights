@@ -43,7 +43,12 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-      ApiUtility.getRequest(InsightRoutes.getBudgets, null, budgets => this.convertBudgetsToDisplayData(budgets));
+    this.getBudgetsForDisplay();
+  }
+
+  async getBudgetsForDisplay() {
+    const budgets = await ApiUtility.getRequest(InsightRoutes.getBudgets);
+    this.convertBudgetsToDisplayData(budgets)
   }
 
   convertBudgetsToDisplayData(budgets) {

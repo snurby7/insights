@@ -65,9 +65,12 @@ class AdminPage extends React.Component {
   }
 
   componentDidMount() {
-    ApiUtility.getRequest(InsightRoutes.getBudgets).then(budgets => {
-      this.convertBudgetsToDisplayData(budgets);
-    });
+    this.getBudgetsForDisplay();
+  }
+
+  async getBudgetsForDisplay() {
+    const budgets = await ApiUtility.getRequest(InsightRoutes.getBudgets);
+    this.convertBudgetsToDisplayData(budgets);
   }
 
   refreshData(route) {

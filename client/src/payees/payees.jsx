@@ -55,13 +55,15 @@ class Payees extends React.Component {
 
   handleClickOpen(selectedPayee) {
     this.setState({ selectedPayee });
-    ApiUtility.getRequest(
+    this.getTransactionsByPayeeOnClick(selectedPayee.id);
+  }
+
+  async getTransactionsByPayeeOnClick(payeeId) {
+    const transactions = await ApiUtility.getRequest(
       InsightRoutes.getTransactionsByPayee,
-      {
-        payeeId: selectedPayee.id
-      },
-      transactions => this.setState({ open: true, transactions })
+      { payeeId }
     );
+    this.setState({ open: true, transactions });
   }
 
   handleClose = () => {
@@ -114,17 +116,15 @@ class Payees extends React.Component {
   }
 
   componentDidMount() {
-    this.getPayees(`/api/payees`, this.props.budgetId);
+    this.getPayees();
   }
 
-  async getPayees(route, budgetId) {
-    ApiUtility.getRequest(
-      route,
-      {
-        budgetId
-      },
-      payees => this.setState({ payees: payees, masterPayees: payees })
-    );
+  async getPayees() {
+    const budgetId = this.props.budgetId;
+    const payees = await ApiUtility.getRequest(InsightRoutes.getPayees, {
+      budgetId
+    });
+    this.setState({ payees: payees, masterPayees: payees });
   }
 }
 

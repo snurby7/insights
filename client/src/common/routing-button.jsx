@@ -12,7 +12,6 @@ class RoutingButton extends React.Component {
 
   render() {
     const displayData = this.state.displayData;
-    console.log(displayData);
     return (
       <Route
         render={({ history }) => (

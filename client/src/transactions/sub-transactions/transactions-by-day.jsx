@@ -10,20 +10,21 @@ class TransactionsByDay extends React.Component {
       aggregations: {}
     };
   }
-  render() {
-    return(
-      <div>State.Aggregations currenlty holds an object</div>
+
+  async getTransactionsByDay(budgetId) {
+    const aggregations = await ApiUtility.getRequest(
+      InsightRoutes.getTransactionsByDay,
+      { budgetId }
     );
+    this.setState({ aggregations });
+  }
+
+  render() {
+    return <div>State.Aggregations currenlty holds an object</div>;
   }
 
   componentDidMount() {
-    ApiUtility.getRequest(
-      InsightRoutes.getTransactionsByDay,
-      {
-        budgetId: this.state.budgetId
-      },
-      aggregations => this.setState({aggregations})
-    );
+    this.getTransactionsByDay(this.props.budgetId);
   }
 }
 
