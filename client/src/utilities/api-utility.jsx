@@ -1,14 +1,10 @@
 const urlFormatter = require("url");
 
 const ApiUtility = {
-  async getRequest(route, queryData, callback) {
-    route += urlFormatter.format({ query: queryData });
+  async getRequest(route, query) {
+    route += urlFormatter.format({ query });
     const response = await fetch(route);
     const result = await response.json();
-    if (callback) {
-      callback(result);
-      return;
-    }
     return result;
   },
   async postRequest(route, data) {
