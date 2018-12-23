@@ -6,7 +6,14 @@ class User extends React.Component {
     this.state = {  }
   }
   render() {
-    return ( <div>User</div> );
+    return ( <div>
+      Information Needed about a User
+      <ol>
+        <li>Name</li>
+        <li>Salary</li>
+        {/* More to come */}
+      </ol>
+      </div> );
   }
 }
 
