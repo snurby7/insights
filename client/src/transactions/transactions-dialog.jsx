@@ -49,31 +49,29 @@ class TransactionsDialog extends React.Component {
 
   render() {
     return (
-      <div>
-        <Dialog
-          open={this.state.open}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-slide-title"
-          aria-describedby="alert-dialog-slide-description"
-        >
-          <DialogTitle id="alert-dialog-slide-title">
-            Viewing Transactions for {this.state.payeeName}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-              Total transaction(s) - {this.state.transactions.length}!
-            </DialogContentText>
-            <ol>{this.state.transactions.map(x => renderTransactions(x))}</ol>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog
+        open={this.state.open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">
+          Viewing Transactions for {this.state.payeeName}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Total transaction(s) - {this.state.transactions.length}!
+          </DialogContentText>
+          <ol>{this.state.transactions.map(x => renderTransactions(x))}</ol>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

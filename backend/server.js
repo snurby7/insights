@@ -38,10 +38,11 @@ app.use(function(req, res, next) {
 });
 
 app.get("/api/budgets", async (req, res) => {
-  const response = await db.collection("budgets")
+  const response = await db
+    .collection("budgets")
     .find()
-    .toArray()
-    res.send(response);
+    .toArray();
+  res.send(response);
 });
 
 app.get("/api/accounts", async (req, res) => {
@@ -119,6 +120,12 @@ app.post("/api/admin/update/transactions", async (req, res) => {
 app.post("/api/admin/update/categories", async (req, res) => {
   await ynabDataUtility.updateAllPayees(db, req.body.budgetId);
   res.send({ success: "updated all categories" });
+});
+
+app.post("/api/users/add", async (req, res) => {
+  console.log(req.body);
+  // TODO need to add validation
+  res.send({ success: "hi there" });
 });
 
 app.get("/api/test", async (req, res) => {
