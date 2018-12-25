@@ -20,7 +20,7 @@ class UserDialog extends React.Component {
     // TODO Note this is just an add, edit will need to account for an ID
     this.state = {
       user: "",
-      salary: "" // TODO Make this a number only
+      salary: "" // TODO Make this allow decimals
     };
   }
 
@@ -28,11 +28,18 @@ class UserDialog extends React.Component {
     const target = event.target;
     const name = target.name;
     const value = target.value;
-    this.setState({ [name]: value });
+    if(target.validity.valid) {
+      this.setState({ [name]: value });
+    } else {
+      console.log('not valid', target.validity);
+    }
   }
 
   async handleSubmit(event) {
-    const success = await ApiUtility.postRequest(InsightRoutes.postAddUser, this.formatAddRequest());
+    await ApiUtility.postRequest(
+      InsightRoutes.postAddUser,
+      this.formatAddRequest()
+    );
     event.preventDefault();
     this.props.onClose(this.state);
   }
@@ -60,7 +67,7 @@ class UserDialog extends React.Component {
         open={this.state.open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={this.handleClose}
+        onClose={() => this.handleClose()}
       >
         <DialogTitle>User</DialogTitle>
         <DialogContent>
@@ -79,8 +86,11 @@ class UserDialog extends React.Component {
             <br />
             <label>
               Salary:
+                {/* TODO allow for decimals in the salary with a mask */}
               <input
                 name="salary"
+                type="text"
+                pattern="[0-9]*"
                 value={this.state.salary}
                 onChange={event => this.handleChange(event)}
               />

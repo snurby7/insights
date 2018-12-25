@@ -4,6 +4,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const userConfiguration = require("../data/user-config");
+const userAddOn = require('./add-ons/user-config');
 const ynabDataUtility = require("./updates/ynab-update-methods");
 const ynabDataProcessing = require("./processing/ynab-data-processing");
 const app = express();
@@ -123,12 +124,16 @@ app.post("/api/admin/update/categories", async (req, res) => {
 });
 
 app.post("/api/users/add", async (req, res) => {
-  console.log(req.body);
   // TODO need to add validation
-  res.send({ success: "hi there" });
+  userAddOn.createUserCollection(db);
+  db.collection('users').insertOne(req.body).then(() => {
+    res.send({ success: "hi there" });
+  });
 });
 
 app.get("/api/test", async (req, res) => {
+  userAddOn.createUserCollection(db);
+
   res.send({ success: true, message: "hi there" });
 });
 

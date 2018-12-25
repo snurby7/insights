@@ -29,6 +29,9 @@ class UserManagement extends React.Component {
   onUserClose(data) {
     this.setState({ openDialog: false });
     console.log(data);
+    if(data) {
+      // TODO Refresh the users
+    }
   }
 
   deleteUser() {

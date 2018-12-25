@@ -15,6 +15,8 @@ const ApiUtility = {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
+    }).catch((error) => {
+      console.log(error);
     });
     const result = await response.json();
     return result;
