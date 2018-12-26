@@ -34,21 +34,21 @@ class AdminPage extends React.Component {
       {
         id: 3,
         cardTitle: "Transactions",
-        subTitles: ["Refresh all transactions from YNAB and story results"],
+        subTitles: ["Refresh all transactions from YNAB and store results"],
         onClick: () => this.refreshData(InsightRoutes.postUpdateTransactions),
         buttonText: "Update"
       },
       {
         id: 4,
         cardTitle: "Categories",
-        subTitles: ["Refresh all transactions from YNAB and story results"],
+        subTitles: ["Refresh all categories from YNAB and store results"],
         onClick: () => this.refreshData(InsightRoutes.postUpdateCategories),
         buttonText: "Update"
       },
       {
         id: 5,
         cardTitle: "Budgets",
-        subTitles: ["Refresh all transactions from YNAB and story results"],
+        subTitles: ["Refresh all transactions from YNAB and store results"],
         onClick: () => this.refreshData(InsightRoutes.postUpdateBudgets),
         buttonText: "Update"
       }

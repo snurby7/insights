@@ -1,12 +1,12 @@
-const ynab = require("ynab");
 const mongoose = require("mongoose");
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const userConfiguration = require("../data/user-config");
 const userAddOn = require('./add-ons/user-config');
-const ynabDataUtility = require("./updates/ynab-update-methods");
-const ynabDataProcessing = require("./processing/ynab-data-processing");
+const adminRoutes = require('./routes/admin');
+const userRoutes = require('./routes/user');
+const ynabDataRoutes = require('./routes/ynab-data-routes');
+
 const app = express();
 
 // this is our MongoDB database
@@ -19,11 +19,7 @@ mongoose.connect(
 let db = mongoose.connection;
 
 db.once("open", () => console.log("connected to the database"));
-
-// checks if connection with the database is successful
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-const ynabApi = new ynab.API(userConfiguration.userConfigToken());
+db.on("error", () => console.error("MongoDB connection error:"));
 
 const port = process.env.PORT || 5000;
 
@@ -38,102 +34,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get("/api/budgets", async (req, res) => {
-  const response = await db
-    .collection("budgets")
-    .find()
-    .toArray();
-  res.send(response);
-});
-
-app.get("/api/accounts", async (req, res) => {
-  const accounts = await db
-    .collection("accounts")
-    .find({})
-    .sort({ name: 1 })
-    .toArray();
-  res.send(accounts);
-});
-
-app.get("/api/categories", async (req, res) => {
-  const response = await ynabApi.categories.getCategories(req.query.budgetId);
-  res.send(response.data.category_groups);
-});
-
-app.get("/api/payees", async (req, res) => {
-  const payees = await db
-    .collection("payees")
-    .find({})
-    .sort({ name: 1 })
-    .toArray();
-  res.send(payees);
-});
-
-app.get("/api/transactions/all", async (req, res) => {
-  // TODO Add the budgetId onto this so it's not just pulling everything.
-  const transactions = await db
-    .collection("transactions")
-    .find({})
-    .sort({ name: 1 })
-    .toArray();
-  res.send(transactions);
-});
-
-app.get("/api/transactions/payee", async (req, res) => {
-  // TODO Add the budgetId onto this so it's not just pulling everything.
-  const query = req.query;
-  const transactions = await db
-    .collection("transactions")
-    .find({
-      payee_id: query.payeeId
-    })
-    .sort({ name: 1 })
-    .toArray();
-  res.send(transactions);
-});
-
-app.get("/api/transactions/aggregate", async (req, res) => {
-  const results = await db
-    .collection("transactions")
-    .find({
-      budgetId: req.query.budgetId
-    })
-    .toArray();
-  res.send(ynabDataProcessing.aggregateTransactionsByDay(results));
-});
-
-app.post("/api/admin/update/budgets", async (req, res) => {
-  await ynabDataUtility.updateBudgets(db);
-  res.send({ success: "updated all budgets" });
-});
-app.post("/api/admin/update/payees", async (req, res) => {
-  await ynabDataUtility.updateAllPayees(db, req.body.budgetId);
-  res.send({ success: "updated all payees" });
-});
-app.post("/api/admin/update/accounts", async (req, res) => {
-  await ynabDataUtility.updateAccounts(db, req.body.budgetId);
-  res.send({ success: "updated all accounts" });
-});
-app.post("/api/admin/update/transactions", async (req, res) => {
-  await ynabDataUtility.updateAllTransactions(db, req.body.budgetId);
-  res.send({ success: "updated all transactions" });
-});
-app.post("/api/admin/update/categories", async (req, res) => {
-  await ynabDataUtility.updateAllPayees(db, req.body.budgetId);
-  res.send({ success: "updated all categories" });
-});
-
-app.post("/api/users/add", async (req, res) => {
-  // TODO need to add validation
-  userAddOn.createUserCollection(db);
-  db.collection('users').insertOne(req.body).then(() => {
-    res.send({ success: "hi there" });
-  });
-});
+app.use(ynabDataRoutes(db));
+app.use(userRoutes(db));
+app.use(adminRoutes(db));
 
 app.get("/api/test", async (req, res) => {
-  userAddOn.createUserCollection(db);
-
   res.send({ success: true, message: "hi there" });
 });
 

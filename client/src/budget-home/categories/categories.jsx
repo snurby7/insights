@@ -8,7 +8,7 @@ import InsightRoutes from "../../common/routes";
 
 function createMasterCategoryView(props) {
   return (
-    !props.hidden && <div key={props.id}>
+    <div key={props.id}>
       <h3>
         {props.name}- (
         {YnabDataUtility.format(

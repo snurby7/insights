@@ -1,6 +1,6 @@
 const ynab = require("ynab");
 const userConfiguration = require("../../data/user-config");
-const ynabApi = new ynab.API(userConfiguration.userConfigToken());
+const ynabApi = new ynab.API(userConfiguration.userConfigToken);
 
 exports.updateBudgets = async function(db) {
   const response = await ynabApi.budgets.getBudgets();
@@ -18,6 +18,24 @@ exports.updateBudgets = async function(db) {
     )
   );
 };
+
+exports.updateCategories = async function(db, budgetId) {
+  const response = await ynabApi.categories.getCategories(budgetId);
+  const categoryGroups = response.data.category_groups;
+  await Promise.all(
+    categoryGroups.map(
+      async (category) =>
+        await db.collection("categories").updateOne(
+          {
+            id: category.id
+          },
+          { $set: mapOnBudgetId(category, budgetId) },
+          { upsert: true }
+        )
+    )
+  );
+};
+
 exports.updateAccounts = async function(db, budgetId) {
   const response = await ynabApi.accounts.getAccounts(budgetId);
   const accounts = response.data.accounts;
@@ -68,8 +86,8 @@ exports.updateAllTransactions = async function(db, budgetId) {
   );
 };
 
-function mapOnBudgetId(transaction, budgetId) {
-  if(transaction['budgetId']) throw Error('Transaction has a budgetId');
-  transaction.budgetId = budgetId;
-  return transaction;
+function mapOnBudgetId(item, budgetId) {
+  if(item['budgetId']) throw Error('item has a budgetId');
+  item.budgetId = budgetId;
+  return item;
 }

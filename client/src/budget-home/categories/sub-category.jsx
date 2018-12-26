@@ -6,10 +6,15 @@ function displayCategoryItem(props, biggestCatgory) {
     color: props.id === biggestCatgory.id ? "red" : "black"
   };
   return (
-    !props.hidden && <li key={props.id}>
-      {props.name} -
-      <strong style={styles}> ({YnabDataUtility.format(props.activity)})</strong>
-    </li>
+    !props.hidden && (
+      <li key={props.id}>
+        {props.name} -
+        <strong style={styles}>
+          {" "}
+          ({YnabDataUtility.format(props.activity)})
+        </strong>
+      </li>
+    )
   );
 }
 
