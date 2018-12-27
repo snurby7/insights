@@ -7,7 +7,7 @@ import ApiUtility from "../utilities/api-utility";
 
 import { Redirect } from "react-router";
 import GridDisplay from "../common/grid-display";
-import InsightRoutes from '../common/routes';
+import InsightRoutes from '../common/api-routes';
 
 const styles = theme => ({
   "@global": {

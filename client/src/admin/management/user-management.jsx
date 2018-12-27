@@ -2,18 +2,21 @@ import React from "react";
 import User from "./user";
 import Button from "@material-ui/core/Button";
 import UserDialog from "./user-dialog";
+import UserAgent from "../../agents/user-agent";
 class UserManagement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openDialog: false
+      openDialog: false,
+      users: []
     };
   }
+
   render() {
     return (
       <div>
         <Button onClick={() => this.addUser()}>Add User</Button>
-        <User />
+        {this.state.users.map((user) => <User key={user._id} data={user}/>)}
         <UserDialog
           open={this.state.openDialog}
           onClose={data => this.onUserClose(data)}
@@ -22,14 +25,23 @@ class UserManagement extends React.Component {
     );
   }
 
+  componentDidMount() {
+    this.getUsersForDisplay();
+  }
+
+  async getUsersForDisplay() {
+    const users = await UserAgent.getUsers();
+    this.setState({users});
+  }
+
   addUser() {
     this.setState({ openDialog: true });
   }
 
   onUserClose(data) {
     this.setState({ openDialog: false });
-    console.log(data);
     if(data) {
+      this.getUsersForDisplay();
       // TODO Refresh the users
     }
   }

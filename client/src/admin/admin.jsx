@@ -1,10 +1,9 @@
 import React from "react";
 import ApiUtility from "../utilities/api-utility";
 import GridDisplay from "../common/grid-display";
-import InsightRoutes from '../common/routes';
+import InsightRoutes from '../common/api-routes';
 import RoutingButton from "../common/routing-button";
 // TODO make this look less bad.
-// TODO add income fields to this so it's less hardcoded to add to life energy page
 
 class AdminPage extends React.Component {
   constructor(props) {

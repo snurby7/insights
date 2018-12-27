@@ -7,8 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import Button from "@material-ui/core/Button";
 
-import ApiUtility from "../../utilities/api-utility";
-import InsightRoutes from "../../common/routes";
+import UserAgent from "../../agents/user-agent";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -28,18 +27,14 @@ class UserDialog extends React.Component {
     const target = event.target;
     const name = target.name;
     const value = target.value;
-    if(target.validity.valid) {
+    if (target.validity.valid) {
       this.setState({ [name]: value });
-    } else {
-      console.log('not valid', target.validity);
     }
   }
 
   async handleSubmit(event) {
-    await ApiUtility.postRequest(
-      InsightRoutes.postAddUser,
-      this.formatAddRequest()
-    );
+    // TODO add the budgetId to the users
+    await UserAgent.saveUser(this.formatAddRequest());
     event.preventDefault();
     this.props.onClose(this.state);
   }
@@ -86,7 +81,7 @@ class UserDialog extends React.Component {
             <br />
             <label>
               Salary:
-                {/* TODO allow for decimals in the salary with a mask */}
+              {/* TODO allow for decimals in the salary with a mask */}
               <input
                 name="salary"
                 type="text"

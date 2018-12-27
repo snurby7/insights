@@ -4,7 +4,7 @@ import SiteUtility from "../../utilities/site-utility";
 import SubCategory from "./sub-category";
 import ApiUtility from "../../utilities/api-utility";
 import YnabDataUtility from "../../utilities/ynab-data-utility";
-import InsightRoutes from "../../common/routes";
+import InsightRoutes from "../../common/api-routes";
 
 function createMasterCategoryView(props) {
   return (

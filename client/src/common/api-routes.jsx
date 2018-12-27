@@ -11,6 +11,7 @@ const InsightRoutes = {
   postUpdateAccounts:  "/api/admin/update/accounts",
   postUpdateTransactions:  "/api/admin/update/transactions",
   postUpdateCategories:  "/api/admin/update/categories",
-  postAddUser: '/api/users/add'
+  postAddUser: '/api/users/add',
+  getUsers: '/api/users'
 }
 export default InsightRoutes;

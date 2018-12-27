@@ -10,7 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TransactionsDialog from "../transactions/transactions-dialog";
 import ApiUtility from "../utilities/api-utility";
-import InsightRoutes from "../common/routes";
+import InsightRoutes from "../common/api-routes";
 
 const styles = theme => ({
   root: {

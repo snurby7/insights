@@ -1,7 +1,7 @@
 import React from 'react';
 import ApiUtility from '../../utilities/api-utility';
 import YnabDataUtility from '../../utilities/ynab-data-utility';
-import InsightRoutes from '../../common/routes';
+import InsightRoutes from '../../common/api-routes';
 
 function renderBudgetAccount(props) {
     if(props.closed) return null;
