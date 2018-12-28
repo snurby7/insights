@@ -1,9 +1,5 @@
 var express = require("express");
-const ynab = require("ynab");
-const userConfiguration = require("../../data/user-config");
-
 var router = express.Router();
-const ynabApi = new ynab.API(userConfiguration.userConfigToken);
 
 module.exports = function(db) {
   router.get("/api/budgets", async (req, res) => {
@@ -23,7 +19,6 @@ module.exports = function(db) {
     res.send(accounts);
   });
 
-  // TODO this needs to be broken away from YNAB and wrapped.
   router.get("/api/categories", async (req, res) => {
     const categories = await db.collection('categories').find({
       budgetId: req.query.budgetId,
