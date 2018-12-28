@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const userAddOn = require('./add-ons/user-config');
 const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/user');
 const ynabDataRoutes = require('./routes/ynab-data-routes');

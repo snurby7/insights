@@ -15,11 +15,19 @@ const ApiUtility = {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
-    }).catch((error) => {
+    }).catch(error => {
       console.log(error);
     });
     const result = await response.json();
     return result;
+  },
+  async deleteRequest(route, data) {
+    const response = await fetch(route, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    return await response.json();
   }
 };
 

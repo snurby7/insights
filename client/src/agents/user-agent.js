@@ -3,8 +3,13 @@ import InsightRoutes from "../common/api-routes";
 
 const UserAgent = {
   async getUsers() {
-    const users = await ApiUtility.getRequest(InsightRoutes.getUsers);
+    const users = await ApiUtility.getRequest(InsightRoutes.users);
     return users;
+  },
+
+  async deleteUser(userId) {
+    const result = await ApiUtility.deleteRequest(InsightRoutes.users, {userId});
+    return result;
   },
 
   async saveUser(request) {
