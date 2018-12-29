@@ -16,10 +16,11 @@ function Transition(props) {
 class UserDialog extends React.Component {
   constructor(props) {
     super(props);
-    // TODO Note this is just an add, edit will need to account for an ID
     this.state = {
-      user: "",
-      salary: "" // TODO Make this allow decimals
+      open: props.open,
+      budgetId: props.budgetId,
+      name: props.user ? props.user.name : "",
+      salary: props.user ? props.user.salary : "" // TODO Make this allow decimals
     };
   }
 
@@ -32,28 +33,34 @@ class UserDialog extends React.Component {
     }
   }
 
-  async handleSubmit(event) {
+  async handleSubmit() {
     // TODO add the budgetId to the users
-    await UserAgent.saveUser(this.formatAddRequest());
-    event.preventDefault();
-    this.props.onClose(this.state);
+    if (this.props.user) {
+      await UserAgent.updateUser(this.formatRequest());
+    } else {
+      await UserAgent.saveUser(this.formatRequest());
+    }
+    this.handleClose(true);
   }
 
-  handleClose() {
-    this.setState({ open: false });
-    this.props.onClose(null);
+  handleClose(refresh) {
+    this.setState({
+      open: false,
+      name: "",
+      salary: "",
+      _id: null
+    });
+    this.props.onClose(refresh);
   }
 
-  formatAddRequest() {
+  formatRequest() {
     const currentState = this.state;
+    if (this.props.user) {
+      currentState._id = this.props.user._id;
+    }
     delete currentState.open;
+    delete currentState.user;
     return currentState;
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    return {
-      open: props.open
-    };
   }
 
   render() {
@@ -73,8 +80,8 @@ class UserDialog extends React.Component {
             <label>
               Name:
               <input
-                name="user"
-                value={this.state.user}
+                name="name"
+                value={this.state.name}
                 onChange={event => this.handleChange(event)}
               />
             </label>
@@ -94,10 +101,18 @@ class UserDialog extends React.Component {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={event => this.handleSubmit(event)} color="primary">
+          <Button
+            type="button"
+            onClick={() => this.handleSubmit()}
+            color="primary"
+          >
             Save
           </Button>
-          <Button onClick={() => this.handleClose()} color="primary">
+          <Button
+            type="button"
+            onClick={() => this.handleClose()}
+            color="primary"
+          >
             Close
           </Button>
         </DialogActions>

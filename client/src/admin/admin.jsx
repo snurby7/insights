@@ -1,7 +1,7 @@
 import React from "react";
 import ApiUtility from "../utilities/api-utility";
 import GridDisplay from "../common/grid-display";
-import InsightRoutes from '../common/api-routes';
+import InsightRoutes from "../common/api-routes";
 import RoutingButton from "../common/routing-button";
 // TODO make this look less bad.
 
@@ -75,19 +75,19 @@ class AdminPage extends React.Component {
 
   refreshData(route) {
     const budgetId = this.state.selectedBudget.id;
-    ApiUtility.postRequest(route, { budgetId }).then(
-      success => console.log(success),
-      () => alert(`${route} request has failed!`)
-    );
+    ApiUtility.postRequest(route, { budgetId }).catch(error => {
+      alert(`${route} request has failed!`);
+      console.log(error);
+    });
   }
 
   render() {
     const selectedBudget = this.state.selectedBudget;
-    const {id, name} = selectedBudget || {};
+    const { id, name } = selectedBudget || {};
     const userDisplayData = {
-      route: selectedBudget ? `/admin/${id}/users`: null,
+      route: selectedBudget ? `/admin/${id}/users` : null,
       displayName: `Manage users for ${name} `
-    }
+    };
     return (
       <div>
         <div>
@@ -98,7 +98,7 @@ class AdminPage extends React.Component {
           {selectedBudget && (
             <div>
               <hr />
-              <RoutingButton displayData={userDisplayData}/>
+              <RoutingButton displayData={userDisplayData} />
               <h3>Refresh Options for {name}</h3>
               <GridDisplay displayData={this.getButtonsToRender()} />
             </div>
