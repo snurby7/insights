@@ -1,8 +1,24 @@
 import React from "react";
-import User from "./user";
 import Button from "@material-ui/core/Button";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+import Icon from "@material-ui/core/Icon";
 import UserDialog from "./user-dialog";
 import UserAgent from "../../agents/user-agent";
+
+const styles = theme => ({
+  root: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper
+  }
+});
 
 class UserManagement extends React.Component {
   constructor(props) {
@@ -15,24 +31,42 @@ class UserManagement extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <Button onClick={() => this.addUser()}>Add User</Button>
-        {this.state.users.map(user => (
-          <div key={user._id}>
-            <User data={user} />
-            <Button onClick={() => this.deleteUser(user._id)}>
-              Delete
-            </Button>
-            <Button onClick={() => this.editUser(user)}>Edit</Button>
-          </div>
-        ))}
-        {this.state.openDialog && <UserDialog
-          budgetId={this.props.budgetId}
-          open={this.state.openDialog}
-          user={this.state.selectedUser}
-          onClose={data => this.onDialogClose(data)}
-        />}
+        <div className={classes.root}>
+          <List component="nav">
+            {this.state.users.map(user => (
+              <React.Fragment>
+                <ListItem key={user._id}>
+                  <ListItemText>{user.name}</ListItemText>
+                  <IconButton
+                    aria-label="Edit"
+                    onClick={() => this.editUser(user)}
+                  >
+                    <Icon>edit_icon</Icon>
+                  </IconButton>
+                  <IconButton
+                    aria-label="Delete"
+                    onClick={() => this.deleteUser(user._id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItem>
+                <Divider />
+              </React.Fragment>
+            ))}
+          </List>
+          {this.state.openDialog && (
+            <UserDialog
+              budgetId={this.props.budgetId}
+              open={this.state.openDialog}
+              user={this.state.selectedUser}
+              onClose={data => this.onDialogClose(data)}
+            />
+          )}
+          <Button onClick={() => this.addUser()}>Add User</Button>
+        </div>
       </div>
     );
   }
@@ -71,4 +105,8 @@ class UserManagement extends React.Component {
   }
 }
 
-export default UserManagement;
+UserManagement.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(UserManagement);
