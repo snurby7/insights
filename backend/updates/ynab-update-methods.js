@@ -96,7 +96,7 @@ function mapTransactions(item, budgetId) {
   const transaction = mapOnBudgetId(item, budgetId);
   const dateParts = transaction.date.split('-');
   transaction.date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-  transaction.date_month = +dateParts[1];
+  transaction.date_month = +dateParts[1] - 1;
   transaction.date_year = +dateParts[0];
   return transaction;
 }
