@@ -22,6 +22,9 @@ class BudgetHome extends React.Component {
         },{
             route: `${baseRoute}/transactions`,
             displayName: 'View Transactions'
+        },{
+            route: `${baseRoute}/reports`,
+            displayName: 'View Reports'
         }]
     }
 

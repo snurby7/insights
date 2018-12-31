@@ -13,12 +13,14 @@ import Payees from './payees/payees';
 import Transactions from './transactions/transactions';
 import UserManagement from './admin/management/user-management';
 import YnabAppBar from './common/ynab-app-bar';
+import ReportsHome from './reports/reports-home';
 
 const AdminRoute = () => <AdminPage/>
 const BudgetHomeRoute = ({match}) => <BudgetHome budgetId={match.params.budgetId}/>;
 const HomePageRoute = () => <HomePage/>
 const LifeEnergyRoute = ({match}) => <LifeEnergy budgetId={match.params.budgetId}/>
 const PayeesRoute = ({match}) => <Payees budgetId={match.params.budgetId}/>;
+const ReportsRoute = ({match}) => <ReportsHome budgetId={match.params.budgetId}/>;
 const TransactionsRoute = ({match}) => <Transactions budgetId={match.params.budgetId}/>;
 const UserManagementRoute = ({match}) => <UserManagement budgetId={match.params.budgetId}/>;
 
@@ -37,6 +39,7 @@ class InsightApp extends React.Component {
               <Route exact path="/budget/:budgetId" component={BudgetHomeRoute}/>
               <Route exact path="/budget/:budgetId/life-energy" component={LifeEnergyRoute}/>
               <Route exact path="/budget/:budgetId/payees" component={PayeesRoute}/>
+              <Route exact path="/budget/:budgetId/reports" component={ReportsRoute}/>
               <Route exact path="/budget/:budgetId/transactions" component={TransactionsRoute}/>
             </Switch>
             {/* TODO footer component with key metrics, short and sweet high level. */}

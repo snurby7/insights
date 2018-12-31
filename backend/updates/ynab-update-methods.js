@@ -79,7 +79,7 @@ exports.updateAllTransactions = async function(db, budgetId) {
           {
             id: transaction.id
           },
-          { $set: mapOnBudgetId(transaction, budgetId) },
+          { $set: mapTransactions(transaction, budgetId) },
           { upsert: true }
         )
     )
@@ -90,4 +90,13 @@ function mapOnBudgetId(item, budgetId) {
   if(item['budgetId']) throw Error('item has a budgetId');
   item.budgetId = budgetId;
   return item;
+}
+
+function mapTransactions(item, budgetId) {
+  const transaction = mapOnBudgetId(item, budgetId);
+  const dateParts = transaction.date.split('-');
+  transaction.date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+  transaction.date_month = +dateParts[1];
+  transaction.date_year = +dateParts[0];
+  return transaction;
 }

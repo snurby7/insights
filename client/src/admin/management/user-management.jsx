@@ -37,8 +37,8 @@ class UserManagement extends React.Component {
         <div className={classes.root}>
           <List component="nav">
             {this.state.users.map(user => (
-              <React.Fragment>
-                <ListItem key={user._id}>
+              <React.Fragment  key={user._id}>
+                <ListItem>
                   <ListItemText>{user.name}</ListItemText>
                   <IconButton
                     aria-label="Edit"

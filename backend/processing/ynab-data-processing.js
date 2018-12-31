@@ -18,4 +18,4 @@ exports.aggregateTransactionsByDay = function(transactions) {
     }
   });
   return dayOfWeekMap;
-}
+};
