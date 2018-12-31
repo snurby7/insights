@@ -4,6 +4,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/user');
+const reportRoutes = require('./routes/reports');
 const ynabDataRoutes = require('./routes/ynab-data-routes');
 
 const app = express();
@@ -36,6 +37,7 @@ app.use(function(req, res, next) {
 app.use(ynabDataRoutes(db));
 app.use(userRoutes(db));
 app.use(adminRoutes(db));
+app.use(reportRoutes(db));
 
 app.get("/api/test", async (req, res) => {
   res.send({ success: true, message: "hi there" });

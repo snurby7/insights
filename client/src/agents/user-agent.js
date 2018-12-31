@@ -15,7 +15,7 @@ const UserAgent = {
     return result;
   },
   async saveUser(request) {
-    await ApiUtility.postRequest(InsightRoutes.postAddUser, request);
+    await ApiUtility.postRequest(InsightRoutes.addUser, request);
   }
 };
 export default UserAgent;

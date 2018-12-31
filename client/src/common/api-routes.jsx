@@ -1,17 +1,18 @@
 const InsightRoutes = {
-  getBudgets:  "/api/budgets",
+  addUser: '/api/users/add',
+  adminUpdateAccounts:  "/api/admin/update/accounts",
+  adminUpdateBudgets:  "/api/admin/update/budgets",
+  adminUpdateCategories:  "/api/admin/update/categories",
+  adminUpdatePayees:  "/api/admin/update/payees",
   getAccounts:  "/api/accounts",
+  getAllTransactions:  "/api/transactions/all",
+  getBudgets:  "/api/budgets",
   getCategories:  "/api/categories",
   getPayees:  "/api/payees",
-  getAllTransactions:  "/api/transactions/all",
-  getTransactionsByPayee:  "/api/transactions/payee",
   getTransactionsByDay:  "/api/transactions/aggregate",
-  postUpdateBudgets:  "/api/admin/update/budgets",
-  postUpdatePayees:  "/api/admin/update/payees",
-  postUpdateAccounts:  "/api/admin/update/accounts",
+  getTransactionsByPayee:  "/api/transactions/payee",
   postUpdateTransactions:  "/api/admin/update/transactions",
-  postUpdateCategories:  "/api/admin/update/categories",
-  postAddUser: '/api/users/add',
+  reportsMonthly: '/api/reports/monthly',
   users: '/api/users'
 }
 export default InsightRoutes;

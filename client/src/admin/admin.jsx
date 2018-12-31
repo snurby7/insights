@@ -1,8 +1,8 @@
 import React from "react";
-import ApiUtility from "../utilities/api-utility";
 import GridDisplay from "../common/grid-display";
-import InsightRoutes from "../common/api-routes";
 import RoutingButton from "../common/routing-button";
+import AdminAgent from "../agents/admin-agent";
+
 // TODO make this look less bad.
 
 class AdminPage extends React.Component {
@@ -20,35 +20,35 @@ class AdminPage extends React.Component {
         id: 1,
         cardTitle: "Payees",
         subTitles: ["Refresh all payees from YNAB and store results"],
-        onClick: () => this.refreshData(InsightRoutes.postUpdatePayees),
+        onClick: () => AdminAgent.updatePayees(this.state.selectedBudget.id),
         buttonText: "Update"
       },
       {
         id: 2,
         cardTitle: "Accounts",
         subTitles: ["Refresh all accounts from YNAB and store results"],
-        onClick: () => this.refreshData(InsightRoutes.postUpdateAccounts),
+        onClick: () => AdminAgent.updateAccounts(this.state.selectedBudget.id),
         buttonText: "Update"
       },
       {
         id: 3,
         cardTitle: "Transactions",
         subTitles: ["Refresh all transactions from YNAB and store results"],
-        onClick: () => this.refreshData(InsightRoutes.postUpdateTransactions),
+        onClick: () => AdminAgent.udateTransactions(this.state.selectedBudget.id),
         buttonText: "Update"
       },
       {
         id: 4,
         cardTitle: "Categories",
         subTitles: ["Refresh all categories from YNAB and store results"],
-        onClick: () => this.refreshData(InsightRoutes.postUpdateCategories),
+        onClick: () => AdminAgent.updateCategories(this.state.selectedBudget.id),
         buttonText: "Update"
       },
       {
         id: 5,
         cardTitle: "Budgets",
         subTitles: ["Refresh all transactions from YNAB and store results"],
-        onClick: () => this.refreshData(InsightRoutes.postUpdateBudgets),
+        onClick: () => AdminAgent.updateBudgets(this.state.selectedBudget.id),
         buttonText: "Update"
       }
     ];
@@ -69,16 +69,8 @@ class AdminPage extends React.Component {
   }
 
   async getBudgetsForDisplay() {
-    const budgets = await ApiUtility.getRequest(InsightRoutes.getBudgets);
+    const budgets = await AdminAgent.getBudgets();
     this.convertBudgetsToDisplayData(budgets);
-  }
-
-  refreshData(route) {
-    const budgetId = this.state.selectedBudget.id;
-    ApiUtility.postRequest(route, { budgetId }).catch(error => {
-      alert(`${route} request has failed!`);
-      console.log(error);
-    });
   }
 
   render() {
