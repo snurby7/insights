@@ -9,8 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TransactionsDialog from "../transactions/transactions-dialog";
-import ApiUtility from "../utilities/api-utility";
-import InsightRoutes from "../common/api-routes";
+import YnabAgent from "../agents/ynab-agent";
 
 const styles = theme => ({
   root: {
@@ -59,10 +58,7 @@ class Payees extends React.Component {
   }
 
   async getTransactionsByPayeeOnClick(payeeId) {
-    const transactions = await ApiUtility.getRequest(
-      InsightRoutes.getTransactionsByPayee,
-      { payeeId }
-    );
+    const transactions = await YnabAgent.getTransactionsByPayee(payeeId);
     this.setState({ open: true, transactions });
   }
 
@@ -121,9 +117,7 @@ class Payees extends React.Component {
 
   async getPayees() {
     const budgetId = this.props.budgetId;
-    const payees = await ApiUtility.getRequest(InsightRoutes.getPayees, {
-      budgetId
-    });
+    const payees = await YnabAgent.getPayeesByBudgetId(budgetId);
     this.setState({ payees: payees, masterPayees: payees });
   }
 }

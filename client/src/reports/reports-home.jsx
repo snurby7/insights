@@ -5,7 +5,6 @@ class ReportsHome extends React.Component {
   render() {
     return (
       <div>
-        Reports Home
         <MonthlyExpenseCategory budgetId={this.props.budgetId} />
       </div>
     );

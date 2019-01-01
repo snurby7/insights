@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
-import ApiUtility from "../utilities/api-utility";
-
 import { Redirect } from "react-router";
 import GridDisplay from "../common/grid-display";
-import InsightRoutes from '../common/api-routes';
+import YnabAgent from "../agents/ynab-agent";
 
 const styles = theme => ({
   "@global": {
@@ -47,7 +45,7 @@ class HomePage extends React.Component {
   }
 
   async getBudgetsForDisplay() {
-    const budgets = await ApiUtility.getRequest(InsightRoutes.getBudgets);
+    const budgets = await YnabAgent.getBudgets();
     this.convertBudgetsToDisplayData(budgets)
   }
 

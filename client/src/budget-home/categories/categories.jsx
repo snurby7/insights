@@ -2,9 +2,8 @@ import React from "react";
 
 import SiteUtility from "../../utilities/site-utility";
 import SubCategory from "./sub-category";
-import ApiUtility from "../../utilities/api-utility";
 import YnabDataUtility from "../../utilities/ynab-data-utility";
-import InsightRoutes from "../../common/api-routes";
+import YnabAgent from "../../agents/ynab-agent";
 
 function createMasterCategoryView(props) {
   return (
@@ -39,10 +38,7 @@ class Categories extends React.Component {
   }
 
   async getCategories(budgetId) {
-    const categories = await ApiUtility.getRequest(
-      InsightRoutes.getCategories,
-      { budgetId }
-    );
+    const categories = await YnabAgent.getCategoriesByBudgetId(budgetId);
     this.setState({ categories });
   }
 }

@@ -1,6 +1,5 @@
 import React from "react";
-import ApiUtility from "../../utilities/api-utility";
-import InsightRoutes from "../../common/api-routes";
+import YnabAgent from "../../agents/ynab-agent";
 
 class TransactionsByDay extends React.Component {
   constructor(props) {
@@ -12,10 +11,7 @@ class TransactionsByDay extends React.Component {
   }
 
   async getTransactionsByDay(budgetId) {
-    const aggregations = await ApiUtility.getRequest(
-      InsightRoutes.getTransactionsByDay,
-      { budgetId }
-    );
+    const aggregations = await YnabAgent.getTransactionsByDay(budgetId);
     this.setState({ aggregations });
   }
 
