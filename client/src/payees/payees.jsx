@@ -67,12 +67,13 @@ class Payees extends React.Component {
   };
 
   render() {
+    const {classes, payees} = this.state;
     return (
       <React.Fragment>
         <div>
-          <h2>Payees ({this.state.payees.length})</h2>
-          <Paper className={this.state.classes.root}>
-            <Table className={this.state.classes.table}>
+          <h2>Payees ({payees.length})</h2>
+          <Paper className={classes.root}>
+            <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell>Transactions</TableCell>
@@ -80,7 +81,7 @@ class Payees extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.payees.map(payee => {
+                {payees.map(payee => {
                   return (
                     <TableRow key={payee.id}>
                       <TableCell component="th" scope="payee">
@@ -118,7 +119,7 @@ class Payees extends React.Component {
   async getPayees() {
     const budgetId = this.props.budgetId;
     const payees = await YnabAgent.getPayeesByBudgetId(budgetId);
-    this.setState({ payees: payees, masterPayees: payees });
+    this.setState({ payees, masterPayees: payees });
   }
 }
 

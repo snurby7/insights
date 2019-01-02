@@ -4,7 +4,6 @@ var router = express.Router();
 
 module.exports = function(db) {
   router.get("/api/users", async (req, res) => {
-    // TODO add the budgetId to the users
     const users = await db
       .collection("users")
       .find({budgetId: req.query.budgetId})
