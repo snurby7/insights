@@ -2,22 +2,39 @@ var express = require("express");
 var moment = require("moment");
 var router = express.Router();
 
+function processTransaction(results, key, transaction) {
+  if (!results[key][transaction.category_id]) {
+    results[key][transaction.category_id] = {
+      categoryName: transaction.category_name ? transaction.category_name : 'Auto Budgetted',
+      outflow: transaction.amount < 0 ? transaction.amount : 0,
+      inflow: transaction.amount > 0 ? transaction.amount : 0,
+      transactions: [transaction]
+    };
+    return;
+  }
+  const keyObj = results[key][transaction.category_id];
+  if (transaction.amount < 0) keyObj.outflow += transaction.amount;
+  if (transaction.amount > 0) keyObj.inflow += transaction.amount;
+  keyObj.transactions.push(transaction);
+  results[key][transaction.category_id] = keyObj;
+}
+
 function processResultsByMonth(results) {
   const formattedResults = {};
   Object.keys(results).forEach(key => {
     formattedResults[key] = {};
     results[key].forEach(transaction => {
-      if (transaction.category_name) {
-        if (!formattedResults[key][transaction.category_name]) {
-          formattedResults[key][transaction.category_name] = {
-            outflow: transaction.amount < 0 ? transaction.amount : 0,
-            transactions: [transaction]
-          };
+      if (transaction.category_id) {
+        if (transaction.subtransactions && transaction.subtransactions.length > 0) {
+          transaction.subtransactions.forEach(sub =>
+            processTransaction(formattedResults, key, sub)
+          );
         } else {
-          const keyObj = formattedResults[key][transaction.category_name];
-          if (transaction.amount < 0) keyObj.outflow += transaction.amount;
-          keyObj.transactions.push(transaction);
-          formattedResults[key][transaction.category_name] = keyObj;
+          processTransaction(formattedResults, key, transaction);
+        }
+        if(transaction.category_name && formattedResults[key] && formattedResults[key][transaction.category_id])
+        {
+          formattedResults[key][transaction.category_id].categoryName = transaction.category_name;
         }
       }
     });
