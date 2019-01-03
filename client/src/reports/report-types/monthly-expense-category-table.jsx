@@ -1,28 +1,44 @@
 import React from "react";
+import PropTypes from "prop-types";
+
+import Paper from "@material-ui/core/Paper";
+import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 
-// TODO needs to be styled and much more compact
+import YnabDataUtility from '../../utilities/ynab-data-utility';
+
+const styles = theme => ({
+  root: {
+    marginTop: theme.spacing.unit * 3,
+    overflowX: "auto",
+    maxHeight: 400,
+    maxWidth: 700
+  },
+  table: {
+    maxHeight: 400,
+    maxWidth: 700
+  }
+});
 
 class MonthlyExpenseCategoryTable extends React.Component {
   constructor(props) {
     super(props);
-    console.log('here');
     this.state = {
-      month: props.month
+      monthData: props.monthData
     };
   }
   render() {
-    const {month} = this.state;
+    const {monthData} = this.state;
+    const {classes, month} = this.props;
     return (
       <React.Fragment>
-        <h2>PUT THE DATE HERE</h2>
-        <Paper>
-          <Table>
+        <h2>{month}</h2>
+        <Paper className={classes.root}>
+            <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>Category Name</TableCell>
@@ -32,20 +48,20 @@ class MonthlyExpenseCategoryTable extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Object.keys(month).map(categoryId => {
+              {Object.keys(monthData).map(categoryId => {
                 return (
                   <TableRow key={categoryId}>
                     <TableCell component="th" scope="payee">
-                      {month[categoryId].categoryName}
+                      {monthData[categoryId].categoryName}
                     </TableCell>
                     <TableCell component="th">
-                      {month[categoryId].outflow}
+                      {YnabDataUtility.format(monthData[categoryId].outflow)}
                     </TableCell>
                     <TableCell component="th">
-                      {month[categoryId].inflow}
+                      {YnabDataUtility.format(monthData[categoryId].inflow)}
                     </TableCell>
                     <TableCell component="th">
-                      {month[categoryId].transactions.length}
+                      {monthData[categoryId].transactions.length}
                     </TableCell>
                   </TableRow>
                 );
@@ -58,4 +74,9 @@ class MonthlyExpenseCategoryTable extends React.Component {
   }
 }
 
-export default MonthlyExpenseCategoryTable;
+MonthlyExpenseCategoryTable.propTypes = {
+  monthData: PropTypes.object.isRequired,
+  month: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired
+};
+export default withStyles(styles)(MonthlyExpenseCategoryTable);

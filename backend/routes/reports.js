@@ -5,7 +5,9 @@ var router = express.Router();
 function processTransaction(results, key, transaction) {
   if (!results[key][transaction.category_id]) {
     results[key][transaction.category_id] = {
-      categoryName: transaction.category_name ? transaction.category_name : 'Auto Budgetted',
+      categoryName: transaction.category_name
+        ? transaction.category_name
+        : "Auto Budgetted",
       outflow: transaction.amount < 0 ? transaction.amount : 0,
       inflow: transaction.amount > 0 ? transaction.amount : 0,
       transactions: [transaction]
@@ -25,16 +27,23 @@ function processResultsByMonth(results) {
     formattedResults[key] = {};
     results[key].forEach(transaction => {
       if (transaction.category_id) {
-        if (transaction.subtransactions && transaction.subtransactions.length > 0) {
+        if (
+          transaction.subtransactions &&
+          transaction.subtransactions.length > 0
+        ) {
           transaction.subtransactions.forEach(sub =>
             processTransaction(formattedResults, key, sub)
           );
         } else {
           processTransaction(formattedResults, key, transaction);
         }
-        if(transaction.category_name && formattedResults[key] && formattedResults[key][transaction.category_id])
-        {
-          formattedResults[key][transaction.category_id].categoryName = transaction.category_name;
+        if (
+          transaction.category_name &&
+          formattedResults[key] &&
+          formattedResults[key][transaction.category_id]
+        ) {
+          formattedResults[key][transaction.category_id].categoryName =
+            transaction.category_name;
         }
       }
     });
@@ -45,7 +54,7 @@ function processResultsByMonth(results) {
 module.exports = function(db) {
   router.get("/api/reports/monthly", async (req, res) => {
     const { startingMonth, startingYear, budgetId } = req.query;
-    let adjustedMonth = +startingMonth + 1;
+    let adjustedMonth = +startingMonth;
     if (adjustedMonth < 10) adjustedMonth = "0" + adjustedMonth;
     const startDate = moment(`${startingYear}-${adjustedMonth}-01`);
     const endDate = moment();
@@ -62,6 +71,7 @@ module.exports = function(db) {
           date_year: month.year(),
           budgetId
         })
+        .sort({ category_name: 1 })
         .toArray();
     }
     res.send(processResultsByMonth(results));

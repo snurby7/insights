@@ -37,7 +37,6 @@ class MonthlyExpenseCategory extends React.Component {
   render() {
     const months = moment.months();
     const { results } = this.state;
-    Object.keys(results).forEach(x => console.log(results[x]))
     // TODO make this better using the current year and since year on the budget
     const years = [2016, 2017, 2018, 2019];
 
@@ -78,7 +77,7 @@ class MonthlyExpenseCategory extends React.Component {
         </div>
         <div>
           {Object.keys(results).map(key => (
-            <MonthlyExpenseCategoryTable key={key} month={results[key]} />
+            <MonthlyExpenseCategoryTable key={key} month={key} monthData={results[key]} />
           ))}
         </div>
       </div>
