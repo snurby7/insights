@@ -1,7 +1,23 @@
 var express = require("express");
+var moment = require("moment");
 var router = express.Router();
 
 module.exports = function(db) {
+  router.get("/api/budget/years", async (req, res) => {
+    const response = await db
+      .collection("budgets")
+      .findOne({ id: req.query.budgetId });
+
+    let firstYear = moment(response.first_month).year();
+    const finalYear = moment(response.last_month).year();
+    const years = [];
+    while(firstYear <= finalYear){
+      years.push(firstYear);
+      firstYear++;
+    }
+    res.send(years);
+  });
+
   router.get("/api/budgets", async (req, res) => {
     const response = await db
       .collection("budgets")
@@ -20,10 +36,14 @@ module.exports = function(db) {
   });
 
   router.get("/api/categories", async (req, res) => {
-    const categories = await db.collection('categories').find({
-      budgetId: req.query.budgetId,
-      hidden: false
-    }).sort({name: 1}).toArray();
+    const categories = await db
+      .collection("categories")
+      .find({
+        budgetId: req.query.budgetId,
+        hidden: false
+      })
+      .sort({ name: 1 })
+      .toArray();
     res.send(categories);
   });
 

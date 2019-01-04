@@ -7,6 +7,7 @@ const InsightRoutes = {
   getAccounts:  "/api/accounts",
   getAllTransactions:  "/api/transactions/all",
   getBudgets:  "/api/budgets",
+  getBudgetYears:  "/api/budget/years",
   getCategories:  "/api/categories",
   getPayees:  "/api/payees",
   getTransactionsByDay:  "/api/transactions/aggregate",

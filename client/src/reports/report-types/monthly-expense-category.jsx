@@ -13,6 +13,7 @@ class MonthlyExpenseCategory extends React.Component {
     this.state = {
       month: "",
       year: "",
+      allowedYears: [],
       results: {}
     };
   }
@@ -24,21 +25,30 @@ class MonthlyExpenseCategory extends React.Component {
     this.setState({ [name]: value });
   }
 
+  componentDidMount() {
+    this.getBudgetInformation();
+  }
+
+  async getBudgetInformation() {
+    const {budgetId} = this.props;
+    const years = await YnabAgent.getBudgetYears(budgetId);
+    this.setState({allowedYears: years});
+  }
+
   async onClickViewReport() {
+    const {budgetId} = this.props;
     const { month, year } = this.state;
     const results = await YnabAgent.getReportForMonthlyExpenses({
       startingMonth: month,
       startingYear: year,
-      budgetId: this.props.budgetId
+      budgetId
     });
     this.setState({ results });
   }
 
   render() {
     const months = moment.months();
-    const { results } = this.state;
-    // TODO make this better using the current year and since year on the budget
-    const years = [2016, 2017, 2018, 2019];
+    const { results, allowedYears } = this.state;
 
     return (
       <div>
@@ -66,7 +76,7 @@ class MonthlyExpenseCategory extends React.Component {
               id: "year"
             }}
           >
-            {years.map((year, index) => (
+            {allowedYears.map((year, index) => (
               <MenuItem key={`year-${index}`} value={year}>
                 {year}
               </MenuItem>

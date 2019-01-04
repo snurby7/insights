@@ -2,6 +2,10 @@ import ApiUtility from "../utilities/api-utility";
 import InsightRoutes from "../common/api-routes";
 
 const YnabAgent = {
+  async getBudgetYears(budgetId) {
+    return await ApiUtility.getRequest(InsightRoutes.getBudgetYears, {budgetId});
+  },
+
   async getBudgets() {
     return await ApiUtility.getRequest(InsightRoutes.getBudgets);
   },
