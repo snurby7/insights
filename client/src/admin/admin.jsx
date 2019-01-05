@@ -4,6 +4,7 @@ import RoutingButton from "../common/routing-button";
 import AdminAgent from "../agents/admin-agent";
 
 // TODO make this look less bad.
+// TODO make this behave like the budget home does now and it all uses the same page
 
 class AdminPage extends React.Component {
   constructor(props) {

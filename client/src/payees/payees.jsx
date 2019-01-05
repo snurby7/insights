@@ -57,9 +57,11 @@ class Payees extends React.Component {
     this.getTransactionsByPayeeOnClick(selectedPayee.id);
   }
 
-  async getTransactionsByPayeeOnClick(payeeId) {
-    const transactions = await YnabAgent.getTransactionsByPayee(payeeId);
-    this.setState({ open: true, transactions });
+  getTransactionsByPayeeOnClick(payeeId) {
+    // TODO network request locks it up a little bit, need to improve thata
+    YnabAgent.getTransactionsByPayee(payeeId).then(transactions => {
+      this.setState({ open: true, transactions });
+    });
   }
 
   handleClose = () => {
