@@ -9,7 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TransactionsDialog from "../transactions/transactions-dialog";
-import YnabAgent from "../agents/ynab-agent";
+import YnabAgent from "../../agents/ynab-agent";
 
 const styles = theme => ({
   root: {

@@ -3,42 +3,43 @@ import Accounts from "./accounts/accounts";
 import Categories from "./categories/categories";
 import RbButton from "../common/rb-button";
 
+import LifeEnergy from "./life-energy/life-energy";
+import Payees from "./payees/payees";
+import ReportsHome from "./reports/reports-home";
+import Transactions from "./transactions/transactions";
+
 import "./budget-home.css";
-import LifeEnergy from "../life-energy/life-energy";
-import Payees from "../payees/payees";
-import ReportsHome from "../reports/reports-home";
-import Transactions from "../transactions/transactions";
+import BudgetActions from './budget-actions';
 
 class BudgetHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedSection: 1
+      selectedSection: BudgetActions.Home
     };
   }
 
   getRoutingDataForButtons() {
-    // TODO make these an enum instead of some number
     return [
       {
         displayName: "Home",
-        onClick: () => this.setState({ selectedSection: 1 })
+        onClick: () => this.setState({ selectedSection: BudgetActions.Home })
       },
       {
         displayName: "View Life Energy",
-        onClick: () => this.setState({ selectedSection: 2 })
+        onClick: () => this.setState({ selectedSection: BudgetActions.LifeEnergy })
       },
       {
         displayName: "View Payees",
-        onClick: () => this.setState({ selectedSection: 3 })
+        onClick: () => this.setState({ selectedSection: BudgetActions.Payees })
       },
       {
         displayName: "View Transactions",
-        onClick: () => this.setState({ selectedSection: 4 })
+        onClick: () => this.setState({ selectedSection: BudgetActions.Transactions })
       },
       {
         displayName: "View Reports",
-        onClick: () => this.setState({ selectedSection: 5 })
+        onClick: () => this.setState({ selectedSection: BudgetActions.Reports })
       }
     ];
   }
@@ -53,16 +54,16 @@ class BudgetHome extends React.Component {
           <RbButton key={index} displayData={displayData} />
         ))}
         <div className="element-container">
-          {selectedSection === 1 && (
+          {selectedSection === BudgetActions.Home && (
             <React.Fragment>
               <Accounts budgetId={budgetId} />
               <Categories budgetId={budgetId} />
             </React.Fragment>
           )}
-          {selectedSection === 2 && <LifeEnergy budgetId={budgetId} />}
-          {selectedSection === 3 && <Payees budgetId={budgetId} />}
-          {selectedSection === 4 && <Transactions budgetId={budgetId} />}
-          {selectedSection === 5 && <ReportsHome budgetId={budgetId} />}
+          {selectedSection === BudgetActions.LifeEnergy && <LifeEnergy budgetId={budgetId} />}
+          {selectedSection === BudgetActions.Payees && <Payees budgetId={budgetId} />}
+          {selectedSection === BudgetActions.Transactions && <Transactions budgetId={budgetId} />}
+          {selectedSection === BudgetActions.Reports && <ReportsHome budgetId={budgetId} />}
         </div>
       </div>
     );

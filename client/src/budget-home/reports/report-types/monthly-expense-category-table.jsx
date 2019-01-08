@@ -9,7 +9,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-import YnabDataUtility from '../../utilities/ynab-data-utility';
+import YnabDataUtility from '../../../utilities/ynab-data-utility';
 
 const styles = theme => ({
   root: {

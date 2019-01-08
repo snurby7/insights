@@ -1,5 +1,5 @@
 import React from "react";
-import YnabAgent from "../../agents/ynab-agent";
+import YnabAgent from "../../../agents/ynab-agent";
 
 class TransactionsByDay extends React.Component {
   constructor(props) {
