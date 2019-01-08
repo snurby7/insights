@@ -36,19 +36,20 @@ class AdminPage extends React.Component {
   }
 
   getButtonsToRender() {
+    const {selectedBudget} = this.state;
     return [
       {
         id: "6f4c9a94-01c7-48e1-b1d1-2553f5d731d4",
         cardTitle: "Payees",
         subTitles: ["Refresh all payees from YNAB and store results"],
-        onClick: () => AdminAgent.updatePayees(this.state.selectedBudget.id),
+        onClick: () => AdminAgent.updatePayees(selectedBudget.id),
         buttonText: "Update"
       },
       {
         id: "a9a59754-bd48-481c-8b38-2e309dc758c4",
         cardTitle: "Accounts",
         subTitles: ["Refresh all accounts from YNAB and store results"],
-        onClick: () => AdminAgent.updateAccounts(this.state.selectedBudget.id),
+        onClick: () => AdminAgent.updateAccounts(selectedBudget.id),
         buttonText: "Update"
       },
       {
@@ -56,7 +57,7 @@ class AdminPage extends React.Component {
         cardTitle: "Transactions",
         subTitles: ["Refresh all transactions from YNAB and store results"],
         onClick: () =>
-          AdminAgent.udateTransactions(this.state.selectedBudget.id),
+          AdminAgent.udateTransactions(selectedBudget.id),
         buttonText: "Update"
       },
       {
@@ -64,14 +65,14 @@ class AdminPage extends React.Component {
         cardTitle: "Categories",
         subTitles: ["Refresh all categories from YNAB and store results"],
         onClick: () =>
-          AdminAgent.updateCategories(this.state.selectedBudget.id),
+          AdminAgent.updateCategories(selectedBudget.id),
         buttonText: "Update"
       },
       {
         id: "8eb2f1bd-e5df-48db-822a-2e7de2f474a5",
         cardTitle: "Budgets",
         subTitles: ["Refresh all transactions from YNAB and store results"],
-        onClick: () => AdminAgent.updateBudgets(this.state.selectedBudget.id),
+        onClick: () => AdminAgent.updateBudgets(selectedBudget.id),
         buttonText: "Update"
       }
     ];

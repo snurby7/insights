@@ -64,9 +64,10 @@ class UserDialog extends React.Component {
   }
 
   render() {
+    const {open, name, salary} = this.state;
     return (
       <Dialog
-        open={this.state.open}
+        open={open}
         TransitionComponent={Transition}
         keepMounted
         onClose={() => this.handleClose()}
@@ -81,7 +82,7 @@ class UserDialog extends React.Component {
               Name:
               <input
                 name="name"
-                value={this.state.name}
+                value={name}
                 onChange={event => this.handleChange(event)}
               />
             </label>
@@ -93,7 +94,7 @@ class UserDialog extends React.Component {
                 name="salary"
                 type="text"
                 pattern="[0-9]*"
-                value={this.state.salary}
+                value={salary}
                 onChange={event => this.handleChange(event)}
               />
             </label>

@@ -32,11 +32,12 @@ class UserManagement extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { openDialog, selectedUser, users} = this.state;
     return (
       <div>
         <div className={classes.root}>
           <List component="nav">
-            {this.state.users.map(user => (
+            {users.map(user => (
               <React.Fragment  key={user._id}>
                 <ListItem>
                   <ListItemText>{user.name}</ListItemText>
@@ -57,11 +58,11 @@ class UserManagement extends React.Component {
               </React.Fragment>
             ))}
           </List>
-          {this.state.openDialog && (
+          {openDialog && (
             <UserDialog
               budgetId={this.props.budgetId}
-              open={this.state.openDialog}
-              user={this.state.selectedUser}
+              open={openDialog}
+              user={selectedUser}
               onClose={data => this.onDialogClose(data)}
             />
           )}
