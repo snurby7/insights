@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import moment from "moment";
 
 import Button from "@material-ui/core/Button";
@@ -93,6 +94,10 @@ class MonthlyExpenseCategory extends React.Component {
       </div>
     );
   }
+}
+
+MonthlyExpenseCategory.propTypes = {
+  budgetId: PropTypes.string.isRequired
 }
 
 export default MonthlyExpenseCategory;

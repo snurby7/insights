@@ -25,15 +25,8 @@ const styles = theme => ({
 });
 
 class MonthlyExpenseCategoryTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      monthData: props.monthData
-    };
-  }
   render() {
-    const {monthData} = this.state;
-    const {classes, month} = this.props;
+    const {classes, month, monthData} = this.props;
     return (
       <React.Fragment>
         <h2>{month}</h2>

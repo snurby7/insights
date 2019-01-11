@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import YnabDataUtility from "../../utilities/ynab-data-utility";
 import YnabAgent from "../../agents/ynab-agent";
 
@@ -35,5 +37,9 @@ class Accounts extends React.Component {
     this.getAccountsByBudgetId(budgetId);
   }
 }
+
+Accounts.propTypes = {
+  budgetId: PropTypes.string.isRequired
+};
 
 export default Accounts;

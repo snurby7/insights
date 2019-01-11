@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import MonthlyExpenseCategory from "./report-types/monthly-expense-category";
 
 class ReportsHome extends React.Component {
@@ -9,6 +11,10 @@ class ReportsHome extends React.Component {
       </div>
     );
   }
+}
+
+ReportsHome.propTypes = {
+  budgetId: PropTypes.string.isRequired
 }
 
 export default ReportsHome;

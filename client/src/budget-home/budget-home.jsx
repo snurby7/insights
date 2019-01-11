@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import Accounts from "./accounts/accounts";
 import Categories from "./categories/categories";
 import RbButton from "../common/rb-button";
@@ -68,6 +70,10 @@ class BudgetHome extends React.Component {
       </div>
     );
   }
+}
+
+BudgetHome.propTypes = {
+  budgetId: PropTypes.string.isRequired
 }
 
 export default BudgetHome;

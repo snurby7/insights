@@ -107,7 +107,8 @@ class UserManagement extends React.Component {
 }
 
 UserManagement.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  budgetId: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(UserManagement);

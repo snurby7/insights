@@ -8,7 +8,10 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import AdminPage from './admin/admin';
 import BudgetHome from './budget-home/budget-home';
 import HomePage from './home/homepage';
-import YnabAppBar from './common/ynab-app-bar-2';
+import YnabAppBar from './common/ynab-app-bar';
+// import YnabAppBar from './common/ynab-app-bar-2';
+
+// TODO enable the new app bar
 
 const AdminRoute = () => <AdminPage/>
 const BudgetHomeRoute = ({match}) => <BudgetHome budgetId={match.params.budgetId}/>;

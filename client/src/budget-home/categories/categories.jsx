@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import SiteUtility from "../../utilities/site-utility";
 import SubCategory from "./sub-category";
@@ -41,6 +42,10 @@ class Categories extends React.Component {
     const categories = await YnabAgent.getCategoriesByBudgetId(budgetId);
     this.setState({ categories });
   }
+}
+
+Categories.propTypes = {
+  budgetId: PropTypes.string.isRequired
 }
 
 export default Categories;

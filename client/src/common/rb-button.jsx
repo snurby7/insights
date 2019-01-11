@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import Button from "@material-ui/core/Button";
 
 class RbButton extends React.Component {
@@ -14,6 +15,10 @@ class RbButton extends React.Component {
       </Button>
     );
   }
+}
+
+RbButton.propTypes = {
+  displayData: PropTypes.object.isRequired
 }
 
 export default RbButton;

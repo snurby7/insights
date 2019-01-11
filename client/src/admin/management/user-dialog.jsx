@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -18,7 +20,6 @@ class UserDialog extends React.Component {
     super(props);
     this.state = {
       open: props.open,
-      budgetId: props.budgetId,
       name: props.user ? props.user.name : "",
       salary: props.user ? props.user.salary : "" // TODO Make this allow decimals
     };
@@ -58,6 +59,8 @@ class UserDialog extends React.Component {
     if (this.props.user) {
       currentState._id = this.props.user._id;
     }
+    const {budgetId} = this.props;
+    currentState.budgetId = budgetId;
     delete currentState.open;
     delete currentState.user;
     return currentState;
@@ -120,6 +123,11 @@ class UserDialog extends React.Component {
       </Dialog>
     );
   }
+}
+
+UserDialog.propTypes = {
+  user: PropTypes.object.isRequired,
+  open: PropTypes.bool.isRequired
 }
 
 export default UserDialog;
