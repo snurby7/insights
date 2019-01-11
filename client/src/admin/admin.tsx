@@ -3,11 +3,9 @@ import GridDisplay from "../common/grid-display";
 import AdminAgent from "../agents/admin-agent";
 import RbButton, { IRbButtonOptions } from "../common/rb-button";
 import UserManagement from "./management/user-management";
+import { AdminActions } from "./admin-actions";
 
-import AdminActions from "./admin-actions";
 // TODO make this look less bad.
-// TODO make this behave like the budget home does now and it all uses the same page
-// TODO make this have some sort of props.context or this.context so I don't need to select a budgetId every time
 
 interface AdminState {
   budgets: any[];
@@ -28,7 +26,7 @@ class AdminPage extends React.Component {
       {
         displayName: "Data Updaters",
         onClick: () =>
-          this.setState({ selectedSection: AdminActions.DataUpdaters })
+          this.setState({ selectedSection: AdminActions.DataUpdater })
       },
       {
         displayName: "User Management",
@@ -93,13 +91,9 @@ class AdminPage extends React.Component {
   }
 
   componentDidMount() {
-    this.getBudgetsForDisplay().then(budgets => {
+    AdminAgent.getBudgets().then(budgets => {
       this.convertBudgetsToDisplayData(budgets);
     });
-  }
-
-  async getBudgetsForDisplay() {
-    return await AdminAgent.getBudgets();
   }
 
   render() {
@@ -113,8 +107,8 @@ class AdminPage extends React.Component {
         <div>
           {selectedBudget && (
             <React.Fragment>
-              {this.getDisplayToggles().map((x, index) => (
-                <RbButton key={index} {...x} />
+              {this.getDisplayToggles().map((props, index) => (
+                <RbButton key={index} {...props} />
               ))}
               <hr />
             </React.Fragment>
@@ -123,7 +117,7 @@ class AdminPage extends React.Component {
         <div>
           {/* TODO make this a nice transition when it shows up */}
           <div>
-            {selectedSection === AdminActions.DataUpdaters && (
+            {selectedSection === AdminActions.DataUpdater && (
               <React.Fragment>
                 <h3>Refresh Options for {name}</h3>
                 <GridDisplay displayData={this.getButtonsToRender()} />

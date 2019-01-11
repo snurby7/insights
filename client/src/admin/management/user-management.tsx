@@ -11,8 +11,9 @@ import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 import UserDialog from "./user-dialog";
 import UserAgent from "../../agents/user-agent";
+import { IUser } from "../../contracts/user.interface";
 
-const styles = theme => ({
+const styles = (theme: any) => ({
   root: {
     width: "100%",
     maxWidth: 360,
@@ -20,15 +21,17 @@ const styles = theme => ({
   }
 });
 
-class UserManagement extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      openDialog: false,
-      users: [],
-      selectedUser: null
-    };
-  }
+export interface IUserManagementProps {
+  classes: any;
+budgetId: string;
+}
+
+class UserManagement extends React.Component<IUserManagementProps> {
+  state = {
+    openDialog: false,
+    users: [] as IUser[],
+    selectedUser: undefined
+  };
 
   render() {
     const { classes } = this.props;
@@ -76,9 +79,10 @@ class UserManagement extends React.Component {
     this.getUsersForDisplay();
   }
 
-  async getUsersForDisplay() {
-    const users = await UserAgent.getUsers(this.props.budgetId);
-    this.setState({ users });
+  getUsersForDisplay() {
+    UserAgent.getUsers(this.props.budgetId).then(users => {
+      this.setState({ users });
+    })
   }
 
   addUser() {
@@ -88,27 +92,23 @@ class UserManagement extends React.Component {
     });
   }
 
-  onDialogClose(fireRefresh) {
+  onDialogClose(fireRefresh?: boolean) {
     this.setState({ openDialog: false, selectedUser: null });
     if (fireRefresh) {
       this.getUsersForDisplay();
     }
   }
 
-  async deleteUser(userId) {
-    await UserAgent.deleteUser(userId);
-    this.getUsersForDisplay();
+  deleteUser(userId: string | undefined) {
+    if(!userId) return;
+    UserAgent.deleteUser(userId).then(() => {
+      this.getUsersForDisplay();
+    })
   }
 
-  editUser(selectedUser) {
-    this.setState({ selectedUser });
-    this.setState({ openDialog: true });
+  editUser(selectedUser: IUser) {
+    this.setState({ selectedUser, openDialog: true });
   }
 }
-
-UserManagement.propTypes = {
-  classes: PropTypes.object.isRequired,
-  budgetId: PropTypes.string.isRequired
-};
 
 export default withStyles(styles)(UserManagement);

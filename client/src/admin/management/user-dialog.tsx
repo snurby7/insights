@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -10,13 +9,22 @@ import Slide from "@material-ui/core/Slide";
 import Button from "@material-ui/core/Button";
 
 import UserAgent from "../../agents/user-agent";
+import { IUser } from "../../contracts/user.interface";
+import { IUserDialogProps } from "./IUserDialogProps";
 
-function Transition(props) {
+export interface IDialogState extends IUser {
+  budgetId?: string;
+  open: boolean;
+}
+
+function Transition(props: void) {
   return <Slide direction="up" {...props} />;
 }
 
-class UserDialog extends React.Component {
-  constructor(props) {
+class UserDialog extends React.Component<IUserDialogProps> {
+  state: IDialogState;
+
+  constructor(props: IUserDialogProps) {
     super(props);
     this.state = {
       open: props.open,
@@ -25,7 +33,8 @@ class UserDialog extends React.Component {
     };
   }
 
-  handleChange(event) {
+  // TODO try and put a type on this
+  handleChange(event: any) {
     const target = event.target;
     const name = target.name;
     const value = target.value;
@@ -34,17 +43,16 @@ class UserDialog extends React.Component {
     }
   }
 
-  async handleSubmit() {
-    // TODO add the budgetId to the users
-    if (this.props.user) {
-      await UserAgent.updateUser(this.formatRequest());
-    } else {
-      await UserAgent.saveUser(this.formatRequest());
-    }
-    this.handleClose(true);
+  handleSubmit() {
+    (this.props.user
+      ? UserAgent.updateUser(this.formatRequest())
+      : UserAgent.saveUser(this.formatRequest())
+    ).then(() => {
+      this.handleClose(true);
+    });
   }
 
-  handleClose(refresh) {
+  handleClose(refresh?: boolean): void {
     this.setState({
       open: false,
       name: "",
@@ -55,19 +63,18 @@ class UserDialog extends React.Component {
   }
 
   formatRequest() {
-    const currentState = this.state;
+    const currentState: IDialogState = this.state;
     if (this.props.user) {
       currentState._id = this.props.user._id;
     }
-    const {budgetId} = this.props;
+    const { budgetId } = this.props;
     currentState.budgetId = budgetId;
     delete currentState.open;
-    delete currentState.user;
     return currentState;
   }
 
   render() {
-    const {open, name, salary} = this.state;
+    const { open, name, salary } = this.state;
     return (
       <Dialog
         open={open}
@@ -80,7 +87,7 @@ class UserDialog extends React.Component {
           <DialogContentText>
             Enter some data about the user to add
           </DialogContentText>
-          <form onSubmit={event => this.handleSubmit(event)}>
+          <form onSubmit={() => this.handleSubmit()}>
             <label>
               Name:
               <input
@@ -106,7 +113,7 @@ class UserDialog extends React.Component {
         </DialogContent>
         <DialogActions>
           <Button
-            type="button"
+            type="submit"
             onClick={() => this.handleSubmit()}
             color="primary"
           >
@@ -123,11 +130,6 @@ class UserDialog extends React.Component {
       </Dialog>
     );
   }
-}
-
-UserDialog.propTypes = {
-  user: PropTypes.object.isRequired,
-  open: PropTypes.bool.isRequired
 }
 
 export default UserDialog;

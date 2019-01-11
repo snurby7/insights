@@ -6,16 +6,14 @@ const UserAgent = {
     const users = await ApiUtility.getRequest(InsightRoutes.users, {budgetId});
     return users;
   },
-  async deleteUser(userId) {
-    const result = await ApiUtility.deleteRequest(InsightRoutes.users, {userId});
-    return result;
+  deleteUser(userId) {
+    return ApiUtility.deleteRequest(InsightRoutes.users, {userId});
   },
-  async updateUser(user) {
-    const result = await ApiUtility.postRequest(InsightRoutes.users, user);
-    return result;
+  updateUser(user) {
+    return ApiUtility.postRequest(InsightRoutes.users, user);
   },
-  async saveUser(request) {
-    await ApiUtility.postRequest(InsightRoutes.addUser, request);
+  saveUser(request) {
+    return ApiUtility.postRequest(InsightRoutes.addUser, request);
   }
 };
 export default UserAgent;
