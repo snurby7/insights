@@ -1,7 +1,7 @@
 import React from "react";
 import GridDisplay from "../common/grid-display";
 import AdminAgent from "../agents/admin-agent";
-import RbButton from "../common/rb-button";
+import RbButton, { IRbButtonOptions } from "../common/rb-button";
 import UserManagement from "./management/user-management";
 
 import AdminActions from "./admin-actions";
@@ -9,17 +9,20 @@ import AdminActions from "./admin-actions";
 // TODO make this behave like the budget home does now and it all uses the same page
 // TODO make this have some sort of props.context or this.context so I don't need to select a budgetId every time
 
+interface AdminState {
+  budgets: any[];
+  selectedBudget: any;
+  selectedSection: null;
+}
+
 class AdminPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+    state: AdminState = {
       budgets: [],
       selectedBudget: null,
       selectedSection: null
     };
-  }
 
-  getDisplayToggles() {
+  getDisplayToggles(): IRbButtonOptions[]  {
     // TODO make these an enum instead of some number
     return [
       {
@@ -78,8 +81,9 @@ class AdminPage extends React.Component {
     ];
   }
 
-  convertBudgetsToDisplayData(budgets) {
-    const convertedBudgets = budgets.map(budget => ({
+  // TODO type this as a Budget
+  convertBudgetsToDisplayData(budgets: any) {
+    const convertedBudgets = budgets.map((budget: any) => ({
       id: budget.id,
       cardTitle: budget.name,
       onClick: () => this.setState({ selectedBudget: budget }),
@@ -89,17 +93,18 @@ class AdminPage extends React.Component {
   }
 
   componentDidMount() {
-    this.getBudgetsForDisplay();
+    this.getBudgetsForDisplay().then(budgets => {
+      this.convertBudgetsToDisplayData(budgets);
+    });
   }
 
   async getBudgetsForDisplay() {
-    const budgets = await AdminAgent.getBudgets();
-    this.convertBudgetsToDisplayData(budgets);
+    return await AdminAgent.getBudgets();
   }
 
   render() {
     const { selectedBudget, selectedSection } = this.state;
-    const { id, name } = selectedBudget || {};
+    const { id, name } = selectedBudget || {id: null, name: null};
     return (
       <div>
         <div>
@@ -109,7 +114,7 @@ class AdminPage extends React.Component {
           {selectedBudget && (
             <React.Fragment>
               {this.getDisplayToggles().map((x, index) => (
-                <RbButton key={index} displayData={x} />
+                <RbButton key={index} {...x} />
               ))}
               <hr />
             </React.Fragment>
