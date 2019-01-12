@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -23,10 +22,19 @@ const styles = (theme: any) => ({
 
 export interface IUserManagementProps {
   classes: any;
-budgetId: string;
+  budgetId: string;
 }
 
-class UserManagement extends React.Component<IUserManagementProps> {
+export interface IUserManagementState {
+  openDialog: boolean;
+  users: IUser[];
+  selectedUser: IUser | undefined;
+}
+
+class UserManagement extends React.Component<
+  IUserManagementProps,
+  IUserManagementState
+> {
   state = {
     openDialog: false,
     users: [] as IUser[],
@@ -35,13 +43,13 @@ class UserManagement extends React.Component<IUserManagementProps> {
 
   render() {
     const { classes } = this.props;
-    const { openDialog, selectedUser, users} = this.state;
+    const { openDialog, selectedUser, users } = this.state;
     return (
       <div>
         <div className={classes.root}>
           <List component="nav">
             {users.map(user => (
-              <React.Fragment  key={user._id}>
+              <React.Fragment key={user._id}>
                 <ListItem>
                   <ListItemText>{user.name}</ListItemText>
                   <IconButton
@@ -82,28 +90,31 @@ class UserManagement extends React.Component<IUserManagementProps> {
   getUsersForDisplay() {
     UserAgent.getUsers(this.props.budgetId).then(users => {
       this.setState({ users });
-    })
+    });
   }
 
   addUser() {
     this.setState({
-      selectedUser: null,
+      selectedUser: undefined,
       openDialog: true
     });
   }
 
   onDialogClose(fireRefresh?: boolean) {
-    this.setState({ openDialog: false, selectedUser: null });
+    this.setState({
+      openDialog: false,
+      selectedUser: undefined
+    });
     if (fireRefresh) {
       this.getUsersForDisplay();
     }
   }
 
   deleteUser(userId: string | undefined) {
-    if(!userId) return;
+    if (!userId) return;
     UserAgent.deleteUser(userId).then(() => {
       this.getUsersForDisplay();
-    })
+    });
   }
 
   editUser(selectedUser: IUser) {

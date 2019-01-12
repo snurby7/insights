@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import Accounts from "./accounts/accounts";
 import Categories from "./categories/categories";
-import RbButton from "../common/rb-button";
+import RbButton, { IRbButtonOptions } from "../common/rb-button";
 
 import LifeEnergy from "./life-energy/life-energy";
 import Payees from "./payees/payees";
@@ -11,17 +11,23 @@ import ReportsHome from "./reports/reports-home";
 import Transactions from "./transactions/transactions";
 
 import "./budget-home.css";
-import BudgetActions from './budget-actions';
+import { BudgetActions } from "./budget-actions";
 
-class BudgetHome extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedSection: BudgetActions.Home
-    };
-  }
+export interface IBudgetHomeProps {
+  budgetId: string;
 
-  getRoutingDataForButtons() {
+};
+
+export interface IBudgetHomeState {
+  selectedSection: BudgetActions;
+}
+
+class BudgetHome extends React.Component<IBudgetHomeProps, IBudgetHomeState> {
+  state = {
+    selectedSection: BudgetActions.Home
+  };
+
+  getRoutingDataForButtons(): IRbButtonOptions[] {
     return [
       {
         displayName: "Home",
@@ -53,7 +59,7 @@ class BudgetHome extends React.Component {
       <div>
         <h3>Welcome to your budget Home</h3>
         {this.getRoutingDataForButtons().map((displayData, index) => (
-          <RbButton key={index} displayData={displayData} />
+          <RbButton key={index} {...displayData} />
         ))}
         <div className="element-container">
           {selectedSection === BudgetActions.Home && (
@@ -70,10 +76,6 @@ class BudgetHome extends React.Component {
       </div>
     );
   }
-}
-
-BudgetHome.propTypes = {
-  budgetId: PropTypes.string.isRequired
 }
 
 export default BudgetHome;

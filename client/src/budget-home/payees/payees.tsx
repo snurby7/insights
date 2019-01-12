@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -10,11 +9,28 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TransactionsDialog from "../transactions/transactions-dialog";
 import YnabAgent from "../../agents/ynab-agent";
+import { OverflowAnchorProperty } from "csstype";
 
-const styles = theme => ({
+export interface IPayeeProps {
+  classes: any;
+  budgetId: string;
+}
+
+export interface IPayeeState {
+  masterPayees: any[]; // TODO IPayees[]
+  open: boolean;
+  payees: any[]; // TODO IPayee[]
+  selectedPayee: any; // TODO IPayee
+  transactions: any[]; // TODO ITransactions[]
+  value: string;
+}
+
+const overflowX: OverflowAnchorProperty = "auto";
+
+const styles = (theme: any) => ({
   root: {
     marginTop: theme.spacing.unit * 3,
-    overflowX: "auto",
+    overflowX: overflowX,
     maxHeight: 400,
     maxWidth: 700
   },
@@ -24,21 +40,19 @@ const styles = theme => ({
   }
 });
 
-class Payees extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      classes: props.classes,
-      masterPayees: [],
-      open: false,
-      payees: [],
-      selectedPayee: {},
-      transactions: [],
-      value: ""
-    };
-  }
+class Payees extends React.Component<IPayeeProps, IPayeeState> {
+  // TODO clean all of these up
+  state = {
+    masterPayees: [] as any[],
+    open: false,
+    payees: [] as any[],
+    selectedPayee: {} as any,
+    transactions: [] as any[],
+    value: ""
+  };
 
-  handleInputChange(event) {
+  // TODO type this as an event of some sort
+  handleInputChange(event: any) {
     const inputValue = event.target.value;
     if (inputValue === "") {
       this.setState({ payees: this.state.masterPayees });
@@ -52,12 +66,12 @@ class Payees extends React.Component {
     this.setState({ value: event.target.value });
   }
 
-  handleClickOpen(selectedPayee) {
+  handleClickOpen(selectedPayee: any /* TODO IPayee */) {
     this.setState({ selectedPayee });
     this.getTransactionsByPayeeOnClick(selectedPayee.id);
   }
 
-  getTransactionsByPayeeOnClick(payeeId) {
+  getTransactionsByPayeeOnClick(payeeId: string) {
     // TODO network request locks it up a little bit, need to improve thata
     YnabAgent.getTransactionsByPayee(payeeId).then(transactions => {
       this.setState({ open: true, transactions });
@@ -69,7 +83,8 @@ class Payees extends React.Component {
   };
 
   render() {
-    const {classes, payees} = this.state;
+    const { classes } = this.props;
+    const { payees, selectedPayee } = this.state;
     return (
       <React.Fragment>
         <div>
@@ -105,7 +120,7 @@ class Payees extends React.Component {
           </Paper>
           <TransactionsDialog
             onClose={() => this.setState({ open: false })}
-            payeeName={this.state.selectedPayee.name}
+            payeeName={selectedPayee.name}
             transactions={this.state.transactions}
             open={this.state.open}
           />
@@ -115,18 +130,14 @@ class Payees extends React.Component {
   }
 
   componentDidMount() {
-    this.getPayees();
-  }
-
-  async getPayees() {
-    const budgetId = this.props.budgetId;
-    const payees = await YnabAgent.getPayeesByBudgetId(budgetId);
-    this.setState({ payees, masterPayees: payees });
+    const { budgetId } = this.props;
+    YnabAgent.getPayeesByBudgetId(budgetId).then(payees => {
+      this.setState({
+        payees,
+        masterPayees: payees
+      });
+    });
   }
 }
-
-Payees.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(Payees);

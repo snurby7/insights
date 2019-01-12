@@ -7,17 +7,17 @@ import { AdminActions } from "./admin-actions";
 
 // TODO make this look less bad.
 
-interface AdminState {
+interface IAdminState {
   budgets: any[];
   selectedBudget: any;
-  selectedSection: null;
+  selectedAction: AdminActions | null;
 }
 
-class AdminPage extends React.Component {
-    state: AdminState = {
+class AdminPage extends React.Component<any, IAdminState> {
+    state: IAdminState = {
       budgets: [],
       selectedBudget: null,
-      selectedSection: null
+      selectedAction: null
     };
 
   getDisplayToggles(): IRbButtonOptions[]  {
@@ -26,12 +26,12 @@ class AdminPage extends React.Component {
       {
         displayName: "Data Updaters",
         onClick: () =>
-          this.setState({ selectedSection: AdminActions.DataUpdater })
+          this.setState({ selectedAction: AdminActions.DataUpdater })
       },
       {
         displayName: "User Management",
         onClick: () =>
-          this.setState({ selectedSection: AdminActions.UserManagement })
+          this.setState({ selectedAction: AdminActions.UserManagement })
       }
     ];
   }
@@ -97,7 +97,7 @@ class AdminPage extends React.Component {
   }
 
   render() {
-    const { selectedBudget, selectedSection } = this.state;
+    const { selectedBudget, selectedAction: selectedSection } = this.state;
     const { id, name } = selectedBudget || {id: null, name: null};
     return (
       <div>

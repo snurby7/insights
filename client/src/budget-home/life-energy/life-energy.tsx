@@ -1,9 +1,10 @@
 import React from "react";
-class LifeEnergy extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { budgetId: props.budgetId };
-  }
+
+export interface ILifeEnergyProps {
+  budgetId: string;
+}
+
+class LifeEnergy extends React.Component<ILifeEnergyProps> {
   render() {
     return (
       <div>

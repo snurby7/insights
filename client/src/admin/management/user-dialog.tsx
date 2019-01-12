@@ -21,9 +21,7 @@ function Transition(props: void) {
   return <Slide direction="up" {...props} />;
 }
 
-class UserDialog extends React.Component<IUserDialogProps> {
-  state: IDialogState;
-
+class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
   constructor(props: IUserDialogProps) {
     super(props);
     this.state = {
@@ -36,10 +34,10 @@ class UserDialog extends React.Component<IUserDialogProps> {
   // TODO try and put a type on this
   handleChange(event: any) {
     const target = event.target;
-    const name = target.name;
+    let name = target.name;
     const value = target.value;
     if (target.validity.valid) {
-      this.setState({ [name]: value });
+      this.setState({ [name]: value } as Pick<IDialogState, keyof IDialogState>);
     }
   }
 
@@ -57,7 +55,7 @@ class UserDialog extends React.Component<IUserDialogProps> {
       open: false,
       name: "",
       salary: "",
-      _id: null
+      _id: undefined
     });
     this.props.onClose(refresh);
   }
