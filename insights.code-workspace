@@ -4,5 +4,10 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"typescriptHero.imports.organizeOnSave": true,
+		"typescript.updateImportsOnFileMove.enabled": "always",
+		"typescriptHero.imports.disableImportRemovalOnOrganize": false,
+		"typescriptHero.imports.insertSemicolons": true,
+	}
 }

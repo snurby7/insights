@@ -1,6 +1,6 @@
-import ApiUtility from "../utilities/api-utility";
-import InsightRoutes from "../common/api-routes";
-import { IMonthlyExpenseRequest } from "../contracts/monthly-expense-request.interface";
+import InsightRoutes from '../common/api-routes';
+import { IMonthlyExpenseRequest } from '../contracts/monthly-expense-request.interface';
+import ApiUtility from '../utilities/api-utility';
 
 const YnabAgent = {
   getBudgetYears(budgetId: string): Promise<any> {

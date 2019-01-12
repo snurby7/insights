@@ -1,12 +1,12 @@
-import React from "react";
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import moment from 'moment';
 import PropTypes from 'prop-types';
-import moment from "moment";
+import React from 'react';
 
-import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import YnabAgent from "../../../agents/ynab-agent";
-import MonthlyExpenseCategoryTable from "./monthly-expense-category-table";
+import YnabAgent from '../../../agents/ynab-agent';
+import MonthlyExpenseCategoryTable from './monthly-expense-category-table';
 
 class MonthlyExpenseCategory extends React.Component {
   constructor(props) {

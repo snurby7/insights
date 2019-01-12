@@ -1,15 +1,16 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import TransactionsDialog from "../transactions/transactions-dialog";
-import YnabAgent from "../../agents/ynab-agent";
-import { OverflowAnchorProperty } from "csstype";
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import { OverflowAnchorProperty } from 'csstype';
+import React from 'react';
+
+import YnabAgent from '../../agents/ynab-agent';
+import TransactionsDialog from '../transactions/transactions-dialog';
 
 export interface IPayeeProps {
   classes: any;

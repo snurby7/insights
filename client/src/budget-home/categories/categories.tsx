@@ -1,8 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
 
-import YnabAgent from "../../agents/ynab-agent";
-import CategoryHandler from "./category-handler";
+import YnabAgent from '../../agents/ynab-agent';
+import CategoryHandler from './category-handler';
 
 export interface ICategoriesProps {
   budgetId: string;

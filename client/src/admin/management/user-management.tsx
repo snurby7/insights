@@ -1,16 +1,17 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
-import DeleteIcon from "@material-ui/icons/Delete";
-import IconButton from "@material-ui/core/IconButton";
-import Icon from "@material-ui/core/Icon";
-import UserDialog from "./user-dialog";
-import UserAgent from "../../agents/user-agent";
-import { IUser } from "../../contracts/user.interface";
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles';
+import DeleteIcon from '@material-ui/icons/Delete';
+import React from 'react';
+
+import UserAgent from '../../agents/user-agent';
+import { IUser } from '../../contracts/user.interface';
+import UserDialog from './user-dialog';
 
 const styles = (theme: any) => ({
   root: {

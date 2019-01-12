@@ -1,7 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
-import MonthlyExpenseCategory from "./report-types/monthly-expense-category";
+import MonthlyExpenseCategory from './report-types/monthly-expense-category';
 
 class ReportsHome extends React.Component {
   render() {

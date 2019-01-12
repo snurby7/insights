@@ -1,7 +1,8 @@
-import React from "react";
-import YnabAgent from "../../agents/ynab-agent";
-import BudgetAccount from "./budget-account";
-import { IAccount } from "../../contracts/account.interface";
+import React from 'react';
+
+import YnabAgent from '../../agents/ynab-agent';
+import { IAccount } from '../../contracts/account.interface';
+import BudgetAccount from './budget-account';
 
 export interface IAccountsProps {
   budgetId: string;

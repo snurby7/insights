@@ -1,5 +1,6 @@
-import React from "react";
-import CategoryItem from "./category-item";
+import React from 'react';
+
+import CategoryItem from './category-item';
 
 export interface ISubCategoryProps{
   subCategories: any[]

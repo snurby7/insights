@@ -1,9 +1,10 @@
-import React from "react";
-import GridDisplay from "../common/grid-display";
-import AdminAgent from "../agents/admin-agent";
-import RbButton, { IRbButtonOptions } from "../common/rb-button";
-import UserManagement from "./management/user-management";
-import { AdminActions } from "./admin-actions";
+import React from 'react';
+
+import AdminAgent from '../agents/admin-agent';
+import GridDisplay from '../common/grid-display';
+import RbButton, { IRbButtonOptions } from '../common/rb-button';
+import { AdminActions } from './admin-actions';
+import UserManagement from './management/user-management';
 
 // TODO make this look less bad.
 

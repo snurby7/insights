@@ -1,16 +1,15 @@
-import React from "react";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import React from 'react';
 
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Slide from "@material-ui/core/Slide";
-import Button from "@material-ui/core/Button";
-
-import UserAgent from "../../agents/user-agent";
-import { IUser } from "../../contracts/user.interface";
-import { IUserDialogProps } from "./IUserDialogProps";
+import UserAgent from '../../agents/user-agent';
+import { IUser } from '../../contracts/user.interface';
+import { IUserDialogProps } from './IUserDialogProps';
 
 export interface IDialogState extends IUser {
   budgetId?: string;
