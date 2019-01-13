@@ -14,8 +14,6 @@ export interface IGridDisplayProps {
   displayData: any[]; // TODO pass a generic to this guy
 }
 
-export interface IGridDisplayState extends IGridDisplayProps {}
-
 const styles = (theme: any) => ({
   '@global': {
     body: {
@@ -38,7 +36,7 @@ const styles = (theme: any) => ({
   },
 });
 
-class GridDisplay extends React.Component<IGridDisplayProps, IGridDisplayState> {
+class GridDisplay extends React.Component<IGridDisplayProps, IGridDisplayProps> {
   public static getDerivedStateFromProps(props: IGridDisplayProps) {
     return {
       displayData: props.displayData,
