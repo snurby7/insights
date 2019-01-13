@@ -14,60 +14,57 @@ export interface IGridDisplayProps {
   displayData: any[]; // TODO pass a generic to this guy
 }
 
-export interface IGridDisplayState extends IGridDisplayProps {
-
-}
+export interface IGridDisplayState extends IGridDisplayProps {}
 
 const styles = (theme: any) => ({
-  "@global": {
+  '@global': {
     body: {
-      backgroundColor: theme.palette.common.white
-    }
+      backgroundColor: theme.palette.common.white,
+    },
   },
   cardHeader: {
-    backgroundColor: theme.palette.grey[200]
+    backgroundColor: theme.palette.grey[200],
   },
   displayCard: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "baseline",
-    marginBottom: theme.spacing.unit * 2
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'baseline',
+    marginBottom: theme.spacing.unit * 2,
   },
   cardActions: {
-    [theme.breakpoints.up("sm")]: {
-      paddingBottom: theme.spacing.unit * 2
-    }
-  }
+    [theme.breakpoints.up('sm')]: {
+      paddingBottom: theme.spacing.unit * 2,
+    },
+  },
 });
 
 class GridDisplay extends React.Component<IGridDisplayProps, IGridDisplayState> {
+  public static getDerivedStateFromProps(props: IGridDisplayProps) {
+    return {
+      displayData: props.displayData,
+    };
+  }
   constructor(props: IGridDisplayProps) {
     super(props);
     this.state = {
-      ...props
-    }
-  }
-
-  static getDerivedStateFromProps(props: IGridDisplayProps) {
-    return {
-      displayData: props.displayData
+      ...props,
     };
   }
 
-  render() {
-    const {displayData} = this.state;
+  public render() {
+    const { displayData } = this.state;
     return (
       <div>
-        <Grid container spacing={40} alignItems="flex-end">
+        <Grid container={true} spacing={40} alignItems="flex-end">
           {displayData.map(data => (
-            <Grid item key={data.id} xs={12} sm={6} md={4}>
+            <Grid item={true} key={data.id} xs={12} sm={6} md={4}>
               <Card>
                 <CardHeader
                   title={data.cardTitle}
                   subheader={data.cardSubHeader}
-                  titleTypographyProps={{ align: "center" }}
-                  subheaderTypographyProps={{ align: "center" }}
-                  action={data.enableAction ? <StarIcon />: null}
+                  titleTypographyProps={{ align: 'center' }}
+                  subheaderTypographyProps={{ align: 'center' }}
+                  action={data.enableAction ? <StarIcon /> : null}
                   className={this.state.classes.cardHeader}
                 />
                 <CardContent>
@@ -76,26 +73,31 @@ class GridDisplay extends React.Component<IGridDisplayProps, IGridDisplayState> 
                       {data.name}
                     </Typography>
                   </div>
-                  {data.subTitles && data.subTitles.map((x: any, index: number) => {
-                    return (
-                      <Typography key={index} variant="subtitle1" align="center">
-                        {x}
-                      </Typography>
-                    );
-                  })}
+                  {data.subTitles &&
+                    data.subTitles.map((x: any, index: number) => {
+                      return (
+                        <Typography key={index} variant="subtitle1" align="center">
+                          {x}
+                        </Typography>
+                      );
+                    })}
                 </CardContent>
                 {/* TODO this could probably be made to accept an array of buttons */}
-                {data.buttonText && <CardActions className={this.state.classes.cardActions}>
-                  {<Button
-                    fullWidth
-                    variant={data.buttonVariant}
-                    color="primary"
-                    disabled={data.isDisabled}
-                    onClick={() => data.onClick()}
-                  >
-                    {data.buttonText}
-                  </Button>}
-                </CardActions>}
+                {data.buttonText && (
+                  <CardActions className={this.state.classes.cardActions}>
+                    {
+                      <Button
+                        fullWidth={true}
+                        variant={data.buttonVariant}
+                        color="primary"
+                        disabled={data.isDisabled}
+                        onClick={() => data.onClick()}
+                      >
+                        {data.buttonText}
+                      </Button>
+                    }
+                  </CardActions>
+                )}
               </Card>
             </Grid>
           ))}

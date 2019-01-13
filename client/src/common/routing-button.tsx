@@ -4,14 +4,14 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 export interface IRoutingButtonProps {
-  variant?: ButtonProps["variant"];
+  variant?: ButtonProps['variant'];
   color?: PropTypes.Color;
   displayName: string;
   route: string;
 }
 
 class RoutingButton extends React.Component<IRoutingButtonProps> {
-  render() {
+  public render() {
     const { variant, color, displayName, route } = this.props;
     return (
       <Route

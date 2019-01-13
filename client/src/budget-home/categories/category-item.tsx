@@ -10,27 +10,22 @@ export interface CategoryItemProps {
   biggestCategoryId: string;
 }
 
-export interface CategoryItemState {
-
-}
-
-class CategoryItem extends React.Component<CategoryItemProps, CategoryItemState> {
+class CategoryItem extends React.Component<CategoryItemProps> {
   constructor(props: CategoryItemProps) {
     super(props);
   }
 
-  itemStyles = (categoryId: string) => ({
-    color: categoryId === this.props.biggestCategoryId ? "red" : "black"
+  public itemStyles = (categoryId: string) => ({
+    color: categoryId === this.props.biggestCategoryId ? 'red' : 'black',
   });
 
-  render() {
+  public render() {
     const props = this.props;
-    return ( <React.Fragment>
-      {props.name} - <strong style={this.itemStyles(props.id)}>
-          {" "}
-          ({YnabDataUtility.format(props.activity)})
-        </strong>
-    </React.Fragment> );
+    return (
+      <React.Fragment>
+        {props.name} - <strong style={this.itemStyles(props.id)}> ({YnabDataUtility.format(props.activity)})</strong>
+      </React.Fragment>
+    );
   }
 }
 

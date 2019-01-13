@@ -7,11 +7,13 @@ export interface ITransactionsProps {
 }
 
 class Transactions extends React.Component<ITransactionsProps> {
-  render() {
+  public render() {
     const { budgetId } = this.props;
-    return ( <div>
-      <TransactionsByDay budgetId={budgetId}/>
-    </div> );
+    return (
+      <div>
+        <TransactionsByDay budgetId={budgetId} />
+      </div>
+    );
   }
 }
 

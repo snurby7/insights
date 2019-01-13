@@ -26,64 +26,62 @@ export interface IPayeeState {
   value: string;
 }
 
-const overflowX: OverflowAnchorProperty = "auto";
+const overflowX: OverflowAnchorProperty = 'auto';
 
 const styles = (theme: any) => ({
   root: {
     marginTop: theme.spacing.unit * 3,
-    overflowX: overflowX,
+    overflowX,
     maxHeight: 400,
-    maxWidth: 700
+    maxWidth: 700,
   },
   table: {
     maxHeight: 400,
-    maxWidth: 700
-  }
+    maxWidth: 700,
+  },
 });
 
 class Payees extends React.Component<IPayeeProps, IPayeeState> {
   // TODO clean all of these up
-  state = {
+  public state = {
     masterPayees: [] as any[],
     open: false,
     payees: [] as any[],
     selectedPayee: {} as any,
     transactions: [] as any[],
-    value: ""
+    value: '',
   };
 
   // TODO type this as an event of some sort
-  handleInputChange(event: any) {
+  public handleInputChange(event: any) {
     const inputValue = event.target.value;
-    if (inputValue === "") {
+    if (inputValue === '') {
       this.setState({ payees: this.state.masterPayees });
     } else {
       this.setState({
-        payees: this.state.masterPayees.filter(x =>
-          x.name.toLowerCase().includes(inputValue.toLowerCase())
-        )
+        payees: this.state.masterPayees.filter(x => x.name.toLowerCase().includes(inputValue.toLowerCase())),
       });
     }
     this.setState({ value: event.target.value });
   }
 
-  handleClickOpen(selectedPayee: any /* TODO IPayee */) {
+  public handleClickOpen(selectedPayee: any /* TODO IPayee */) {
     this.setState({ selectedPayee });
     this.getTransactionsByPayeeOnClick(selectedPayee.id);
   }
 
-  getTransactionsByPayeeOnClick(payeeId: string) {
+  public getTransactionsByPayeeOnClick(payeeId: string) {
     // TODO network request locks it up a little bit, need to improve thata
     YnabAgent.getTransactionsByPayee(payeeId).then(transactions => {
       this.setState({ open: true, transactions });
     });
   }
 
-  handleClose = () => {
+  public handleClose = () => {
     this.setState({ open: false });
   };
 
-  render() {
+  public render() {
     const { classes } = this.props;
     const { payees, selectedPayee, transactions, open } = this.state;
     return (
@@ -103,10 +101,7 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
                   return (
                     <TableRow key={payee.id}>
                       <TableCell component="th" scope="payee">
-                        <Button
-                          onClick={() => this.handleClickOpen(payee)}
-                          variant="outlined"
-                        >
+                        <Button onClick={() => this.handleClickOpen(payee)} variant="outlined">
                           View
                         </Button>
                       </TableCell>
@@ -130,12 +125,12 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
     );
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     const { budgetId } = this.props;
     YnabAgent.getPayeesByBudgetId(budgetId).then(payees => {
       this.setState({
         payees,
-        masterPayees: payees
+        masterPayees: payees,
       });
     });
   }

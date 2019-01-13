@@ -13,12 +13,12 @@ export interface IAccountsState {
 }
 
 class Accounts extends React.Component<IAccountsProps, IAccountsState> {
-  state = {
-    accounts: [] as IAccount[]
-  }
+  public state = {
+    accounts: [] as IAccount[],
+  };
 
-  render() {
-    const {accounts} = this.state;
+  public render() {
+    const { accounts } = this.state;
     return (
       <div>
         <h3>Accounts</h3>
@@ -29,7 +29,7 @@ class Accounts extends React.Component<IAccountsProps, IAccountsState> {
     );
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     const { budgetId } = this.props;
     YnabAgent.getAccounts(budgetId).then(accounts => {
       this.setState({ accounts });

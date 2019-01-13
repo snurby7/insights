@@ -16,29 +16,29 @@ export interface IMonthlyExpenseCategoryTableProps {
   monthData: any; // TODO type this
 }
 
-const overflowX: OverflowAnchorProperty = "auto";
+const overflowX: OverflowAnchorProperty = 'auto';
 
 const styles = (theme: any) => ({
   root: {
     marginTop: theme.spacing.unit * 3,
     overflowX,
     maxHeight: 400,
-    maxWidth: 700
+    maxWidth: 700,
   },
   table: {
     maxHeight: 400,
-    maxWidth: 700
-  }
+    maxWidth: 700,
+  },
 });
 
 class MonthlyExpenseCategoryTable extends React.Component<IMonthlyExpenseCategoryTableProps> {
-  render() {
-    const {classes, month, monthData} = this.props;
+  public render() {
+    const { classes, month, monthData } = this.props;
     return (
       <React.Fragment>
         <h2>{month}</h2>
         <Paper className={classes.root}>
-            <Table className={classes.table}>
+          <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <TableCell>Category Name</TableCell>
@@ -54,15 +54,9 @@ class MonthlyExpenseCategoryTable extends React.Component<IMonthlyExpenseCategor
                     <TableCell component="th" scope="payee">
                       {monthData[categoryId].categoryName}
                     </TableCell>
-                    <TableCell component="th">
-                      {YnabDataUtility.format(monthData[categoryId].outflow)}
-                    </TableCell>
-                    <TableCell component="th">
-                      {YnabDataUtility.format(monthData[categoryId].inflow)}
-                    </TableCell>
-                    <TableCell component="th">
-                      {monthData[categoryId].transactions.length}
-                    </TableCell>
+                    <TableCell component="th">{YnabDataUtility.format(monthData[categoryId].outflow)}</TableCell>
+                    <TableCell component="th">{YnabDataUtility.format(monthData[categoryId].inflow)}</TableCell>
+                    <TableCell component="th">{monthData[categoryId].transactions.length}</TableCell>
                   </TableRow>
                 );
               })}

@@ -18,51 +18,45 @@ export interface IMonthlyExpenseCategoryState {
   results: any;
 }
 
-class MonthlyExpenseCategory extends React.Component<
-  IMonthlyExpenseCategoryProps,
-  IMonthlyExpenseCategoryState
-> {
-  state = {
+class MonthlyExpenseCategory extends React.Component<IMonthlyExpenseCategoryProps, IMonthlyExpenseCategoryState> {
+  public state = {
     month: moment().month(),
     year: moment().year(),
     allowedYears: [],
-    results: {} as any
-  }
+    results: {} as any,
+  };
 
   // TODO type this
-  handleChange(event: any) {
+  public handleChange(event: any) {
     const target = event.target;
     const name = target.name;
     const value = target.value;
-    this.setState({ [name]: value } as Pick<
-      IMonthlyExpenseCategoryState,
-      keyof IMonthlyExpenseCategoryState
-    >);
+    this.setState({ [name]: value } as Pick<IMonthlyExpenseCategoryState, keyof IMonthlyExpenseCategoryState>);
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     const { budgetId } = this.props;
     YnabAgent.getBudgetYears(budgetId).then(allowedYears => {
-      this.setState({allowedYears});
-    })
+      this.setState({ allowedYears });
+    });
   }
 
-  onClickViewReport() {
+  public onClickViewReport() {
     const { budgetId } = this.props;
     const { month, year } = this.state;
     YnabAgent.getReportForMonthlyExpenses({
       startingMonth: month as number,
       startingYear: year as number,
-      budgetId
+      budgetId,
       // TODO type this result
     }).then((results: any) => {
-      this.setState({results});
-    })
+      this.setState({ results });
+    });
   }
 
-  render() {
+  public render() {
     const months = moment.months();
-    let { results, allowedYears } = this.state;
+    const { results, allowedYears } = this.state;
 
     return (
       <div>
@@ -72,8 +66,8 @@ class MonthlyExpenseCategory extends React.Component<
             value={this.state.month}
             onChange={event => this.handleChange(event)}
             inputProps={{
-              name: "month",
-              id: "month"
+              name: 'month',
+              id: 'month',
             }}
           >
             {Object.keys(months).map((value, index) => (
@@ -86,8 +80,8 @@ class MonthlyExpenseCategory extends React.Component<
             value={this.state.year}
             onChange={event => this.handleChange(event)}
             inputProps={{
-              name: "year",
-              id: "year"
+              name: 'year',
+              id: 'year',
             }}
           >
             {allowedYears.map((year, index) => (
@@ -98,15 +92,11 @@ class MonthlyExpenseCategory extends React.Component<
           </Select>
           {/* TODO need to have this be an actual form */}
           <Button onClick={() => this.onClickViewReport()}>View Report</Button>
-          <Button onClick={() => this.setState({results: {}})}>Clear</Button>
+          <Button onClick={() => this.setState({ results: {} })}>Clear</Button>
         </div>
         <div>
           {Object.keys(results).map(key => (
-            <MonthlyExpenseCategoryTable
-              key={key}
-              month={key}
-              monthData={results[key]}
-            />
+            <MonthlyExpenseCategoryTable key={key} month={key} monthData={results[key]} />
           ))}
         </div>
       </div>

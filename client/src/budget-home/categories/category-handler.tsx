@@ -11,16 +11,12 @@ export interface CategoryHandlerProps {
 }
 
 class CategoryHandler extends React.Component<CategoryHandlerProps> {
-  render() {
+  public render() {
     const props = this.props;
     return (
       <React.Fragment>
         <h3>
-          {props.name}- (
-          {YnabDataUtility.format(
-            SiteUtility.accumulate(props.categories.map(x => x.activity))
-          )}
-          )
+          {props.name}- ({YnabDataUtility.format(SiteUtility.accumulate(props.categories.map(x => x.activity)))})
         </h3>
         <SubCategory subCategories={props.categories} />
       </React.Fragment>

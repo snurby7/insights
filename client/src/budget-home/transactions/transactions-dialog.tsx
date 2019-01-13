@@ -32,44 +32,38 @@ function renderTransactions(props: any) {
   );
 }
 
-class TransactionsDialog extends React.Component<
-  ITransactionsDialogProps, ITransactionsDialogProps
-> {
-
-  constructor(props: ITransactionsDialogProps) {
-    super(props);
-    this.state = {
-      ...props
-    }
-  }
-
-  static getDerivedStateFromProps(props: ITransactionsDialogProps) {
+class TransactionsDialog extends React.Component<ITransactionsDialogProps, ITransactionsDialogProps> {
+  public static getDerivedStateFromProps(props: ITransactionsDialogProps) {
     return {
       payeeName: props.payeeName,
       transactions: props.transactions,
-      open: props.open
+      open: props.open,
+    };
+  }
+  constructor(props: ITransactionsDialogProps) {
+    super(props);
+    this.state = {
+      ...props,
     };
   }
 
-  handleClose = () => {
+  public handleClose = () => {
     this.props.onClose();
   };
 
-  render() {
-    const {open, payeeName, transactions} = this.props;
+  public render() {
+    const { open, payeeName, transactions } = this.props;
 
     return (
       <Dialog
         open={open}
         TransitionComponent={Transition}
-        keepMounted
+        keepMounted={true}
         onClose={this.handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">
-          Viewing Transactions for {payeeName}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">Viewing Transactions for {payeeName}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Total transaction(s) - {transactions.length}!

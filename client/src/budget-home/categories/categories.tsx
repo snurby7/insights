@@ -12,10 +12,10 @@ export interface ICategoriesState {
 }
 
 class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
-  state = {
-    categories: [] as any[]
+  public state = {
+    categories: [] as any[],
   };
-  render() {
+  public render() {
     const { categories } = this.state;
     return (
       <div>
@@ -28,7 +28,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
     );
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     const { budgetId } = this.props;
     YnabAgent.getCategoriesByBudgetId(budgetId).then(categories => {
       this.setState({ categories });

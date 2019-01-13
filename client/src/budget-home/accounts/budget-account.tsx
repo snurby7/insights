@@ -4,7 +4,7 @@ import { IAccount } from '../../contracts/account.interface';
 import { YnabDataUtility } from '../../utilities/ynab-data-utility';
 
 class BudgetAccount extends React.Component<IAccount> {
-  render() {
+  public render() {
     const props = this.props;
     return (
       <div>

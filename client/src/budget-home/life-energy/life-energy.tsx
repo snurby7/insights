@@ -5,7 +5,7 @@ export interface ILifeEnergyProps {
 }
 
 class LifeEnergy extends React.Component<ILifeEnergyProps> {
-  render() {
+  public render() {
     return (
       <div>
         This section will be to do the following
