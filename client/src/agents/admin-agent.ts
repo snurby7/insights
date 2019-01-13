@@ -1,4 +1,4 @@
-import InsightRoutes from '../common/api-routes';
+import { InsightRoutes } from '../common/api-routes';
 import ApiUtility from '../utilities/api-utility';
 
 // TODO type all of these returns with their interface not any

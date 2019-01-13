@@ -1,23 +1,26 @@
 {
-    "name": "insights",
-    "version": "1.0.0",
-    "license": "MIT",
-    "dependencies": {
-      "react": "^16.6.3",
-      "react-dom": "^16.6.3",
-      "react-scripts": "2.0.5"
-    },
-    "scripts": {
-      "start": "react-scripts start",
-      "build": "react-scripts build",
-      "test": "react-scripts test --env=jsdom",
-      "eject": "react-scripts eject"
-    },
-    "proxy": "http://localhost:5000/",
-    "browserslist": [
-      ">0.2%",
-      "not dead",
-      "not ie <= 11",
-      "not op_mini all"
-    ]
+  "name": "insights",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-scripts": "2.0.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://localhost:5000/",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@types/react-router-dom": "^4.3.1"
   }
+}

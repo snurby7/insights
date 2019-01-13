@@ -1,6 +1,6 @@
 import React from 'react';
 
-import YnabDataUtility from '../../utilities/ynab-data-utility';
+import { YnabDataUtility } from '../../utilities/ynab-data-utility';
 
 export interface CategoryItemProps {
   id: string;

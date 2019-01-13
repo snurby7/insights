@@ -5,15 +5,23 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import PropTypes from 'prop-types';
+import { OverflowAnchorProperty } from 'csstype';
 import React from 'react';
 
-import YnabDataUtility from '../../../utilities/ynab-data-utility';
+import { YnabDataUtility } from '../../../utilities/ynab-data-utility';
 
-const styles = theme => ({
+export interface IMonthlyExpenseCategoryTableProps {
+  classes: any;
+  month: string;
+  monthData: any; // TODO type this
+}
+
+const overflowX: OverflowAnchorProperty = "auto";
+
+const styles = (theme: any) => ({
   root: {
     marginTop: theme.spacing.unit * 3,
-    overflowX: "auto",
+    overflowX,
     maxHeight: 400,
     maxWidth: 700
   },
@@ -23,7 +31,7 @@ const styles = theme => ({
   }
 });
 
-class MonthlyExpenseCategoryTable extends React.Component {
+class MonthlyExpenseCategoryTable extends React.Component<IMonthlyExpenseCategoryTableProps> {
   render() {
     const {classes, month, monthData} = this.props;
     return (
@@ -66,9 +74,4 @@ class MonthlyExpenseCategoryTable extends React.Component {
   }
 }
 
-MonthlyExpenseCategoryTable.propTypes = {
-  monthData: PropTypes.object.isRequired,
-  month: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired
-};
 export default withStyles(styles)(MonthlyExpenseCategoryTable);

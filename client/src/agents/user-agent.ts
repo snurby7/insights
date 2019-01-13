@@ -1,4 +1,4 @@
-import InsightRoutes from '../common/api-routes';
+import { InsightRoutes } from '../common/api-routes';
 import { IUser } from '../contracts/user.interface';
 import ApiUtility from '../utilities/api-utility';
 

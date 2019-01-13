@@ -2,54 +2,67 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import YnabAgent from '../../../agents/ynab-agent';
 import MonthlyExpenseCategoryTable from './monthly-expense-category-table';
 
-class MonthlyExpenseCategory extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      month: "",
-      year: "",
-      allowedYears: [],
-      results: {}
-    };
+export interface IMonthlyExpenseCategoryProps {
+  budgetId: string;
+}
+
+export interface IMonthlyExpenseCategoryState {
+  month: number;
+  year: number;
+  allowedYears: number[];
+  results: any;
+}
+
+class MonthlyExpenseCategory extends React.Component<
+  IMonthlyExpenseCategoryProps,
+  IMonthlyExpenseCategoryState
+> {
+  state = {
+    month: moment().month(),
+    year: moment().year(),
+    allowedYears: [],
+    results: {} as any
   }
 
-  handleChange(event) {
+  // TODO type this
+  handleChange(event: any) {
     const target = event.target;
     const name = target.name;
     const value = target.value;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value } as Pick<
+      IMonthlyExpenseCategoryState,
+      keyof IMonthlyExpenseCategoryState
+    >);
   }
 
   componentDidMount() {
-    this.getBudgetInformation();
+    const { budgetId } = this.props;
+    YnabAgent.getBudgetYears(budgetId).then(allowedYears => {
+      this.setState({allowedYears});
+    })
   }
 
-  async getBudgetInformation() {
-    const {budgetId} = this.props;
-    const years = await YnabAgent.getBudgetYears(budgetId);
-    this.setState({allowedYears: years});
-  }
-
-  async onClickViewReport() {
-    const {budgetId} = this.props;
+  onClickViewReport() {
+    const { budgetId } = this.props;
     const { month, year } = this.state;
-    const results = await YnabAgent.getReportForMonthlyExpenses({
-      startingMonth: month,
-      startingYear: year,
+    YnabAgent.getReportForMonthlyExpenses({
+      startingMonth: month as number,
+      startingYear: year as number,
       budgetId
-    });
-    this.setState({ results });
+      // TODO type this result
+    }).then((results: any) => {
+      this.setState({results});
+    })
   }
 
   render() {
     const months = moment.months();
-    const { results, allowedYears } = this.state;
+    let { results, allowedYears } = this.state;
 
     return (
       <div>
@@ -65,7 +78,7 @@ class MonthlyExpenseCategory extends React.Component {
           >
             {Object.keys(months).map((value, index) => (
               <MenuItem key={`month-${index}`} value={value}>
-                {months[value]}
+                {months[+value]}
               </MenuItem>
             ))}
           </Select>
@@ -85,19 +98,20 @@ class MonthlyExpenseCategory extends React.Component {
           </Select>
           {/* TODO need to have this be an actual form */}
           <Button onClick={() => this.onClickViewReport()}>View Report</Button>
+          <Button onClick={() => this.setState({results: {}})}>Clear</Button>
         </div>
         <div>
           {Object.keys(results).map(key => (
-            <MonthlyExpenseCategoryTable key={key} month={key} monthData={results[key]} />
+            <MonthlyExpenseCategoryTable
+              key={key}
+              month={key}
+              monthData={results[key]}
+            />
           ))}
         </div>
       </div>
     );
   }
-}
-
-MonthlyExpenseCategory.propTypes = {
-  budgetId: PropTypes.string.isRequired
 }
 
 export default MonthlyExpenseCategory;

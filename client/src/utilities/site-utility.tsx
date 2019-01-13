@@ -1,7 +1,5 @@
-const SiteUtility = {
-    accumulate(values) {
+export const SiteUtility = {
+    accumulate(values: number[]) {
         return values.reduce((accumulator, currentValue) => accumulator + currentValue)
     }
 };
-
-export default SiteUtility;

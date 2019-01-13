@@ -54,9 +54,7 @@ function processResultsByMonth(results) {
 module.exports = function(db) {
   router.get("/api/reports/monthly", async (req, res) => {
     const { startingMonth, startingYear, budgetId } = req.query;
-    let adjustedMonth = +startingMonth;
-    if (adjustedMonth < 10) adjustedMonth = "0" + adjustedMonth;
-    const startDate = moment(`${startingYear}-${adjustedMonth}-01`);
+    const startDate = moment([startingYear, startingMonth, 1]);
     const endDate = moment();
     var results = {};
 

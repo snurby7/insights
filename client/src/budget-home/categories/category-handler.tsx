@@ -1,7 +1,7 @@
 import React from 'react';
 
-import SiteUtility from '../../utilities/site-utility';
-import YnabDataUtility from '../../utilities/ynab-data-utility';
+import { SiteUtility } from '../../utilities/site-utility';
+import { YnabDataUtility } from '../../utilities/ynab-data-utility';
 import SubCategory from './sub-category';
 
 export interface CategoryHandlerProps {

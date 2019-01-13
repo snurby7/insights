@@ -85,7 +85,7 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
 
   render() {
     const { classes } = this.props;
-    const { payees, selectedPayee } = this.state;
+    const { payees, selectedPayee, transactions, open } = this.state;
     return (
       <React.Fragment>
         <div>
@@ -122,8 +122,8 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
           <TransactionsDialog
             onClose={() => this.setState({ open: false })}
             payeeName={selectedPayee.name}
-            transactions={this.state.transactions}
-            open={this.state.open}
+            transactions={transactions}
+            open={open}
           />
         </div>
       </React.Fragment>
