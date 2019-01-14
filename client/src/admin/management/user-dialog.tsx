@@ -25,41 +25,40 @@ class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
     super(props);
     this.state = {
       open: props.open,
-      name: props.user ? props.user.name : "",
-      salary: props.user ? props.user.salary : "" // TODO Make this allow decimals
+      name: props.user ? props.user.name : '',
+      salary: props.user ? props.user.salary : '', // TODO Make this allow decimals
     };
   }
 
   // TODO try and put a type on this
-  handleChange(event: any) {
+  public handleChange(event: any) {
     const target = event.target;
-    let name = target.name;
+    const name = target.name;
     const value = target.value;
     if (target.validity.valid) {
       this.setState({ [name]: value } as Pick<IDialogState, keyof IDialogState>);
     }
   }
 
-  handleSubmit() {
-    (this.props.user
-      ? UserAgent.updateUser(this.formatRequest())
-      : UserAgent.saveUser(this.formatRequest())
-    ).then(() => {
-      this.handleClose(true);
-    });
+  public handleSubmit() {
+    (this.props.user ? UserAgent.updateUser(this.formatRequest()) : UserAgent.saveUser(this.formatRequest())).then(
+      () => {
+        this.handleClose(true);
+      }
+    );
   }
 
-  handleClose(refresh?: boolean): void {
+  public handleClose(refresh?: boolean): void {
     this.setState({
       open: false,
-      name: "",
-      salary: "",
-      _id: undefined
+      name: '',
+      salary: '',
+      _id: undefined,
     });
     this.props.onClose(refresh);
   }
 
-  formatRequest() {
+  public formatRequest() {
     const currentState: IDialogState = this.state;
     if (this.props.user) {
       currentState._id = this.props.user._id;
@@ -70,28 +69,17 @@ class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
     return currentState;
   }
 
-  render() {
+  public render() {
     const { open, name, salary } = this.state;
     return (
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={() => this.handleClose()}
-      >
+      <Dialog open={open} TransitionComponent={Transition} keepMounted={true} onClose={() => this.handleClose()}>
         <DialogTitle>User</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Enter some data about the user to add
-          </DialogContentText>
+          <DialogContentText>Enter some data about the user to add</DialogContentText>
           <form onSubmit={() => this.handleSubmit()}>
             <label>
               Name:
-              <input
-                name="name"
-                value={name}
-                onChange={event => this.handleChange(event)}
-              />
+              <input name="name" value={name} onChange={event => this.handleChange(event)} />
             </label>
             <br />
             <label>
@@ -109,18 +97,10 @@ class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button
-            type="submit"
-            onClick={() => this.handleSubmit()}
-            color="primary"
-          >
+          <Button type="submit" onClick={() => this.handleSubmit()} color="primary">
             Save
           </Button>
-          <Button
-            type="button"
-            onClick={() => this.handleClose()}
-            color="primary"
-          >
+          <Button type="button" onClick={() => this.handleClose()} color="primary">
             Close
           </Button>
         </DialogActions>

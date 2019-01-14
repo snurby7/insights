@@ -15,10 +15,10 @@ import UserDialog from './user-dialog';
 
 const styles = (theme: any) => ({
   root: {
-    width: "100%",
+    width: '100%',
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
-  }
+    backgroundColor: theme.palette.background.paper,
+  },
 });
 
 export interface IUserManagementProps {
@@ -32,17 +32,14 @@ export interface IUserManagementState {
   selectedUser: IUser | undefined;
 }
 
-class UserManagement extends React.Component<
-  IUserManagementProps,
-  IUserManagementState
-> {
-  state = {
+class UserManagement extends React.Component<IUserManagementProps, IUserManagementState> {
+  public state = {
     openDialog: false,
     users: [] as IUser[],
-    selectedUser: undefined
+    selectedUser: undefined,
   };
 
-  render() {
+  public render() {
     const { classes } = this.props;
     const { openDialog, selectedUser, users } = this.state;
     return (
@@ -53,16 +50,10 @@ class UserManagement extends React.Component<
               <React.Fragment key={user._id}>
                 <ListItem>
                   <ListItemText>{user.name}</ListItemText>
-                  <IconButton
-                    aria-label="Edit"
-                    onClick={() => this.editUser(user)}
-                  >
+                  <IconButton aria-label="Edit" onClick={() => this.editUser(user)}>
                     <Icon>edit_icon</Icon>
                   </IconButton>
-                  <IconButton
-                    aria-label="Delete"
-                    onClick={() => this.deleteUser(user._id)}
-                  >
+                  <IconButton aria-label="Delete" onClick={() => this.deleteUser(user._id)}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItem>
@@ -84,41 +75,43 @@ class UserManagement extends React.Component<
     );
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.getUsersForDisplay();
   }
 
-  getUsersForDisplay() {
+  public getUsersForDisplay() {
     UserAgent.getUsers(this.props.budgetId).then(users => {
       this.setState({ users });
     });
   }
 
-  addUser() {
+  public addUser() {
     this.setState({
       selectedUser: undefined,
-      openDialog: true
+      openDialog: true,
     });
   }
 
-  onDialogClose(fireRefresh?: boolean) {
+  public onDialogClose(fireRefresh?: boolean) {
     this.setState({
       openDialog: false,
-      selectedUser: undefined
+      selectedUser: undefined,
     });
     if (fireRefresh) {
       this.getUsersForDisplay();
     }
   }
 
-  deleteUser(userId: string | undefined) {
-    if (!userId) return;
+  public deleteUser(userId: string | undefined) {
+    if (!userId) {
+      return;
+    }
     UserAgent.deleteUser(userId).then(() => {
       this.getUsersForDisplay();
     });
   }
 
-  editUser(selectedUser: IUser) {
+  public editUser(selectedUser: IUser) {
     this.setState({ selectedUser, openDialog: true });
   }
 }
