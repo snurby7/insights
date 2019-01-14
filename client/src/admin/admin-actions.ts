@@ -1,4 +1,4 @@
 export enum AdminActions {
   DataUpdater = 1,
-  UserManagement = 2
+  UserManagement = 2,
 }

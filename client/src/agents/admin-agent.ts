@@ -7,19 +7,19 @@ const AdminAgent = {
     return ApiUtility.getRequest(InsightRoutes.getBudgets);
   },
   updatePayees(budgetId: string): Promise<any> {
-    return ApiUtility.postRequest(InsightRoutes.adminUpdatePayees, {budgetId});
+    return ApiUtility.postRequest(InsightRoutes.adminUpdatePayees, { budgetId });
   },
   updateAccounts(budgetId: string): Promise<any> {
-    return ApiUtility.postRequest(InsightRoutes.adminUpdateAccounts, {budgetId});
+    return ApiUtility.postRequest(InsightRoutes.adminUpdateAccounts, { budgetId });
   },
   udateTransactions(budgetId: string): Promise<any> {
-    return ApiUtility.postRequest(InsightRoutes.postUpdateTransactions, {budgetId});
+    return ApiUtility.postRequest(InsightRoutes.postUpdateTransactions, { budgetId });
   },
   updateCategories(budgetId: string): Promise<any> {
-    return ApiUtility.postRequest(InsightRoutes.adminUpdateCategories, {budgetId});
+    return ApiUtility.postRequest(InsightRoutes.adminUpdateCategories, { budgetId });
   },
   updateBudgets(budgetId: string): Promise<any> {
-    return ApiUtility.postRequest(InsightRoutes.adminUpdateBudgets, {budgetId});
-  }
+    return ApiUtility.postRequest(InsightRoutes.adminUpdateBudgets, { budgetId });
+  },
 };
 export default AdminAgent;
