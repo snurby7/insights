@@ -1,4 +1,5 @@
 import './index.css';
+import 'typeface-roboto';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import React from 'react';
@@ -12,16 +13,14 @@ import HomePage from './home/homepage';
 import * as serviceWorker from './serviceWorker';
 
 class InsightApp extends React.Component {
-  // import 'typeface-roboto';
   public AdminRoute = () => <AdminPage />;
   public BudgetHomeRoute = ({ match }: any) => {
     return <BudgetHome budgetId={match.params.budgetId} />;
   };
   public HomePageRoute = () => <HomePage />;
 
-  // import YnabAppBar from './common/ynab-app-bar-2';
-  // TODO enable the new app bar
   // TODO footer component with key metrics, short and sweet high level.
+
   public render() {
     return (
       <React.Fragment>
