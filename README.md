@@ -1,5 +1,9 @@
 # Insights README
 
+## Usages
+
+[Redux React](https://redux.js.org/basics/usage-with-react)<br>
+
 ## Available Scripts
 
 In the project directory, you can run:
