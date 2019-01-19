@@ -1,9 +1,7 @@
 import { combineReducers } from 'redux';
 
-import { InsightsNavBar } from './NavBarReducer';
+import siteState from './SiteReducer';
 
-const InsightAppStore = combineReducers({
-  InsightsNavBar,
+export default combineReducers({
+  siteState,
 });
-
-export default InsightAppStore;

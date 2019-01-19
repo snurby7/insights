@@ -10,13 +10,13 @@ import { createStore } from 'redux';
 
 import AdminPage from './admin/admin';
 import BudgetHome from './budget-home/budget-home';
-import YnabAppBar from './common/ynab-app-bar';
+import { VisibleYnabAppBar } from './common/visible-ynab-app-bar';
 import HomePage from './home/homepage';
-import InsightAppStore from './reducers';
+import rootReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
 
 class InsightApp extends React.Component {
-  public store = createStore(InsightAppStore);
+  public store = createStore(rootReducer);
 
   public AdminRoute = () => <AdminPage />;
   public BudgetHomeRoute = ({ match }: any) => {
@@ -33,7 +33,7 @@ class InsightApp extends React.Component {
           <CssBaseline />
           <Router>
             <div>
-              <YnabAppBar />
+              <VisibleYnabAppBar />
               <Switch>
                 <Route exact={true} path="/" component={this.HomePageRoute} />
                 <Route exact={true} path="/admin" component={this.AdminRoute} />

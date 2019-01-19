@@ -108,6 +108,7 @@ const styles = (theme: any) => ({
 export interface IYnabAppBarProps {
   classes: any;
   theme: any;
+  navItems: any;
 }
 
 export interface IYnabAppBarState {
@@ -141,7 +142,7 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
   };
 
   public render() {
-    const { classes } = this.props;
+    const { classes, navItems } = this.props;
     const { anchorEl, mobileMoreAnchorEl, open } = this.state;
 
     const isMenuOpen = Boolean(anchorEl);
@@ -248,7 +249,7 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
             </div>
           </Toolbar>
         </AppBar>
-        <YnabAppDrawer open={open} onClose={() => this.setState({ open: false })} />
+        <YnabAppDrawer navItems={navItems} open={open} onClose={() => this.setState({ open: false })} />
         {renderMenu}
         {renderMobileMenu}
       </div>
@@ -256,4 +257,4 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(YnabAppBar);
+export const YnabAppBarComponent = withStyles(styles, { withTheme: true })(YnabAppBar);
