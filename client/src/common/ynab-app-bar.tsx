@@ -201,6 +201,7 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
         >
           <Toolbar>
             <IconButton
+              disabled={!navItems || navItems.length === 0}
               color="inherit"
               aria-label="Open drawer"
               onClick={() => {
