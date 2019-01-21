@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import { SiteActions } from '../actions/site-actions';
 import AdminAgent from '../agents/admin-agent';
 import GridDisplay from '../common/grid-display';
-import RbButton, { IRbButtonOptions } from '../common/rb-button';
+import { IYnabAppDrawerListItem } from '../common/ynab-app-drawer';
 import { AdminActions } from './admin-actions';
 import UserManagement from './management/user-management';
 
@@ -14,26 +16,56 @@ interface IAdminState {
   selectedAction: AdminActions | null;
 }
 
-class AdminPage extends React.Component<any, IAdminState> {
+interface IAdminProps {
+  dispatch: (action: any) => void;
+}
+
+class AdminPage extends React.Component<IAdminProps, IAdminState> {
   public state: IAdminState = {
     budgets: [],
     selectedBudget: null,
     selectedAction: null,
   };
 
-  public getDisplayToggles(): IRbButtonOptions[] {
-    // TODO make these an enum instead of some number
+  public getNavItemsForAdminPage(): IYnabAppDrawerListItem[] {
+    const { selectedBudget } = this.state;
+    const isDisabled = !selectedBudget;
     return [
       {
+        id: `3ffb4f7c-388e-42f4-844f-67590f12e87b`,
         displayName: 'Data Updaters',
+        isDisabled,
         onClick: () => this.setState({ selectedAction: AdminActions.DataUpdater }),
       },
       {
+        id: `ce11a171-272f-4d4f-a939-27c89f1a1b20`,
         displayName: 'User Management',
+        isDisabled,
         onClick: () => this.setState({ selectedAction: AdminActions.UserManagement }),
       },
     ];
   }
+
+  public componentDidMount = () => {
+    AdminAgent.getBudgets().then(budgets => {
+      this.convertBudgetsToDisplayData(budgets);
+      this.dispatchToStore();
+    });
+  };
+
+  public dispatchToStore = () => {
+    this.props.dispatch({
+      type: SiteActions.UPDATE_NAV_ITEMS,
+      payload: this.getNavItemsForAdminPage(),
+    });
+  };
+
+  public componentWillUnmount = () => {
+    this.props.dispatch({
+      type: SiteActions.UPDATE_NAV_ITEMS,
+      payload: [],
+    });
+  };
 
   public getButtonsToRender() {
     const { selectedBudget } = this.state;
@@ -81,16 +113,13 @@ class AdminPage extends React.Component<any, IAdminState> {
     const convertedBudgets = budgets.map((budget: any) => ({
       id: budget.id,
       cardTitle: budget.name,
-      onClick: () => this.setState({ selectedBudget: budget }),
+      onClick: () => {
+        this.setState({ selectedBudget: budget });
+        this.dispatchToStore();
+      },
       buttonText: `Select ${budget.name}`,
     }));
     this.setState({ budgets: convertedBudgets });
-  }
-
-  public componentDidMount() {
-    AdminAgent.getBudgets().then(budgets => {
-      this.convertBudgetsToDisplayData(budgets);
-    });
   }
 
   public render() {
@@ -100,16 +129,6 @@ class AdminPage extends React.Component<any, IAdminState> {
       <div>
         <div>
           <GridDisplay displayData={this.state.budgets} />
-        </div>
-        <div>
-          {selectedBudget && (
-            <React.Fragment>
-              {this.getDisplayToggles().map((props, index) => (
-                <RbButton key={index} {...props} />
-              ))}
-              <hr />
-            </React.Fragment>
-          )}
         </div>
         <div>
           {/* TODO make this a nice transition when it shows up */}
@@ -128,4 +147,4 @@ class AdminPage extends React.Component<any, IAdminState> {
   }
 }
 
-export default AdminPage;
+export default connect()(AdminPage);

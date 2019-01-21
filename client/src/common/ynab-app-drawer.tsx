@@ -1,15 +1,10 @@
-import { withStyles } from '@material-ui/core';
-import Divider from '@material-ui/core/Divider';
+import { IconButton, withStyles } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import MailIcon from '@material-ui/icons/Mail';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import React, { Component } from 'react';
 
 export const drawerWidth = 240;
@@ -35,15 +30,25 @@ export interface IYnabAppDrawerProps {
   theme: any;
   open: boolean;
   onClose: () => void;
+  navItems: [];
 }
 
 export interface IYnabAppDrawerState {
   open: boolean;
+  navItems: IYnabAppDrawerListItem[];
+}
+
+export interface IYnabAppDrawerListItem {
+  id: string;
+  displayName: string;
+  onClick: () => void;
+  isDisabled?: boolean;
 }
 
 class YnabAppDrawer extends Component<IYnabAppDrawerProps, IYnabAppDrawerState> {
-  public static getDerivedStateFromProps(props: IYnabAppDrawerProps) {
+  public static getDerivedStateFromProps(props: IYnabAppDrawerProps): Partial<IYnabAppDrawerState> {
     return {
+      navItems: props.navItems || ([] as IYnabAppDrawerListItem[]),
       open: props.open,
     };
   }
@@ -51,6 +56,7 @@ class YnabAppDrawer extends Component<IYnabAppDrawerProps, IYnabAppDrawerState> 
     super(props);
     this.state = {
       open: props.open,
+      navItems: props.navItems || ([] as IYnabAppDrawerListItem[]),
     };
   }
 
@@ -61,7 +67,8 @@ class YnabAppDrawer extends Component<IYnabAppDrawerProps, IYnabAppDrawerState> 
 
   public render() {
     const { classes, theme } = this.props;
-    const { open } = this.state;
+    const { open, navItems } = this.state;
+
     return (
       <Drawer
         className={classes.drawer}
@@ -77,21 +84,10 @@ class YnabAppDrawer extends Component<IYnabAppDrawerProps, IYnabAppDrawerState> 
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
-        <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button={true} key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button={true} key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          {navItems.map(item => (
+            <ListItem button={true} key={item.id} disabled={item.isDisabled} onClick={() => item.onClick()}>
+              <ListItemText primary={item.displayName} />
             </ListItem>
           ))}
         </List>

@@ -8,6 +8,7 @@
 [express](https://expressjs.com/)<br>
 [material-ui](https://material-ui.com/)<br>
 [moment](https://momentjs.com/)<br>
+[Redux React](https://redux.js.org/basics/usage-with-react)<br>
 
 ## How to run
 

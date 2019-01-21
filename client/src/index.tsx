@@ -4,15 +4,20 @@ import 'typeface-roboto';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { createStore } from 'redux';
 
 import AdminPage from './admin/admin';
 import BudgetHome from './budget-home/budget-home';
-import YnabAppBar from './common/ynab-app-bar';
+import { VisibleYnabAppBar } from './common/visible-ynab-app-bar';
 import HomePage from './home/homepage';
+import rootReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
 
 class InsightApp extends React.Component {
+  public store = createStore(rootReducer);
+
   public AdminRoute = () => <AdminPage />;
   public BudgetHomeRoute = ({ match }: any) => {
     return <BudgetHome budgetId={match.params.budgetId} />;
@@ -24,17 +29,19 @@ class InsightApp extends React.Component {
   public render() {
     return (
       <React.Fragment>
-        <CssBaseline />
-        <Router>
-          <div>
-            <YnabAppBar />
-            <Switch>
-              <Route exact={true} path="/" component={this.HomePageRoute} />
-              <Route exact={true} path="/admin" component={this.AdminRoute} />
-              <Route exact={true} path="/budget/:budgetId" component={this.BudgetHomeRoute} />
-            </Switch>
-          </div>
-        </Router>
+        <Provider store={this.store}>
+          <CssBaseline />
+          <Router>
+            <div>
+              <VisibleYnabAppBar />
+              <Switch>
+                <Route exact={true} path="/" component={this.HomePageRoute} />
+                <Route exact={true} path="/admin" component={this.AdminRoute} />
+                <Route exact={true} path="/budget/:budgetId" component={this.BudgetHomeRoute} />
+              </Switch>
+            </div>
+          </Router>
+        </Provider>
       </React.Fragment>
     );
   }
