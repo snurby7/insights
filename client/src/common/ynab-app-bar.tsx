@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -18,7 +18,7 @@ import React from 'react';
 
 import YnabAppDrawer, { drawerWidth } from './ynab-app-drawer';
 
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   grow: {
     flexGrow: 1,
   },
@@ -87,6 +87,7 @@ const styles = (theme: any) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    boxShadow: `2px 2px 5px ${fade(theme.palette.common.black, 0.4)}`,
     position: 'fixed' as 'fixed',
     top: 0,
   },
