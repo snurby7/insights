@@ -1,5 +1,5 @@
-import './budget-home.css';
-
+import { StyleRules, StyleRulesCallback, Theme, withStyles } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -16,11 +16,39 @@ import Transactions from './transactions/transactions';
 export interface IBudgetHomeProps {
   budgetId: string;
   dispatch: (action: any) => void;
+  classes: Record<string, string>;
 }
 
 export interface IBudgetHomeState {
   selectedSection: BudgetActions;
 }
+
+const styles: StyleRulesCallback<string> | StyleRules<string> = (theme: Theme) => ({
+  elementContainer: {
+    display: 'flex',
+    overflowX: 'hidden',
+  },
+  accountsContainer: {
+    width: '300px',
+    position: 'fixed' as 'fixed',
+    height: '100vh',
+    boxShadow: `2px 2px 5px ${fade(theme.palette.common.black, 0.4)}`,
+    paddingRight: 10,
+    paddingLeft: 10,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.primary.main, 0.9),
+    color: theme.palette.common.white,
+  },
+  categoriesContainer: {
+    marginLeft: '315px',
+    width: '100%',
+    overflowY: 'auto',
+  },
+});
 
 class BudgetHome extends React.Component<IBudgetHomeProps, IBudgetHomeState> {
   public state = {
@@ -73,15 +101,19 @@ class BudgetHome extends React.Component<IBudgetHomeProps, IBudgetHomeState> {
 
   public render() {
     const { selectedSection } = this.state;
-    const { budgetId } = this.props;
+    const { budgetId, classes } = this.props;
     return (
       <div>
         <h3>Welcome to your budget Home</h3>
-        <div className="element-container">
+        <div className={classes.elementContainer}>
           {selectedSection === BudgetActions.Home && (
             <React.Fragment>
-              <Accounts budgetId={budgetId} />
-              <Categories budgetId={budgetId} />
+              <div className={classes.accountsContainer}>
+                <Accounts budgetId={budgetId} />
+              </div>
+              <div className={classes.categoriesContainer}>
+                <Categories budgetId={budgetId} />
+              </div>
             </React.Fragment>
           )}
           {selectedSection === BudgetActions.LifeEnergy && <LifeEnergy budgetId={budgetId} />}
@@ -94,4 +126,4 @@ class BudgetHome extends React.Component<IBudgetHomeProps, IBudgetHomeState> {
   }
 }
 
-export default connect()(BudgetHome);
+export default connect()(withStyles(styles, { withTheme: true })(BudgetHome));
