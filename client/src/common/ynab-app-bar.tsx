@@ -87,6 +87,8 @@ const styles = (theme: any) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    position: 'fixed' as 'fixed',
+    top: 0,
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
