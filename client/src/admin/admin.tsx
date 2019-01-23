@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { SiteActions } from '../actions/site-actions';
 import AdminAgent from '../agents/admin-agent';
+import YnabAgent from '../agents/ynab-agent';
 import GridDisplay from '../common/grid-display';
 import { IYnabAppDrawerListItem } from '../common/ynab-app-drawer';
 import { AdminActions } from './admin-actions';
@@ -47,7 +48,7 @@ class AdminPage extends React.Component<IAdminProps, IAdminState> {
   }
 
   public componentDidMount = () => {
-    AdminAgent.getBudgets().then(budgets => {
+    YnabAgent.getBudgets().then(budgets => {
       this.convertBudgetsToDisplayData(budgets);
       this.dispatchToStore();
     });

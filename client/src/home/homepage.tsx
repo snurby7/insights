@@ -5,13 +5,14 @@ import { Redirect } from 'react-router';
 
 import YnabAgent from '../agents/ynab-agent';
 import GridDisplay from '../common/grid-display';
+import { IBudget } from '../contracts/budget.interface';
 
 export interface IHomePageProps {
   classes: any;
 }
 
 export interface IHomePageState {
-  budgets: any[]; // TODO IBudget[]
+  budgets: IBudget[];
   budgetId: string | undefined;
 }
 
@@ -40,7 +41,7 @@ const styles = (theme: any) => ({
 
 class HomePage extends React.Component<IHomePageProps, IHomePageState> {
   public state = {
-    budgets: [] as any[], // TODO type this
+    budgets: [] as IBudget[],
     budgetId: undefined,
   };
 
@@ -48,8 +49,7 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
     YnabAgent.getBudgets().then(budgets => this.convertBudgetsToDisplayData(budgets));
   }
 
-  // TODO IBudget[]
-  public convertBudgetsToDisplayData(budgets: any[]) {
+  public convertBudgetsToDisplayData(budgets: IBudget[]) {
     const convertedBudgets = budgets.map(x => ({
       buttonText: `View ${x.name}`,
       cardSubHeader: x.last_month,

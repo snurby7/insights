@@ -1,4 +1,5 @@
 import React from 'react';
+import { Category } from 'ynab';
 
 import { SiteUtility } from '../../utilities/site-utility';
 import { YnabDataUtility } from '../../utilities/ynab-data-utility';
@@ -6,19 +7,18 @@ import SubCategory from './sub-category';
 
 export interface CategoryHandlerProps {
   name: string;
-  activity: number;
-  categories: any[]; // TODO type this as ICategories
+  categories: Category[];
 }
 
 class CategoryHandler extends React.Component<CategoryHandlerProps> {
   public render() {
-    const props = this.props;
+    const { categories, name } = this.props;
     return (
       <React.Fragment>
         <h3>
-          {props.name}- ({YnabDataUtility.format(SiteUtility.accumulate(props.categories.map(x => x.activity)))})
+          {name}- ({YnabDataUtility.format(SiteUtility.accumulate(categories.map(x => x.activity)))})
         </h3>
-        <SubCategory subCategories={props.categories} />
+        <SubCategory subCategories={categories} />
       </React.Fragment>
     );
   }

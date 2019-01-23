@@ -1,6 +1,7 @@
 import React from 'react';
 
 import YnabAgent from '../../agents/ynab-agent';
+import { ICategory } from '../../contracts/category.interface';
 import CategoryHandler from './category-handler';
 
 export interface ICategoriesProps {
@@ -8,12 +9,12 @@ export interface ICategoriesProps {
 }
 
 export interface ICategoriesState {
-  categories: any[]; // TODO interface ICategories[]
+  categories: ICategory[]; // TODO interface ICategories[]
 }
 
 class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
   public state = {
-    categories: [] as any[],
+    categories: [] as ICategory[],
   };
   public render() {
     const { categories } = this.state;
@@ -21,8 +22,8 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
       <div>
         <h2>Categories</h2>
 
-        {categories.map(props => (
-          <CategoryHandler key={props.id} {...props} />
+        {categories.map(category => (
+          <CategoryHandler key={category.id} categories={category.categories} {...category} />
         ))}
       </div>
     );

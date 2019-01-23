@@ -7689,6 +7689,14 @@ popper.js@^1.14.1:
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.6.tgz#ab20dd4edf9288b8b3b6531c47c361107b60b4b0"
   integrity sha512-AGwHGQBKumlk/MDfrSOf0JHhJCImdDMcGNoqKmKkU+68GFazv3CQ6q9r7Ja1sKDZmYWTckY/uLyEznheTDycnA==
 
+portable-fetch@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/portable-fetch/-/portable-fetch-3.0.0.tgz#3cbf4aa6dbc5a5734b41c0419c9273313bfd9ad8"
+  integrity sha1-PL9KptvFpXNLQcBBnJJzMTv9mtg=
+  dependencies:
+    node-fetch "^1.0.1"
+    whatwg-fetch ">=0.10.0"
+
 portfinder@^1.0.9:
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.20.tgz#bea68632e54b2e13ab7b0c4775e9b41bf270e44a"
@@ -11057,3 +11065,10 @@ yargs@^12.0.1:
     which-module "^2.0.0"
     y18n "^3.2.1 || ^4.0.0"
     yargs-parser "^11.1.1"
+
+ynab@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/ynab/-/ynab-1.10.0.tgz#f0c8f4c0fc315af1553eb46ebe8e1b8b29b7913c"
+  integrity sha512-Ngsffxm8YEbtMZVZAkprb34L5tuN1R+8LOaB1OUe1qP7qsitSzdWxwJlS2U9x+9QiWs5Abj6nWMNHICIFLImGw==
+  dependencies:
+    portable-fetch "^3.0.0"

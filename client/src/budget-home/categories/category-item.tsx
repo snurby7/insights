@@ -1,12 +1,9 @@
 import React from 'react';
+import { Category } from 'ynab';
 
 import { YnabDataUtility } from '../../utilities/ynab-data-utility';
 
-export interface CategoryItemProps {
-  id: string;
-  hidden: boolean;
-  name: string;
-  activity: number;
+export interface CategoryItemProps extends Category {
   biggestCategoryId: string;
 }
 

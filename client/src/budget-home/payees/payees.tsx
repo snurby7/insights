@@ -10,6 +10,8 @@ import { OverflowAnchorProperty } from 'csstype';
 import React from 'react';
 
 import YnabAgent from '../../agents/ynab-agent';
+import { IPayee } from '../../contracts/payee.interface';
+import { ITransaction } from '../../contracts/transaction.interface';
 import TransactionsDialog from '../transactions/transactions-dialog';
 
 export interface IPayeeProps {
@@ -18,11 +20,11 @@ export interface IPayeeProps {
 }
 
 export interface IPayeeState {
-  masterPayees: any[]; // TODO IPayees[]
+  masterPayees: IPayee[];
   open: boolean;
-  payees: any[]; // TODO IPayee[]
-  selectedPayee: any; // TODO IPayee
-  transactions: any[]; // TODO ITransactions[]
+  payees: IPayee[];
+  selectedPayee: IPayee;
+  transactions: ITransaction[];
   value: string;
 }
 
@@ -44,11 +46,11 @@ const styles = (theme: any) => ({
 class Payees extends React.Component<IPayeeProps, IPayeeState> {
   // TODO clean all of these up
   public state = {
-    masterPayees: [] as any[],
+    masterPayees: [] as IPayee[],
     open: false,
-    payees: [] as any[],
-    selectedPayee: {} as any,
-    transactions: [] as any[],
+    payees: [] as IPayee[],
+    selectedPayee: {} as IPayee,
+    transactions: [] as ITransaction[],
     value: '',
   };
 
@@ -65,7 +67,7 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
     this.setState({ value: event.target.value });
   }
 
-  public handleClickOpen(selectedPayee: any /* TODO IPayee */) {
+  public handleClickOpen(selectedPayee: IPayee) {
     this.setState({ selectedPayee });
     this.getTransactionsByPayeeOnClick(selectedPayee.id);
   }
@@ -80,6 +82,16 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
   public handleClose = () => {
     this.setState({ open: false });
   };
+
+  public componentDidMount() {
+    const { budgetId } = this.props;
+    YnabAgent.getPayeesByBudgetId(budgetId).then(payees => {
+      this.setState({
+        payees,
+        masterPayees: payees,
+      });
+    });
+  }
 
   public render() {
     const { classes } = this.props;
@@ -123,16 +135,6 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
         </div>
       </React.Fragment>
     );
-  }
-
-  public componentDidMount() {
-    const { budgetId } = this.props;
-    YnabAgent.getPayeesByBudgetId(budgetId).then(payees => {
-      this.setState({
-        payees,
-        masterPayees: payees,
-      });
-    });
   }
 }
 
