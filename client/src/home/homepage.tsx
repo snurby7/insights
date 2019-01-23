@@ -49,7 +49,7 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
     YnabAgent.getBudgets().then(budgets => this.convertBudgetsToDisplayData(budgets));
   }
 
-  public convertBudgetsToDisplayData(budgets: IBudget[]) {
+  public convertBudgetsToDisplayData(budgets: any[]) {
     const convertedBudgets = budgets.map(x => ({
       buttonText: `View ${x.name}`,
       cardSubHeader: x.last_month,
@@ -58,7 +58,7 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
       onClick: () => this.setState({ budgetId: x.id }),
       subTitles: [`Began - ${x.first_month}`, `Latest - ${x.last_month}`],
     }));
-    this.setState({ budgets: convertedBudgets });
+    // this.setState({ budgets: convertedBudgets });
   }
 
   public render() {
