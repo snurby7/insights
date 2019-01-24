@@ -27,7 +27,7 @@
     "react-scripts-ts": "3.1.0",
     "typeface-roboto": "0.0.54",
     "typescript": "^3.2.2",
-    "ynab": "^1.9.0"
+    "ynab": "^1.10.0"
   },
   "devDependencies": {
     "concurrently": "^4.0.1"

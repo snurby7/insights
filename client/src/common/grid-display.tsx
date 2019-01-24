@@ -4,17 +4,18 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import StarIcon from '@material-ui/icons/StarBorder';
 import React from 'react';
+
+import { ICardDisplay } from '../contracts/card-display.interface';
 
 export interface IGridDisplayProps {
   classes: any;
-  displayData: any[]; // TODO pass a generic to this guy
+  displayData: ICardDisplay[];
 }
 
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   '@global': {
     body: {
       backgroundColor: theme.palette.common.white,
@@ -50,7 +51,7 @@ class GridDisplay extends React.Component<IGridDisplayProps, IGridDisplayProps> 
   }
 
   public render() {
-    const { displayData } = this.state;
+    const { classes, displayData } = this.state;
     return (
       <div>
         <Grid container={true} spacing={40} alignItems="flex-end">
@@ -62,17 +63,16 @@ class GridDisplay extends React.Component<IGridDisplayProps, IGridDisplayProps> 
                   subheader={data.cardSubHeader}
                   titleTypographyProps={{ align: 'center' }}
                   subheaderTypographyProps={{ align: 'center' }}
-                  action={data.enableAction ? <StarIcon /> : null}
-                  className={this.state.classes.cardHeader}
+                  className={classes.cardHeader}
                 />
                 <CardContent>
-                  <div className={this.state.classes.displayCard}>
+                  <div className={classes.displayCard}>
                     <Typography component="h4" variant="h3" color="textPrimary">
                       {data.name}
                     </Typography>
                   </div>
                   {data.subTitles &&
-                    data.subTitles.map((x: any, index: number) => {
+                    data.subTitles.map((x: string, index: number) => {
                       return (
                         <Typography key={index} variant="subtitle1" align="center">
                           {x}
@@ -82,7 +82,7 @@ class GridDisplay extends React.Component<IGridDisplayProps, IGridDisplayProps> 
                 </CardContent>
                 {/* TODO this could probably be made to accept an array of buttons */}
                 {data.buttonText && (
-                  <CardActions className={this.state.classes.cardActions}>
+                  <CardActions className={classes.cardActions}>
                     {
                       <Button
                         fullWidth={true}

@@ -1,5 +1,5 @@
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -18,7 +18,7 @@ export interface IMonthlyExpenseCategoryTableProps {
 
 const overflowX: OverflowAnchorProperty = 'auto';
 
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   root: {
     marginTop: theme.spacing.unit * 3,
     overflowX,

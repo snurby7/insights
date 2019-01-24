@@ -7,27 +7,27 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import React from 'react';
 
+import { ITransaction } from '../../contracts/transaction.interface';
 import { YnabDataUtility } from '../../utilities/ynab-data-utility';
 
 export interface ITransactionsDialogProps {
   payeeName: string;
   open: boolean;
   onClose: () => void;
-  transactions: any[]; // TODO ITransactions[]?
+  transactions: ITransaction[];
 }
 
 function Transition(props: any) {
   return <Slide direction="up" {...props} />;
 }
 
-// TODO type this as an ITransactions
-function renderTransactions(props: any) {
+function renderTransactions(transaction: ITransaction) {
   return (
-    <li key={props.id}>
-      <div>Account - {props.account_name}</div>
-      <div>Date - {props.date}</div>
-      <div>Category - {props.category_name}</div>
-      <div>Amount - ({YnabDataUtility.format(props.amount)})</div>
+    <li key={transaction.id}>
+      <div>Account - {transaction.account_name}</div>
+      <div>Date - {transaction.date}</div>
+      <div>Category - {transaction.category_name}</div>
+      <div>Amount - ({YnabDataUtility.format(transaction.amount)})</div>
     </li>
   );
 }

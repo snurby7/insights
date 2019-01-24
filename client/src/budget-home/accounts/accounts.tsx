@@ -9,7 +9,7 @@ export interface IAccountsProps {
 }
 
 export interface IAccountsState {
-  accounts: IAccount[]; // TODO this shouldn't be an array of any need an IAccount[]
+  accounts: IAccount[];
 }
 
 class Accounts extends React.Component<IAccountsProps, IAccountsState> {

@@ -1,21 +1,24 @@
-import { withStyles } from '@material-ui/core/styles';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { Redirect } from 'react-router';
 
 import YnabAgent from '../agents/ynab-agent';
 import GridDisplay from '../common/grid-display';
+import { IBudget } from '../contracts/budget.interface';
+import { ICardDisplay } from '../contracts/card-display.interface';
 
 export interface IHomePageProps {
   classes: any;
 }
 
 export interface IHomePageState {
-  budgets: any[]; // TODO IBudget[]
-  budgetId: string | undefined;
+  budgets: IBudget[];
+  budgetId: string;
+  cardDisplayData: ICardDisplay[];
 }
 
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   '@global': {
     body: {
       backgroundColor: theme.palette.common.white,
@@ -40,31 +43,32 @@ const styles = (theme: any) => ({
 
 class HomePage extends React.Component<IHomePageProps, IHomePageState> {
   public state = {
-    budgets: [] as any[], // TODO type this
-    budgetId: undefined,
+    budgets: [] as IBudget[],
+    budgetId: '',
+    cardDisplayData: [] as ICardDisplay[],
   };
 
   public componentDidMount() {
-    YnabAgent.getBudgets().then(budgets => this.convertBudgetsToDisplayData(budgets));
+    YnabAgent.getBudgets().then(budgets => {
+      const cardDisplayData = this.convertBudgetsToDisplayData(budgets);
+      this.setState({ cardDisplayData });
+    });
   }
 
-  // TODO IBudget[]
-  public convertBudgetsToDisplayData(budgets: any[]) {
-    const convertedBudgets = budgets.map(x => ({
+  public convertBudgetsToDisplayData(budgets: IBudget[]): ICardDisplay[] {
+    return budgets.map(x => ({
       buttonText: `View ${x.name}`,
-      cardSubHeader: x.last_month,
+      cardSubHeader: x.last_modified_on,
       cardTitle: x.name,
       id: x.id,
       onClick: () => this.setState({ budgetId: x.id }),
-      subTitles: [`Began - ${x.first_month}`, `Latest - ${x.last_month}`],
     }));
-    this.setState({ budgets: convertedBudgets });
   }
 
   public render() {
-    const { budgetId, budgets } = this.state;
+    const { budgetId, cardDisplayData } = this.state;
     const { classes } = this.props;
-    if (budgetId) {
+    if (budgetId.length > 0) {
       const budgetRoute = `/budget/${budgetId}`;
       return <Redirect to={budgetRoute} push={true} />;
     }
@@ -82,7 +86,7 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
             </Typography>
           </div>
           {/* End hero unit */}
-          <GridDisplay displayData={budgets} />
+          <GridDisplay displayData={cardDisplayData} />
         </main>
       </React.Fragment>
     );

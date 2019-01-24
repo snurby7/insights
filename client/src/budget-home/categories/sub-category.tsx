@@ -1,14 +1,15 @@
 import React from 'react';
+import { Category } from 'ynab';
 
 import CategoryItem from './category-item';
 
 export interface ISubCategoryProps {
-  subCategories: any[];
+  subCategories: Category[];
 }
 
 export interface ISubCategoryState {
-  subCategories: any[]; // TODO ICategory[] ?
-  biggestSpendingCategory: any; // TODO ICategory
+  subCategories: Category[];
+  biggestSpendingCategory: Category;
 }
 
 class SubCategory extends React.Component<ISubCategoryProps, ISubCategoryState> {
@@ -36,8 +37,8 @@ class SubCategory extends React.Component<ISubCategoryProps, ISubCategoryState> 
     );
   }
 
-  public getBiggestSpendingCategory(subCategories: any[] /* TODO ISubCategory[]? */) {
-    let biggestSpendingCategory: any = null;
+  public getBiggestSpendingCategory(subCategories: Category[]): Category {
+    let biggestSpendingCategory: Category = {} as Category;
     subCategories.forEach(subCategory => {
       if (!biggestSpendingCategory) {
         biggestSpendingCategory = subCategory;

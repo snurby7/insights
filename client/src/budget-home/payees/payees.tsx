@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,6 +10,8 @@ import { OverflowAnchorProperty } from 'csstype';
 import React from 'react';
 
 import YnabAgent from '../../agents/ynab-agent';
+import { IPayee } from '../../contracts/payee.interface';
+import { ITransaction } from '../../contracts/transaction.interface';
 import TransactionsDialog from '../transactions/transactions-dialog';
 
 export interface IPayeeProps {
@@ -18,17 +20,17 @@ export interface IPayeeProps {
 }
 
 export interface IPayeeState {
-  masterPayees: any[]; // TODO IPayees[]
+  masterPayees: IPayee[];
   open: boolean;
-  payees: any[]; // TODO IPayee[]
-  selectedPayee: any; // TODO IPayee
-  transactions: any[]; // TODO ITransactions[]
+  payees: IPayee[];
+  selectedPayee: IPayee;
+  transactions: ITransaction[];
   value: string;
 }
 
 const overflowX: OverflowAnchorProperty = 'auto';
 
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   root: {
     marginTop: theme.spacing.unit * 3,
     overflowX,
@@ -44,28 +46,29 @@ const styles = (theme: any) => ({
 class Payees extends React.Component<IPayeeProps, IPayeeState> {
   // TODO clean all of these up
   public state = {
-    masterPayees: [] as any[],
+    masterPayees: [] as IPayee[],
     open: false,
-    payees: [] as any[],
-    selectedPayee: {} as any,
-    transactions: [] as any[],
+    payees: [] as IPayee[],
+    selectedPayee: {} as IPayee,
+    transactions: [] as ITransaction[],
     value: '',
   };
 
   // TODO type this as an event of some sort
-  public handleInputChange(event: any) {
-    const inputValue = event.target.value;
+  public handleInputChange(event: React.FormEvent<HTMLInputElement>) {
+    const inputValue = event.currentTarget.value;
+    const { masterPayees } = this.state;
     if (inputValue === '') {
-      this.setState({ payees: this.state.masterPayees });
+      this.setState({ payees: masterPayees });
     } else {
       this.setState({
-        payees: this.state.masterPayees.filter(x => x.name.toLowerCase().includes(inputValue.toLowerCase())),
+        payees: masterPayees.filter(x => x.name.toLowerCase().includes(inputValue.toLowerCase())),
       });
     }
-    this.setState({ value: event.target.value });
+    this.setState({ value: inputValue });
   }
 
-  public handleClickOpen(selectedPayee: any /* TODO IPayee */) {
+  public handleClickOpen(selectedPayee: IPayee) {
     this.setState({ selectedPayee });
     this.getTransactionsByPayeeOnClick(selectedPayee.id);
   }
@@ -80,6 +83,16 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
   public handleClose = () => {
     this.setState({ open: false });
   };
+
+  public componentDidMount() {
+    const { budgetId } = this.props;
+    YnabAgent.getPayeesByBudgetId(budgetId).then(payees => {
+      this.setState({
+        payees,
+        masterPayees: payees,
+      });
+    });
+  }
 
   public render() {
     const { classes } = this.props;
@@ -123,16 +136,6 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
         </div>
       </React.Fragment>
     );
-  }
-
-  public componentDidMount() {
-    const { budgetId } = this.props;
-    YnabAgent.getPayeesByBudgetId(budgetId).then(payees => {
-      this.setState({
-        payees,
-        masterPayees: payees,
-      });
-    });
   }
 }
 

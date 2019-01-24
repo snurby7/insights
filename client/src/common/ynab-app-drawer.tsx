@@ -1,4 +1,4 @@
-import { IconButton, withStyles } from '@material-ui/core';
+import { IconButton, Theme, withStyles } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,7 +8,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import React, { Component } from 'react';
 
 export const drawerWidth = 240;
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
@@ -27,10 +27,10 @@ const styles = (theme: any) => ({
 
 export interface IYnabAppDrawerProps {
   classes: any;
-  theme: any;
+  theme: Theme;
   open: boolean;
   onClose: () => void;
-  navItems: [];
+  navItems: IYnabAppDrawerListItem[];
 }
 
 export interface IYnabAppDrawerState {
