@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -30,7 +30,7 @@ export interface IPayeeState {
 
 const overflowX: OverflowAnchorProperty = 'auto';
 
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   root: {
     marginTop: theme.spacing.unit * 3,
     overflowX,
@@ -55,16 +55,17 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
   };
 
   // TODO type this as an event of some sort
-  public handleInputChange(event: any) {
-    const inputValue = event.target.value;
+  public handleInputChange(event: React.FormEvent<HTMLInputElement>) {
+    const inputValue = event.currentTarget.value;
+    const { masterPayees } = this.state;
     if (inputValue === '') {
-      this.setState({ payees: this.state.masterPayees });
+      this.setState({ payees: masterPayees });
     } else {
       this.setState({
-        payees: this.state.masterPayees.filter(x => x.name.toLowerCase().includes(inputValue.toLowerCase())),
+        payees: masterPayees.filter(x => x.name.toLowerCase().includes(inputValue.toLowerCase())),
       });
     }
-    this.setState({ value: event.target.value });
+    this.setState({ value: inputValue });
   }
 
   public handleClickOpen(selectedPayee: IPayee) {

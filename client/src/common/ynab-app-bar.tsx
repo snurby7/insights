@@ -16,7 +16,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import classNames from 'classnames';
 import React from 'react';
 
-import YnabAppDrawer, { drawerWidth } from './ynab-app-drawer';
+import YnabAppDrawer, { drawerWidth, IYnabAppDrawerListItem } from './ynab-app-drawer';
 
 const styles = (theme: Theme) => ({
   grow: {
@@ -28,7 +28,7 @@ const styles = (theme: Theme) => ({
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     borderRadius: theme.shape.borderRadius,
-    position: 'relative' as any,
+    position: 'relative' as 'relative',
     marginRight: theme.spacing.unit * 2,
     marginLeft: 0,
     width: '100%',
@@ -40,8 +40,8 @@ const styles = (theme: Theme) => ({
   searchIcon: {
     width: theme.spacing.unit * 9,
     height: '100%',
-    position: 'absolute' as any,
-    pointerEvents: 'none' as any,
+    position: 'absolute' as 'absolute',
+    pointerEvents: 'none' as 'none',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -110,8 +110,8 @@ const styles = (theme: Theme) => ({
 
 export interface IYnabAppBarProps {
   classes: any;
-  theme: any;
-  navItems: any;
+  theme: Theme;
+  navItems: IYnabAppDrawerListItem[];
 }
 
 export interface IYnabAppBarState {

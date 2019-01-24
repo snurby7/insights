@@ -4,7 +4,7 @@ import { ISiteReducers } from '../contracts/site-reducers.interface';
 import { YnabAppBarComponent } from './ynab-app-bar';
 
 const mapStateToProps = (reducers: ISiteReducers) => {
-  const { navItems } = reducers.siteState;
+  const { navItems = [] } = reducers.siteState;
   return { navItems };
 };
 

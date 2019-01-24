@@ -37,8 +37,8 @@ class SubCategory extends React.Component<ISubCategoryProps, ISubCategoryState> 
     );
   }
 
-  public getBiggestSpendingCategory(subCategories: Category[]) {
-    let biggestSpendingCategory: any = null;
+  public getBiggestSpendingCategory(subCategories: Category[]): Category {
+    let biggestSpendingCategory: Category = {} as Category;
     subCategories.forEach(subCategory => {
       if (!biggestSpendingCategory) {
         biggestSpendingCategory = subCategory;

@@ -6,26 +6,31 @@ import AdminAgent from '../agents/admin-agent';
 import YnabAgent from '../agents/ynab-agent';
 import GridDisplay from '../common/grid-display';
 import { IYnabAppDrawerListItem } from '../common/ynab-app-drawer';
+import { IBudget } from '../contracts/budget.interface';
+import { ICardDisplay } from '../contracts/card-display.interface';
+import { IReducerAction } from '../contracts/reducer-action.interface';
 import { AdminActions } from './admin-actions';
 import UserManagement from './management/user-management';
 
 // TODO make this look less bad.
 
 interface IAdminState {
-  budgets: any[];
-  selectedBudget: any;
+  budgets: IBudget[];
+  cardDisplayData: ICardDisplay[];
+  selectedBudget: IBudget;
   selectedAction: AdminActions | null;
 }
 
 interface IAdminProps {
-  dispatch: (action: any) => void;
+  dispatch: (action: IReducerAction) => void;
 }
 
 class AdminPage extends React.Component<IAdminProps, IAdminState> {
   public state: IAdminState = {
     budgets: [],
-    selectedBudget: null,
-    selectedAction: null,
+    cardDisplayData: [] as ICardDisplay[],
+    selectedBudget: {} as IBudget,
+    selectedAction: AdminActions.DataUpdater,
   };
 
   public getNavItemsForAdminPage(): IYnabAppDrawerListItem[] {
@@ -49,7 +54,8 @@ class AdminPage extends React.Component<IAdminProps, IAdminState> {
 
   public componentDidMount = () => {
     YnabAgent.getBudgets().then(budgets => {
-      this.convertBudgetsToDisplayData(budgets);
+      const cardDisplays = this.convertBudgetsToDisplayData(budgets);
+      this.setState({ cardDisplayData: cardDisplays });
       this.dispatchToStore();
     });
   };
@@ -109,9 +115,34 @@ class AdminPage extends React.Component<IAdminProps, IAdminState> {
     ];
   }
 
-  // TODO type this as a Budget
-  public convertBudgetsToDisplayData(budgets: any) {
-    const convertedBudgets = budgets.map((budget: any) => ({
+  public render() {
+    const { cardDisplayData, selectedBudget, selectedAction } = this.state;
+    const { id = '', name = null } = selectedBudget || {};
+    return (
+      <div>
+        <div>
+          <GridDisplay displayData={cardDisplayData} />
+        </div>
+        <div>
+          {/* TODO make this a nice transition when it shows up */}
+          {id.length > 0 && (
+            <div>
+              {selectedAction === AdminActions.DataUpdater && (
+                <React.Fragment>
+                  <h3>Refresh Options for {name}</h3>
+                  <GridDisplay displayData={this.getButtonsToRender()} />
+                </React.Fragment>
+              )}
+              {selectedAction === AdminActions.UserManagement && <UserManagement budgetId={id} />}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  private convertBudgetsToDisplayData(budgets: IBudget[]): ICardDisplay[] {
+    return budgets.map(budget => ({
       id: budget.id,
       cardTitle: budget.name,
       onClick: () => {
@@ -120,31 +151,6 @@ class AdminPage extends React.Component<IAdminProps, IAdminState> {
       },
       buttonText: `Select ${budget.name}`,
     }));
-    this.setState({ budgets: convertedBudgets });
-  }
-
-  public render() {
-    const { selectedBudget, selectedAction: selectedSection } = this.state;
-    const { id, name } = selectedBudget || { id: null, name: null };
-    return (
-      <div>
-        <div>
-          <GridDisplay displayData={this.state.budgets} />
-        </div>
-        <div>
-          {/* TODO make this a nice transition when it shows up */}
-          <div>
-            {selectedSection === AdminActions.DataUpdater && (
-              <React.Fragment>
-                <h3>Refresh Options for {name}</h3>
-                <GridDisplay displayData={this.getButtonsToRender()} />
-              </React.Fragment>
-            )}
-            {selectedSection === AdminActions.UserManagement && <UserManagement budgetId={id} />}
-          </div>
-        </div>
-      </div>
-    );
   }
 }
 

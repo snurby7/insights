@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 
 import UserAgent from '../../agents/user-agent';
 import { IUser } from '../../contracts/user.interface';
@@ -14,6 +14,8 @@ import { IUserDialogProps } from './IUserDialogProps';
 export interface IDialogState extends IUser {
   budgetId?: string;
   open: boolean;
+  name: string;
+  salary: string;
 }
 
 function Transition(props: void) {
@@ -26,17 +28,18 @@ class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
     this.state = {
       open: props.open,
       name: props.user ? props.user.name : '',
-      salary: props.user ? props.user.salary : '', // TODO Make this allow decimals
+      salary: props.user ? props.user.salary.toString() : '', // TODO Make this allow decimals
     };
   }
 
-  // TODO try and put a type on this
-  public handleChange(event: any) {
-    const target = event.target;
-    const name = target.name;
+  public handleChange(event: React.FormEvent<HTMLInputElement>) {
+    const target = event.currentTarget;
     const value = target.value;
+    const name = target.name as keyof IDialogState;
+    const state = this.state as IDialogState;
+    state[name] = value;
     if (target.validity.valid) {
-      this.setState({ [name]: value } as Pick<IDialogState, keyof IDialogState>);
+      this.setState(state);
     }
   }
 

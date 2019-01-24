@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { SiteActions } from '../actions/site-actions';
 import { IYnabAppDrawerListItem } from '../common/ynab-app-drawer';
+import { IReducerAction } from '../contracts/reducer-action.interface';
 import Accounts from './accounts/accounts';
 import { BudgetActions } from './budget-actions';
 import Categories from './categories/categories';
@@ -15,7 +16,7 @@ import Transactions from './transactions/transactions';
 
 export interface IBudgetHomeProps {
   budgetId: string;
-  dispatch: (action: any) => void;
+  dispatch: (action: IReducerAction) => void;
   classes: Record<string, string>;
 }
 
