@@ -66,11 +66,13 @@ class GridDisplay extends React.Component<IGridDisplayProps, IGridDisplayProps> 
                   className={classes.cardHeader}
                 />
                 <CardContent>
-                  <div className={classes.displayCard}>
-                    <Typography component="h4" variant="h3" color="textPrimary">
-                      {data.name}
-                    </Typography>
-                  </div>
+                  {data.name && (
+                    <div className={classes.displayCard}>
+                      <Typography component="h4" variant="h3" color="textPrimary">
+                        {data.name}
+                      </Typography>
+                    </div>
+                  )}
                   {data.subTitles &&
                     data.subTitles.map((x: string, index: number) => {
                       return (

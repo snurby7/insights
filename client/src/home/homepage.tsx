@@ -1,5 +1,6 @@
 import { Theme, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 import React from 'react';
 import { Redirect } from 'react-router';
 
@@ -58,7 +59,7 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
   public convertBudgetsToDisplayData(budgets: IBudget[]): ICardDisplay[] {
     return budgets.map(x => ({
       buttonText: `View ${x.name}`,
-      cardSubHeader: x.last_modified_on,
+      cardSubHeader: `Last Refreshed: ${moment(x.last_modified_on).format('MMMM Do, YYYY')}`,
       cardTitle: x.name,
       id: x.id,
       onClick: () => this.setState({ budgetId: x.id }),
