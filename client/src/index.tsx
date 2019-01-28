@@ -8,8 +8,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createStore } from 'redux';
 
-import AdminPage from './admin/admin';
-import BudgetHome from './budget-home/budget-home';
+import { VisibleUsersComponent } from './admin/management/visible-user-management';
+import { VisibleAdminComponent } from './admin/visible-admin';
+import { VisibleBudgetHomePage } from './budget-home/visible-homepage';
 import { VisibleYnabAppBar } from './common/visible-ynab-app-bar';
 import HomePage from './home/homepage';
 import rootReducer from './reducers';
@@ -18,14 +19,12 @@ import * as serviceWorker from './serviceWorker';
 class InsightApp extends React.Component {
   public store = createStore(rootReducer);
 
-  public AdminRoute = () => <AdminPage />;
-  public BudgetHomeRoute = ({ match }: any) => {
-    return <BudgetHome budgetId={match.params.budgetId} />;
-  };
+  public AdminRoute = () => <VisibleAdminComponent />;
+  public BudgetHomeRoute = () => <VisibleBudgetHomePage />;
   public HomePageRoute = () => <HomePage />;
+  public UserRoute = () => <VisibleUsersComponent />;
 
   // TODO footer component with key metrics, short and sweet high level.
-
   public render() {
     return (
       <React.Fragment>
@@ -36,8 +35,9 @@ class InsightApp extends React.Component {
               <VisibleYnabAppBar />
               <Switch>
                 <Route exact={true} path="/" component={this.HomePageRoute} />
-                <Route exact={true} path="/admin" component={this.AdminRoute} />
-                <Route exact={true} path="/budget/:budgetId" component={this.BudgetHomeRoute} />
+                <Route exact={true} path="/admin/user" component={this.AdminRoute} />
+                <Route exact={true} path="/budget/update" component={this.AdminRoute} />
+                <Route exact={true} path="/budget/" component={this.BudgetHomeRoute} />
               </Switch>
             </div>
           </Router>

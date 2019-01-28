@@ -15,7 +15,11 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import classNames from 'classnames';
 import React from 'react';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 
+import { SiteActions } from '../actions/site-actions';
+import { IReducerAction } from '../contracts/reducer-action.interface';
 import YnabAppDrawer, { drawerWidth, IYnabAppDrawerListItem } from './ynab-app-drawer';
 
 const styles = (theme: Theme) => ({
@@ -108,10 +112,12 @@ const styles = (theme: Theme) => ({
   },
 });
 
-export interface IYnabAppBarProps {
+export interface IYnabAppBarProps extends RouteComponentProps<any> {
   classes: any;
   theme: Theme;
   navItems: IYnabAppDrawerListItem[];
+  budgetId: string;
+  dispatch: (action: IReducerAction) => void;
 }
 
 export interface IYnabAppBarState {
@@ -144,8 +150,16 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  public closeBudget() {
+    this.props.dispatch({
+      type: SiteActions.UPDATE_SELECTED_BUDGET,
+      payload: { budgetId: '' },
+    });
+    this.props.history.push('/');
+  }
+
   public render() {
-    const { classes, navItems } = this.props;
+    const { budgetId, classes, navItems } = this.props;
     const { anchorEl, mobileMoreAnchorEl, open } = this.state;
 
     const isMenuOpen = Boolean(anchorEl);
@@ -164,6 +178,7 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
       </Menu>
     );
 
+    // TODO: Fix this to have proper routing in the mobile menu as well
     const renderMobileMenu = (
       <Menu
         anchorEl={mobileMoreAnchorEl}
@@ -183,6 +198,12 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
             <Icon>sync</Icon>
           </IconButton>
           <p>Sync</p>
+        </MenuItem>
+        <MenuItem>
+          <IconButton color="inherit">
+            <Icon>close</Icon>
+          </IconButton>
+          <p>Logout</p>
         </MenuItem>
         <MenuItem onClick={this.handleProfileMenuOpen}>
           <IconButton color="inherit">
@@ -231,12 +252,19 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
-                <Icon>home</Icon>
-              </IconButton>
-              <IconButton color="inherit">
-                <Icon>sync</Icon>
-              </IconButton>
+              {budgetId.length > 0 && (
+                <React.Fragment>
+                  <IconButton onClick={() => this.props.history.push(`/budget/${budgetId}`)} color="inherit">
+                    <Icon>home</Icon>
+                  </IconButton>
+                  <IconButton onClick={() => this.props.history.push(`/budget/update`)} color="inherit">
+                    <Icon>sync</Icon>
+                  </IconButton>
+                  <IconButton onClick={() => this.closeBudget()} color="inherit">
+                    <Icon>close</Icon>
+                  </IconButton>
+                </React.Fragment>
+              )}
               <IconButton
                 aria-owns={isMenuOpen ? 'material-appbar' : undefined}
                 aria-haspopup="true"
@@ -261,4 +289,4 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
   }
 }
 
-export const YnabAppBarComponent = withStyles(styles, { withTheme: true })(YnabAppBar);
+export const YnabAppBarComponent = withStyles(styles, { withTheme: true })(connect()(withRouter(YnabAppBar)));
