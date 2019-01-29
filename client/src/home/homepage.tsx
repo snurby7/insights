@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 import { SiteActions } from '../actions/site-actions';
 import YnabAgent from '../agents/ynab-agent';
@@ -12,14 +12,13 @@ import { IBudget } from '../contracts/budget.interface';
 import { ICardDisplay } from '../contracts/card-display.interface';
 import { IReducerAction } from '../contracts/reducer-action.interface';
 
-export interface IHomePageProps {
+export interface IHomePageProps extends RouteComponentProps<any> {
   classes: any;
   dispatch: (action: IReducerAction) => void;
 }
 
 export interface IHomePageState {
   budgets: IBudget[];
-  budgetId: string;
   cardDisplayData: ICardDisplay[];
 }
 
@@ -55,8 +54,9 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
 
   public componentDidMount() {
     YnabAgent.getBudgets().then(budgets => {
-      const cardDisplayData = this.convertBudgetsToDisplayData(budgets);
-      this.setState({ cardDisplayData });
+      this.setState({
+        cardDisplayData: this.convertBudgetsToDisplayData(budgets),
+      });
     });
   }
 
@@ -66,40 +66,32 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
       cardSubHeader: `Last Refreshed: ${moment(x.last_modified_on).format('MMMM Do, YYYY')}`,
       cardTitle: x.name,
       id: x.id,
-      onClick: () => this.dispatchBudgetIdAndUpdateState(x.id),
+      onClick: () => this.dispatchBudgetIdAndNavigate(x.id),
     }));
   }
 
-  public dispatchBudgetIdAndUpdateState(budgetId: string): void {
+  public dispatchBudgetIdAndNavigate(budgetId: string): void {
     this.props.dispatch({
       type: SiteActions.UPDATE_SELECTED_BUDGET,
       payload: { budgetId },
     });
-    this.setState({ budgetId });
+    this.props.history.push('/budget');
   }
 
   public render() {
-    const { budgetId, cardDisplayData } = this.state;
+    const { cardDisplayData } = this.state;
     const { classes } = this.props;
-    // TODO: https://github.com/snurby7/insights/issues/22
-    if (budgetId.length > 0) {
-      const budgetRoute = `/budget`;
-      return <Redirect to={budgetRoute} push={true} />;
-    }
-
     return (
       <React.Fragment>
         <main className={classes.layout}>
-          {/* Hero unit */}
           <div className={classes.heroContent}>
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom={true}>
-              Insights Budget Selection
+              Welcome to Insights!
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" component="p">
-              Let's see what we can make of your data!
+              Please select your budget below! <br /> Let's find the money!
             </Typography>
           </div>
-          {/* End hero unit */}
           <GridDisplay displayData={cardDisplayData} />
         </main>
       </React.Fragment>
@@ -107,4 +99,4 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
   }
 }
 
-export default withStyles(styles)(connect()(HomePage));
+export default withStyles(styles)(connect()(withRouter(HomePage)));
