@@ -2,15 +2,19 @@ import { Theme, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import React from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 
+import { SiteActions } from '../actions/site-actions';
 import YnabAgent from '../agents/ynab-agent';
 import GridDisplay from '../common/grid-display';
 import { IBudget } from '../contracts/budget.interface';
 import { ICardDisplay } from '../contracts/card-display.interface';
+import { IReducerAction } from '../contracts/reducer-action.interface';
 
 export interface IHomePageProps {
   classes: any;
+  dispatch: (action: IReducerAction) => void;
 }
 
 export interface IHomePageState {
@@ -62,15 +66,24 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
       cardSubHeader: `Last Refreshed: ${moment(x.last_modified_on).format('MMMM Do, YYYY')}`,
       cardTitle: x.name,
       id: x.id,
-      onClick: () => this.setState({ budgetId: x.id }),
+      onClick: () => this.dispatchBudgetIdAndUpdateState(x.id),
     }));
+  }
+
+  public dispatchBudgetIdAndUpdateState(budgetId: string): void {
+    this.props.dispatch({
+      type: SiteActions.UPDATE_SELECTED_BUDGET,
+      payload: { budgetId },
+    });
+    this.setState({ budgetId });
   }
 
   public render() {
     const { budgetId, cardDisplayData } = this.state;
     const { classes } = this.props;
+    // TODO: https://github.com/snurby7/insights/issues/22
     if (budgetId.length > 0) {
-      const budgetRoute = `/budget/${budgetId}`;
+      const budgetRoute = `/budget`;
       return <Redirect to={budgetRoute} push={true} />;
     }
 
@@ -94,4 +107,4 @@ class HomePage extends React.Component<IHomePageProps, IHomePageState> {
   }
 }
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(connect()(HomePage));

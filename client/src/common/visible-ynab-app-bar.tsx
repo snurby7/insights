@@ -4,8 +4,8 @@ import { ISiteReducers } from '../contracts/site-reducers.interface';
 import { YnabAppBarComponent } from './ynab-app-bar';
 
 const mapStateToProps = (reducers: ISiteReducers) => {
-  const { navItems = [] } = reducers.siteState;
-  return { navItems };
+  const { navItems = [], budgetId = '' } = reducers.siteState;
+  return { budgetId, navItems };
 };
 
 export const VisibleYnabAppBar = connect(

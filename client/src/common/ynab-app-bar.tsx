@@ -9,13 +9,16 @@ import { Theme, withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import classNames from 'classnames';
 import React from 'react';
+import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router';
 
+import { SiteActions } from '../actions/site-actions';
+import { IReducerAction } from '../contracts/reducer-action.interface';
 import YnabAppDrawer, { drawerWidth, IYnabAppDrawerListItem } from './ynab-app-drawer';
 
 const styles = (theme: Theme) => ({
@@ -108,10 +111,12 @@ const styles = (theme: Theme) => ({
   },
 });
 
-export interface IYnabAppBarProps {
+export interface IYnabAppBarProps extends RouteComponentProps<any> {
   classes: any;
   theme: Theme;
   navItems: IYnabAppDrawerListItem[];
+  budgetId: string;
+  dispatch: (action: IReducerAction) => void;
 }
 
 export interface IYnabAppBarState {
@@ -127,10 +132,6 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
     mobileMoreAnchorEl: null,
   };
 
-  public handleProfileMenuOpen = (event: any) => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
   public handleMenuClose = () => {
     this.setState({ anchorEl: null });
     this.handleMobileMenuClose();
@@ -144,27 +145,23 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  public closeBudget() {
+    this.props.dispatch({
+      type: SiteActions.UPDATE_SELECTED_BUDGET,
+      payload: { budgetId: '' },
+    });
+    this.props.history.push('/');
+  }
+
   public render() {
-    const { classes, navItems } = this.props;
+    const { budgetId, classes, navItems } = this.props;
     const { anchorEl, mobileMoreAnchorEl, open } = this.state;
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const hasBudgetSelection = budgetId.length > 0;
 
-    const renderMenu = (
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={this.handleMenuClose}
-      >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-      </Menu>
-    );
-
-    const renderMobileMenu = (
+    const renderMobileMenu = hasBudgetSelection && (
       <Menu
         anchorEl={mobileMoreAnchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -172,23 +169,23 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
         open={isMobileMenuOpen}
         onClose={this.handleMobileMenuClose}
       >
-        <MenuItem>
+        <MenuItem onClick={() => this.props.history.push(`/budget`)}>
           <IconButton color="inherit">
             <Icon>home</Icon>
           </IconButton>
           <p>Home</p>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={() => this.props.history.push(`/budget/update`)}>
           <IconButton color="inherit">
             <Icon>sync</Icon>
           </IconButton>
           <p>Sync</p>
         </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
+        <MenuItem onClick={() => this.closeBudget()}>
           <IconButton color="inherit">
-            <AccountCircle />
+            <Icon>close</Icon>
           </IconButton>
-          <p>Login</p>
+          <p>Logout</p>
         </MenuItem>
       </Menu>
     );
@@ -231,34 +228,34 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
-                <Icon>home</Icon>
-              </IconButton>
-              <IconButton color="inherit">
-                <Icon>sync</Icon>
-              </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              {hasBudgetSelection && (
+                <React.Fragment>
+                  <IconButton onClick={() => this.props.history.push(`/budget`)} color="inherit">
+                    <Icon>home</Icon>
+                  </IconButton>
+                  <IconButton onClick={() => this.props.history.push(`/budget/update`)} color="inherit">
+                    <Icon>sync</Icon>
+                  </IconButton>
+                  <IconButton onClick={() => this.closeBudget()} color="inherit">
+                    <Icon>close</Icon>
+                  </IconButton>
+                </React.Fragment>
+              )}
             </div>
             <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                <MoreIcon />
-              </IconButton>
+              {hasBudgetSelection && (
+                <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
+                  <MoreIcon />
+                </IconButton>
+              )}
             </div>
           </Toolbar>
         </AppBar>
         <YnabAppDrawer navItems={navItems} open={open} onClose={() => this.setState({ open: false })} />
-        {renderMenu}
         {renderMobileMenu}
       </div>
     );
   }
 }
 
-export const YnabAppBarComponent = withStyles(styles, { withTheme: true })(YnabAppBar);
+export const YnabAppBarComponent = withStyles(styles, { withTheme: true })(connect()(withRouter(YnabAppBar)));
