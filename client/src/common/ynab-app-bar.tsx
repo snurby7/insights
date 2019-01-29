@@ -9,7 +9,6 @@ import { Theme, withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
@@ -133,10 +132,6 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
     mobileMoreAnchorEl: null,
   };
 
-  public handleProfileMenuOpen = (event: any) => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
   public handleMenuClose = () => {
     this.setState({ anchorEl: null });
     this.handleMobileMenuClose();
@@ -164,22 +159,9 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const hasBudgetSelection = budgetId.length > 0;
 
-    const renderMenu = (
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={this.handleMenuClose}
-      >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-      </Menu>
-    );
-
-    // TODO: Fix this to have proper routing in the mobile menu as well
-    const renderMobileMenu = (
+    const renderMobileMenu = hasBudgetSelection && (
       <Menu
         anchorEl={mobileMoreAnchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -187,29 +169,23 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
         open={isMobileMenuOpen}
         onClose={this.handleMobileMenuClose}
       >
-        <MenuItem>
+        <MenuItem onClick={() => this.props.history.push(`/budget`)}>
           <IconButton color="inherit">
             <Icon>home</Icon>
           </IconButton>
           <p>Home</p>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={() => this.props.history.push(`/budget/update`)}>
           <IconButton color="inherit">
             <Icon>sync</Icon>
           </IconButton>
           <p>Sync</p>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={() => this.closeBudget()}>
           <IconButton color="inherit">
             <Icon>close</Icon>
           </IconButton>
           <p>Logout</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Login</p>
         </MenuItem>
       </Menu>
     );
@@ -252,9 +228,9 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {budgetId.length > 0 && (
+              {hasBudgetSelection && (
                 <React.Fragment>
-                  <IconButton onClick={() => this.props.history.push(`/budget/${budgetId}`)} color="inherit">
+                  <IconButton onClick={() => this.props.history.push(`/budget`)} color="inherit">
                     <Icon>home</Icon>
                   </IconButton>
                   <IconButton onClick={() => this.props.history.push(`/budget/update`)} color="inherit">
@@ -265,24 +241,17 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
                   </IconButton>
                 </React.Fragment>
               )}
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
             </div>
             <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                <MoreIcon />
-              </IconButton>
+              {hasBudgetSelection && (
+                <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
+                  <MoreIcon />
+                </IconButton>
+              )}
             </div>
           </Toolbar>
         </AppBar>
         <YnabAppDrawer navItems={navItems} open={open} onClose={() => this.setState({ open: false })} />
-        {renderMenu}
         {renderMobileMenu}
       </div>
     );
