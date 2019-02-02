@@ -41,7 +41,7 @@ exports.updateAccounts = async function(db, budgetId) {
   const accounts = response.data.accounts;
   await Promise.all(
     accounts.map(
-      async account =>
+      async (account) =>
         await db.collection("accounts").updateOne(
           {
             id: account.id
