@@ -3,7 +3,6 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { SiteActions } from '../actions/site-actions';
 import { IYnabAppDrawerListItem } from '../common/ynab-app-drawer';
 import { IReducerAction } from '../contracts/reducer-action.interface';
 import Accounts from './accounts/accounts';
@@ -85,20 +84,6 @@ class BudgetHome extends React.Component<IBudgetHomeProps, IBudgetHomeState> {
       },
     ];
   }
-
-  public componentDidMount = () => {
-    this.props.dispatch({
-      type: SiteActions.UPDATE_NAV_ITEMS,
-      payload: this.getNavItemsForBudgetHome(),
-    });
-  };
-
-  public componentWillUnmount = () => {
-    this.props.dispatch({
-      type: SiteActions.UPDATE_NAV_ITEMS,
-      payload: [],
-    });
-  };
 
   public render() {
     const { selectedSection } = this.state;

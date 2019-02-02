@@ -157,7 +157,6 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
     const { budgetId, classes, navItems } = this.props;
     const { anchorEl, mobileMoreAnchorEl, open } = this.state;
 
-    const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const hasBudgetSelection = budgetId.length > 0;
 
