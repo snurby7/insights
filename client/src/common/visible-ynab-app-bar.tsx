@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
 import { ISiteReducers } from '../contracts/site-reducers.interface';
-import { YnabAppBarComponent } from './ynab-app-bar';
+import { IYnabAppBarProps, YnabAppBarComponent } from './ynab-app-bar';
 
-const mapStateToProps = (reducers: ISiteReducers) => {
-  const { navItems = [], budgetId = '' } = reducers.siteState;
-  return { budgetId, navItems };
+const mapStateToProps = (reducers: ISiteReducers): Partial<IYnabAppBarProps> => {
+  const { budgetId = '' } = reducers.siteState;
+  return { budgetId };
 };
 
 export const VisibleYnabAppBar = connect(

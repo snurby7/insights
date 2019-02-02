@@ -3,9 +3,9 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { IYnabAppDrawerListItem } from '../common/ynab-app-drawer';
 import { IReducerAction } from '../contracts/reducer-action.interface';
 import Accounts from './accounts/accounts';
+import ActionBarComponent, { IActionBarAction } from './action-bar/action-bar';
 import { BudgetActions } from './budget-actions';
 import Categories from './categories/categories';
 import LifeEnergy from './life-energy/life-energy';
@@ -55,35 +55,33 @@ class BudgetHome extends React.Component<IBudgetHomeProps, IBudgetHomeState> {
     selectedSection: BudgetActions.Home,
   };
 
-  public getNavItemsForBudgetHome(): IYnabAppDrawerListItem[] {
-    return [
-      {
-        id: `694a09f5-57f4-4aa6-abe7-93b9a3f7d801`,
-        displayName: 'Home',
-        onClick: () => this.setState({ selectedSection: BudgetActions.Home }),
-      },
-      {
-        id: `1a562f70-9738-493d-bcb3-42b732a87c53`,
-        displayName: 'View Life Energy',
-        onClick: () => this.setState({ selectedSection: BudgetActions.LifeEnergy }),
-      },
-      {
-        id: `3a9a0381-1cc7-4a5a-96f3-cf9f734d45c7`,
-        displayName: 'View Payees',
-        onClick: () => this.setState({ selectedSection: BudgetActions.Payees }),
-      },
-      {
-        id: `f0b3df29-a6c8-490d-b0bf-1394aebb364e`,
-        displayName: 'View Transactions',
-        onClick: () => this.setState({ selectedSection: BudgetActions.Transactions }),
-      },
-      {
-        id: `a0bf194a-de88-4c21-bdb6-5708af9e7117`,
-        displayName: 'View Reports',
-        onClick: () => this.setState({ selectedSection: BudgetActions.Reports }),
-      },
-    ];
-  }
+  private actionItems: IActionBarAction[] = [
+    {
+      id: `694a09f5-57f4-4aa6-abe7-93b9a3f7d801`,
+      displayName: 'Home',
+      onClick: () => this.updateStateIfDifferent(BudgetActions.Home),
+    },
+    {
+      id: `1a562f70-9738-493d-bcb3-42b732a87c53`,
+      displayName: 'View Life Energy',
+      onClick: () => this.updateStateIfDifferent(BudgetActions.LifeEnergy),
+    },
+    {
+      id: `3a9a0381-1cc7-4a5a-96f3-cf9f734d45c7`,
+      displayName: 'View Payees',
+      onClick: () => this.updateStateIfDifferent(BudgetActions.Payees),
+    },
+    {
+      id: `f0b3df29-a6c8-490d-b0bf-1394aebb364e`,
+      displayName: 'View Transactions',
+      onClick: () => this.updateStateIfDifferent(BudgetActions.Transactions),
+    },
+    {
+      id: `a0bf194a-de88-4c21-bdb6-5708af9e7117`,
+      displayName: 'View Reports',
+      onClick: () => this.updateStateIfDifferent(BudgetActions.Reports),
+    },
+  ];
 
   public render() {
     const { selectedSection } = this.state;
@@ -92,23 +90,38 @@ class BudgetHome extends React.Component<IBudgetHomeProps, IBudgetHomeState> {
       <div>
         <h3>Welcome to your budget Home</h3>
         <div className={classes.elementContainer}>
-          {selectedSection === BudgetActions.Home && (
-            <React.Fragment>
-              <div className={classes.accountsContainer}>
-                <Accounts budgetId={budgetId} />
-              </div>
-              <div className={classes.categoriesContainer}>
-                <Categories budgetId={budgetId} />
-              </div>
-            </React.Fragment>
-          )}
-          {selectedSection === BudgetActions.LifeEnergy && <LifeEnergy budgetId={budgetId} />}
-          {selectedSection === BudgetActions.Payees && <Payees budgetId={budgetId} />}
-          {selectedSection === BudgetActions.Transactions && <Transactions budgetId={budgetId} />}
-          {selectedSection === BudgetActions.Reports && <ReportsHome budgetId={budgetId} />}
+          <ActionBarComponent actionItems={this.actionItems}>
+            <Accounts budgetId={budgetId} />
+          </ActionBarComponent>
+          {this.getVisibleSection(selectedSection)}
         </div>
       </div>
     );
+  }
+
+  private updateStateIfDifferent(selectedSection: BudgetActions): void {
+    if (selectedSection === this.state.selectedSection) {
+      return;
+    }
+    this.setState({ selectedSection });
+  }
+
+  private getVisibleSection(selectedSection: BudgetActions) {
+    const { budgetId } = this.props;
+    switch (selectedSection) {
+      case BudgetActions.Home:
+        return <Categories budgetId={budgetId} />;
+      case BudgetActions.LifeEnergy:
+        return <LifeEnergy budgetId={budgetId} />;
+      case BudgetActions.Payees:
+        return <Payees budgetId={budgetId} />;
+      case BudgetActions.Transactions:
+        return <Transactions budgetId={budgetId} />;
+      case BudgetActions.Reports:
+        return <ReportsHome budgetId={budgetId} />;
+      default:
+        return null;
+    }
   }
 }
 
