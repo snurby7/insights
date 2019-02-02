@@ -9,17 +9,14 @@ import { Theme, withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
-import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { SiteActions } from '../actions/site-actions';
 import { IReducerAction } from '../contracts/reducer-action.interface';
-import YnabAppDrawer, { drawerWidth, IYnabAppDrawerListItem } from './ynab-app-drawer';
 
 const styles = (theme: Theme) => ({
   grow: {
@@ -94,14 +91,6 @@ const styles = (theme: Theme) => ({
     position: 'fixed' as 'fixed',
     top: 0,
   },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
   menuButton: {
     marginLeft: 12,
     marginRight: 20,
@@ -114,8 +103,7 @@ const styles = (theme: Theme) => ({
 export interface IYnabAppBarProps extends RouteComponentProps<any> {
   classes: any;
   theme: Theme;
-  navItems: IYnabAppDrawerListItem[];
-  budgetId: string;
+  budgetId: string | undefined;
   dispatch: (action: IReducerAction) => void;
 }
 
@@ -154,12 +142,11 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
   }
 
   public render() {
-    const { budgetId, classes, navItems } = this.props;
-    const { anchorEl, mobileMoreAnchorEl, open } = this.state;
+    const { budgetId, classes } = this.props;
+    const { mobileMoreAnchorEl, open } = this.state;
 
-    const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    const hasBudgetSelection = budgetId.length > 0;
+    const hasBudgetSelection = budgetId && budgetId.length > 0;
 
     const renderMobileMenu = hasBudgetSelection && (
       <Menu
@@ -193,24 +180,8 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar
-          position="static"
-          className={classNames(classes.appBar, {
-            [classes.appBarShift]: open,
-          })}
-        >
+        <AppBar position="static" className={classes.appBar}>
           <Toolbar>
-            <IconButton
-              disabled={!navItems || navItems.length === 0}
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={() => {
-                this.setState({ open: true });
-              }}
-              className={classNames(classes.menuButton, open && classes.hide)}
-            >
-              <MenuIcon />
-            </IconButton>
             <Typography className={classes.title} variant="h6" color="inherit" noWrap={true}>
               Insights
             </Typography>
@@ -251,7 +222,6 @@ class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
             </div>
           </Toolbar>
         </AppBar>
-        <YnabAppDrawer navItems={navItems} open={open} onClose={() => this.setState({ open: false })} />
         {renderMobileMenu}
       </div>
     );

@@ -4,8 +4,6 @@ import { ISiteState } from '../contracts/site-state.interface';
 
 function siteState(state: ISiteState = {}, action: IReducerAction) {
   switch (action.type) {
-    case SiteActions.UPDATE_NAV_ITEMS:
-      return Object.assign({}, state, { navItems: action.payload });
     case SiteActions.UPDATE_SELECTED_BUDGET:
       return Object.assign({}, state, { budgetId: action.payload.budgetId });
     default:

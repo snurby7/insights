@@ -9,5 +9,10 @@
 		"typescript.updateImportsOnFileMove.enabled": "always",
 		"typescriptHero.imports.disableImportRemovalOnOrganize": false,
 		"typescriptHero.imports.insertSemicolons": true,
+		"emmet.includeLanguages": {
+			"javascript": "javascriptreact"
+		},
+		"eslint.autoFixOnSave": true,
+		"eslint.alwaysShowStatus": true,
 	}
 }

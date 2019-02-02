@@ -24,7 +24,7 @@ exports.updateCategories = async function(db, budgetId) {
   const categoryGroups = response.data.category_groups;
   await Promise.all(
     categoryGroups.map(
-      async (category) =>
+      async category =>
         await db.collection("categories").updateOne(
           {
             id: category.id
@@ -41,12 +41,12 @@ exports.updateAccounts = async function(db, budgetId) {
   const accounts = response.data.accounts;
   await Promise.all(
     accounts.map(
-      async account =>
+      async (account) =>
         await db.collection("accounts").updateOne(
           {
             id: account.id
           },
-          { $set: account },
+          { $set: mapOnBudgetId(account, budgetId) },
           { upsert: true }
         )
     )
@@ -87,14 +87,14 @@ exports.updateAllTransactions = async function(db, budgetId) {
 };
 
 function mapOnBudgetId(item, budgetId) {
-  if(item['budgetId']) throw Error('item has a budgetId');
+  if (item["budgetId"]) throw Error("item has a budgetId");
   item.budgetId = budgetId;
   return item;
 }
 
 function mapTransactions(item, budgetId) {
   const transaction = mapOnBudgetId(item, budgetId);
-  const dateParts = transaction.date.split('-');
+  const dateParts = transaction.date.split("-");
   transaction.date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
   transaction.date_month = +dateParts[1] - 1;
   transaction.date_year = +dateParts[0];

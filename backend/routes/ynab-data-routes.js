@@ -1,7 +1,7 @@
 var express = require("express");
 var moment = require("moment");
 var router = express.Router();
-var ynabDataProcessing = require('../processing/ynab-data-processing');
+var ynabDataProcessing = require("../processing/ynab-data-processing");
 
 module.exports = function(db) {
   router.get("/api/budget/years", async (req, res) => {
@@ -12,7 +12,7 @@ module.exports = function(db) {
     let firstYear = moment(response.first_month).year();
     const finalYear = moment(response.last_month).year();
     const years = [];
-    while(firstYear <= finalYear){
+    while (firstYear <= finalYear) {
       years.push(firstYear);
       firstYear++;
     }
@@ -30,7 +30,10 @@ module.exports = function(db) {
   router.get("/api/accounts", async (req, res) => {
     const accounts = await db
       .collection("accounts")
-      .find({})
+      .find({
+        budgetId: req.query.budgetId,
+        closed: false
+      })
       .sort({ name: 1 })
       .toArray();
     res.send(accounts);
