@@ -44,7 +44,6 @@ const styles = (theme: Theme) => ({
 });
 
 class Payees extends React.Component<IPayeeProps, IPayeeState> {
-  // TODO clean all of these up
   public state = {
     masterPayees: [] as IPayee[],
     open: false,
@@ -54,7 +53,6 @@ class Payees extends React.Component<IPayeeProps, IPayeeState> {
     value: '',
   };
 
-  // TODO type this as an event of some sort
   public handleInputChange(event: React.FormEvent<HTMLInputElement>) {
     const inputValue = event.currentTarget.value;
     const { masterPayees } = this.state;
