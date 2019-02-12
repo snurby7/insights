@@ -9,13 +9,16 @@ export interface ICategoriesProps {
 }
 
 export interface ICategoriesState {
-  categories: ICategory[]; // TODO interface ICategories[]
+  categories: ICategory[];
 }
 
-class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
+export default class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
   public state = {
     categories: [] as ICategory[],
   };
+  constructor(props: ICategoriesProps) {
+    super(props);
+  }
   public render() {
     const { categories } = this.state;
     return (
@@ -36,5 +39,3 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
     });
   }
 }
-
-export default Categories;
