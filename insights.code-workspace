@@ -10,6 +10,15 @@
 		]
 	},
 	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/*.js.map": true,
+			"**/*.js": {"when": "$(basename).ts"},
+		},
 		"typescriptHero.imports.organizeOnSave": true,
 		"typescript.updateImportsOnFileMove.enabled": "always",
 		"typescriptHero.imports.disableImportRemovalOnOrganize": false,
