@@ -10,7 +10,7 @@ node_modules
 
 # production
 /build
-data/user-config.js
+backend/data/user-config.enum.ts
 
 # misc
 .DS_Store
