@@ -28,7 +28,7 @@ class InsightsServer extends Server {
         this.app.use(bodyParser.urlencoded({extended: true}));
 
         // Setup the controllers
-        // this.setUpMongo();
+        this.setUpMongo();
 
         // Point to front-end code
         if (process.env.NODE_ENV === 'development') {
@@ -38,21 +38,21 @@ class InsightsServer extends Server {
         }
     }
 
-    // private setUpMongo() {
-    //     // this is our MongoDB database
-    //     const dbRoute = ConnectionData.UserString;
-    //     mongoose.connect(
-    //     dbRoute,
-    //     { useNewUrlParser: true }
-    //     );
+    private setUpMongo() {
+        // this is our MongoDB database
+        const dbRoute = 'mongodb://localhost:27017/ynab';
+        mongoose.connect(
+        dbRoute,
+        { useNewUrlParser: true }
+        );
 
-    //     const db = mongoose.connection;
-    //     db.once('open', () => {
-    //         console.log('Connected to Mongo, initializing Controllers');
-    //         this._setupControllers(db);
-    //     });
-    //     db.on('error', () => console.error('MongoDB connection error:'));
-    // }
+        const db = mongoose.connection;
+        db.once('open', () => {
+            console.log('Connected to Mongo, initializing Controllers');
+            this._setupControllers(db);
+        });
+        db.on('error', () => console.error('MongoDB connection error:'));
+    }
 
 
     private _setupControllers(db: mongoose.Connection): void {

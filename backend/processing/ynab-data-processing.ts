@@ -1,4 +1,6 @@
-exports.aggregateTransactionsByDay = function(transactions) {
+import { TransactionDetail } from 'ynab';
+
+exports.aggregateTransactionsByDay = function(transactions: TransactionDetail[]) {
   const dayOfWeekMap = {};
   transactions.forEach(transaction => {
     const dayOfWeek = new Date(transaction.date).getUTCDay();

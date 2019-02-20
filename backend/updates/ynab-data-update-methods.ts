@@ -1,14 +1,17 @@
-const ynab = require("ynab");
-const userConfiguration = require("../../data/user-config");
-const ynabApi = new ynab.API(userConfiguration.userConfigToken);
+import { Connection } from 'mongoose';
+import * as ynab from 'ynab';
 
-exports.updateBudgets = async function(db) {
+import { UserConfig } from '../data/user-config.enum';
+
+const ynabApi: ynab.api = new ynab.API(UserConfig.YnabToken);
+
+export const updateBudgets = async function(db: Connection) {
   const response = await ynabApi.budgets.getBudgets();
   const budgets = response.data.budgets;
   await Promise.all(
     budgets.map(
       async budget =>
-        await db.collection("budgets").updateOne(
+        await db.collection('budgets').updateOne(
           {
             id: budget.id
           },
@@ -19,13 +22,13 @@ exports.updateBudgets = async function(db) {
   );
 };
 
-exports.updateCategories = async function(db, budgetId) {
+export const updateCategories = async function(db: Connection, budgetId: string) {
   const response = await ynabApi.categories.getCategories(budgetId);
   const categoryGroups = response.data.category_groups;
   await Promise.all(
     categoryGroups.map(
       async category =>
-        await db.collection("categories").updateOne(
+        await db.collection('categories').updateOne(
           {
             id: category.id
           },
@@ -36,13 +39,13 @@ exports.updateCategories = async function(db, budgetId) {
   );
 };
 
-exports.updateAccounts = async function(db, budgetId) {
+export const updateAccounts = async function(db: Connection, budgetId: string) {
   const response = await ynabApi.accounts.getAccounts(budgetId);
   const accounts = response.data.accounts;
   await Promise.all(
     accounts.map(
       async (account) =>
-        await db.collection("accounts").updateOne(
+        await db.collection('accounts').updateOne(
           {
             id: account.id
           },
@@ -52,13 +55,13 @@ exports.updateAccounts = async function(db, budgetId) {
     )
   );
 };
-exports.updateAllPayees = async function(db, budgetId) {
+export const updateAllPayees = async function(db: Connection, budgetId: string) {
   const response = await ynabApi.payees.getPayees(budgetId);
   const payees = response.data.payees;
   await Promise.all(
     payees.map(
       async payee =>
-        await db.collection("payees").updateOne(
+        await db.collection('payees').updateOne(
           {
             id: payee.id
           },
@@ -68,14 +71,14 @@ exports.updateAllPayees = async function(db, budgetId) {
     )
   );
 };
-exports.updateAllTransactions = async function(db, budgetId) {
+export const updateAllTransactions = async function(db: Connection, budgetId: string) {
   // TODO give this the ability to update a month vs all ever.
   const response = await ynabApi.transactions.getTransactions(budgetId);
   const transactions = response.data.transactions;
   await Promise.all(
     transactions.map(
       async transaction =>
-        await db.collection("transactions").updateOne(
+        await db.collection('transactions').updateOne(
           {
             id: transaction.id
           },
@@ -86,15 +89,15 @@ exports.updateAllTransactions = async function(db, budgetId) {
   );
 };
 
-function mapOnBudgetId(item, budgetId) {
-  if (item["budgetId"]) throw Error("item has a budgetId");
+function mapOnBudgetId(item: any, budgetId: string) {
+  if (item.budgetId) { throw Error('item has a budgetId'); }
   item.budgetId = budgetId;
   return item;
 }
 
-function mapTransactions(item, budgetId) {
+function mapTransactions(item: Transaction, budgetId: string) {
   const transaction = mapOnBudgetId(item, budgetId);
-  const dateParts = transaction.date.split("-");
+  const dateParts = transaction.date.split('-');
   transaction.date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
   transaction.date_month = +dateParts[1] - 1;
   transaction.date_year = +dateParts[0];
