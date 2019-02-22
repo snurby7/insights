@@ -3,8 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var core_1 = require("@overnightjs/core");
 var bodyParser = require("body-parser");
-var express = require("express");
-var path = require("path");
+var mongoose = require("mongoose");
+var AccountController_1 = require("./controllers/AccountController");
+var BudgetController_1 = require("./controllers/BudgetController");
+var BudgetUserProfileController_1 = require("./controllers/BudgetUserProfileController");
+var CategoryController_1 = require("./controllers/CategoryController");
+var PayeeController_1 = require("./controllers/PayeeController");
+var ReportController_1 = require("./controllers/ReportController");
+var SyncController_1 = require("./controllers/SyncController");
+var TransactionController_1 = require("./controllers/TransactionController");
 var InsightsServer = (function (_super) {
     tslib_1.__extends(InsightsServer, _super);
     function InsightsServer() {
@@ -14,32 +21,32 @@ var InsightsServer = (function (_super) {
         _this._port = 5000;
         _this.app.use(bodyParser.json());
         _this.app.use(bodyParser.urlencoded({ extended: true }));
-        if (process.env.NODE_ENV === 'development') {
-            _this._serveFrontEndDev();
-        }
-        else if (process.env.NODE_ENV === 'production') {
-            _this._serveFrontEndProd();
-        }
+        _this.setUpMongo();
         return _this;
     }
-    InsightsServer.prototype._setupControllers = function (db) {
-        var controllers = [];
-        _super.prototype.addControllers.call(this, controllers);
-    };
-    InsightsServer.prototype._serveFrontEndDev = function () {
-        console.info('Starting server in development mode');
-        var msg = this._DEV_MSG + process.env.EXPRESS_PORT;
-        this.app.get('*', function (req, res) { return res.send(msg); });
-    };
-    InsightsServer.prototype._serveFrontEndProd = function () {
-        console.info('Starting server in production mode');
-        this._port = 3002;
-        var dir = path.join(__dirname, 'public/react/demo-react/');
-        this.app.set('views', dir);
-        this.app.use(express.static(dir));
-        this.app.get('*', function (req, res) {
-            res.sendFile('index.html', { root: dir });
+    InsightsServer.prototype.setUpMongo = function () {
+        var _this = this;
+        var dbRoute = 'mongodb://localhost:27017/ynab';
+        mongoose.connect(dbRoute, { useNewUrlParser: true });
+        var db = mongoose.connection;
+        db.once('open', function () {
+            console.log('Connected to Mongo, initializing Controllers');
+            _this._setupControllers(db);
         });
+        db.on('error', function () { return console.error('MongoDB connection error:'); });
+    };
+    InsightsServer.prototype._setupControllers = function (db) {
+        var controllers = [
+            new AccountController_1.default(db),
+            new BudgetController_1.default(db),
+            new BudgetUserProfileController_1.default(db),
+            new CategoryController_1.default(db),
+            new PayeeController_1.default(db),
+            new ReportController_1.default(db),
+            new SyncController_1.default(db),
+            new TransactionController_1.default(db),
+        ];
+        _super.prototype.addControllers.call(this, controllers);
     };
     InsightsServer.prototype.start = function () {
         var _this = this;

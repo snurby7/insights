@@ -8,6 +8,12 @@ node_modules
 # testing
 /coverage
 
+# typescript compiled
+backend/**/*.js
+backend/**/*.map
+backend/InsightsServer.js
+backend/InsightsServer.js.map
+
 # production
 /build
 backend/data/user-config.enum.ts

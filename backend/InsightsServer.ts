@@ -1,17 +1,15 @@
-/**
- * Express Server file.
- *
- * created by Sean Maxwell Jan 21, 2019
- */
 import { Server } from '@overnightjs/core';
 import * as bodyParser from 'body-parser';
-import * as express from 'express';
 import * as mongoose from 'mongoose';
-import * as path from 'path';
 
-// import { ConnectionData } from './controllers/key/connection-string';
-// import UserController from './controllers/user/UserController';
-// import CoffeeController from './controllers/coffee/CoffeeController';
+import AccountController from './controllers/AccountController';
+import BudgetController from './controllers/BudgetController';
+import BudgetUserProfileController from './controllers/BudgetUserProfileController';
+import CategoryController from './controllers/CategoryController';
+import PayeeController from './controllers/PayeeController';
+import ReportController from './controllers/ReportController';
+import SyncController from './controllers/SyncController';
+import TransactionController from './controllers/TransactionController';
 
 class InsightsServer extends Server {
 
@@ -29,13 +27,6 @@ class InsightsServer extends Server {
 
         // Setup the controllers
         this.setUpMongo();
-
-        // Point to front-end code
-        if (process.env.NODE_ENV === 'development') {
-            this._serveFrontEndDev();
-        } else if (process.env.NODE_ENV === 'production') {
-            this._serveFrontEndProd();
-        }
     }
 
     private setUpMongo() {
@@ -57,37 +48,16 @@ class InsightsServer extends Server {
 
     private _setupControllers(db: mongoose.Connection): void {
         const controllers: any[] = [
-            // new UserController(db),
-            // new CoffeeController(db)
+            new AccountController(db),
+            new BudgetController(db),
+            new BudgetUserProfileController(db),
+            new CategoryController(db),
+            new PayeeController(db),
+            new ReportController(db),
+            new SyncController(db),
+            new TransactionController(db),
         ];
         super.addControllers(controllers);
-    }
-
-
-    private _serveFrontEndDev(): void {
-        console.info('Starting server in development mode');
-
-        const msg = this._DEV_MSG + process.env.EXPRESS_PORT;
-        this.app.get('*', (req, res) => res.send(msg));
-    }
-
-
-    private _serveFrontEndProd(): void {
-
-        console.info('Starting server in production mode');
-
-        this._port = 3002;
-
-        const dir = path.join(__dirname, 'public/react/demo-react/');
-
-        // Set the static and views directory
-        this.app.set('views',  dir);
-        this.app.use(express.static(dir));
-
-        // Serve front-end content
-        this.app.get('*', (req, res) => {
-            res.sendFile('index.html', {root: dir});
-        });
     }
 
 
