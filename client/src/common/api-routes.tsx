@@ -2,7 +2,7 @@ export enum InsightRoutes {
   addUser = '/api/users/add',
   getAccounts = '/api/accounts',
   getAllTransactions = '/api/transactions/all',
-  getBudgets = '/api/budgets',
+  getBudgets = '/api/budget',
   getBudgetYears = '/api/budget/years',
   getCategories = '/api/categories',
   getPayees = '/api/payees',

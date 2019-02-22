@@ -2,6 +2,7 @@ import { Connection } from 'mongoose';
 import * as ynab from 'ynab';
 
 import { UserConfig } from '../data/user-config.enum';
+import { TransactionDetail } from 'ynab';
 
 const ynabApi: ynab.api = new ynab.API(UserConfig.YnabToken);
 
@@ -95,7 +96,7 @@ function mapOnBudgetId(item: any, budgetId: string) {
   return item;
 }
 
-function mapTransactions(item: Transaction, budgetId: string) {
+function mapTransactions(item: TransactionDetail, budgetId: string) {
   const transaction = mapOnBudgetId(item, budgetId);
   const dateParts = transaction.date.split('-');
   transaction.date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);

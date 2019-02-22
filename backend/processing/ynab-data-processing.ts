@@ -1,7 +1,14 @@
 import { TransactionDetail } from 'ynab';
 
-exports.aggregateTransactionsByDay = function(transactions: TransactionDetail[]) {
-  const dayOfWeekMap = {};
+interface IDaySpending {
+  count: number;
+  income: number;
+  expense: number;
+  amount: number;
+}
+
+export const aggregateTransactionsByDay = function(transactions: TransactionDetail[]) {
+  const dayOfWeekMap: {[weekDay: number]: IDaySpending} = {};
   transactions.forEach(transaction => {
     const dayOfWeek = new Date(transaction.date).getUTCDay();
     if (dayOfWeekMap[dayOfWeek]) {
@@ -11,7 +18,7 @@ exports.aggregateTransactionsByDay = function(transactions: TransactionDetail[])
       dayOfWeekMap[dayOfWeek].expense +=
         transaction.amount < 0 ? transaction.amount / 1000 : 0;
     } else {
-      dayOfWeekMap[dayOfWeek] = {};
+      dayOfWeekMap[dayOfWeek] = <IDaySpending>{};
       dayOfWeekMap[dayOfWeek].count = 1;
       dayOfWeekMap[dayOfWeek].income =
         transaction.amount > 0 ? transaction.amount / 1000 : 0;
