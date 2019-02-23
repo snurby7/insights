@@ -11,12 +11,12 @@ class PayeeController {
   }
 
   @Get('')
-  public async getPayeesForBudget(_: Request, res: Response): Promise<void> {
-    // ! TODO: This needs to use the budgetId
-    // https://github.com/snurby7/insights/issues/47
+  public async getPayeesForBudget(req: Request, res: Response): Promise<void> {
     const payees = await this._db
       .collection('payees')
-      .find({})
+      .find({
+        budgetId: req.query.budgetId,
+      })
       .sort({ name: 1 })
       .toArray();
     res.send(payees);

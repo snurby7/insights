@@ -66,7 +66,7 @@ export const updateAllPayees = async function(db: Connection, budgetId: string) 
           {
             id: payee.id
           },
-          { $set: payee },
+          { $set: mapOnBudgetId(payee, budgetId) },
           { upsert: true }
         )
     )
