@@ -37,7 +37,7 @@ const YnabAgent = {
     return ApiUtility.getRequest(InsightRoutes.getTransactionsByDay, { budgetId });
   },
 
-  // ? this one is going to need some thought on how to type it or refactor it.
+  // ! TODO: https://github.com/snurby7/insights/issues/27
   getReportForMonthlyExpenses(request: IMonthlyExpenseRequest): Promise<any> {
     return ApiUtility.getRequest(InsightRoutes.reportsMonthly, request);
   },
