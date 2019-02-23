@@ -1,5 +1,10 @@
 export const YnabDataUtility = {
-  format(value: number): string {
-    return `${value < 0 ? '-' : ''}$${(Math.abs(value) / 1000).toFixed(2)}`;
+  /**
+   * @param {number} amount This is scaled up by 1000 so need to divide by that amount
+   * @returns {string} The format USD version
+   */
+  format(amount: number): string {
+    const scaledAmount = amount / 1000;
+    return scaledAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
   },
 };
