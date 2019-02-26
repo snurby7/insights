@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createStore } from 'redux';
 
+import AccountView from './accounts/view/account-view';
 import { VisibleUsersComponent } from './admin/management/visible-user-management';
 import { VisibleAdminComponent } from './admin/visible-admin';
 import { VisibleBudgetHomePage } from './budget-home/visible-homepage';
@@ -23,6 +24,7 @@ class InsightApp extends React.Component {
   public BudgetHomeRoute = () => <VisibleBudgetHomePage />;
   public HomePageRoute = () => <HomePage />;
   public UserRoute = () => <VisibleUsersComponent />;
+  public AccountView = ({ match }: any) => <AccountView accountId={match.params.accountId} />;
 
   // TODO footer component with key metrics, short and sweet high level.
   public render() {
@@ -38,6 +40,7 @@ class InsightApp extends React.Component {
                 <Route exact={true} path="/admin/user" component={this.AdminRoute} />
                 <Route exact={true} path="/budget/update" component={this.AdminRoute} />
                 <Route exact={true} path="/budget/" component={this.BudgetHomeRoute} />
+                <Route exact={true} path="/account/:accountId" component={this.AccountView} />
               </Switch>
             </div>
           </Router>

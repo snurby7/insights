@@ -32,6 +32,12 @@
 		"codemetrics.basics.ComplexityLevelHighDescription": "😳",
 		"codemetrics.basics.ComplexityLevelLowDescription": "🤓",
 		"codemetrics.basics.ComplexityLevelNormalDescription": "🤔",
-		"codemetrics.basics.ComplexityTemplate": "Complexity is {0} {1}"
+		"codemetrics.basics.ComplexityTemplate": "Complexity is {0} {1}",
+		"workbench.colorCustomizations": {
+			"titleBar.activeBackground": "#00b3e6",
+			"titleBar.activeForeground": "#e7e7e7",
+			"titleBar.inactiveBackground": "#00b3e6",
+			"titleBar.inactiveForeground": "#e7e7e7"
+		}
 	}
 }

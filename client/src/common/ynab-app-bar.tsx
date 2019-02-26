@@ -48,6 +48,7 @@ const styles = (theme: Theme) => ({
   },
   root: {
     width: '100%',
+    paddingBottom: 60,
   },
   title: {
     display: 'none',
