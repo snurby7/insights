@@ -2,15 +2,24 @@ import './budget-account.css';
 
 import { Button } from '@material-ui/core';
 import React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 import { IAccount } from '../../contracts/account.interface';
 import { YnabDataUtility } from '../../utilities/ynab-data-utility';
 
-class BudgetAccount extends React.Component<IAccount> {
+export interface IBudgetAccount extends RouteComponentProps<any>, IAccount {}
+
+class BudgetAccount extends React.Component<IBudgetAccount> {
   public render() {
-    const { name, balance } = this.props;
+    const { id, name, balance, match } = this.props;
     return (
-      <Button style={{ display: 'block' }} type="button" key={name} color="primary">
+      <Button
+        style={{ display: 'block' }}
+        type="button"
+        key={name}
+        color="primary"
+        onClick={() => this.props.history.push(`/account/${id}`)}
+      >
         <span>
           {name} - {this.formatAccountBalance(balance)}
         </span>
@@ -38,4 +47,4 @@ class BudgetAccount extends React.Component<IAccount> {
   }
 }
 
-export default BudgetAccount;
+export default withRouter(BudgetAccount);

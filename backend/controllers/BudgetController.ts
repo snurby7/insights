@@ -29,7 +29,6 @@ class BudgetController {
 
   @Get('')
   public async getBudgets(_: Request, res: Response): Promise<void> {
-    console.log('here');
     const response = await this._db
       .collection('budgets')
       .find()
