@@ -10,12 +10,12 @@ class CategoryController {
     this._db = db;
   }
 
-  @Get('')
+  @Get(':budgetId')
   public async getCategoriesForBudget(req: Request, res: Response): Promise<void> {
     const categories = await this._db
       .collection('categories')
       .find({
-        budgetId: req.query.budgetId,
+        budgetId: req.params.budgetId,
         hidden: false
       })
       .sort({ name: 1 })
