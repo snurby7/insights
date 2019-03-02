@@ -2,14 +2,23 @@
 
 ## Project Tooling
 
+### Front-end
+
 [react](https://reactjs.org/)<br>
 [typescript](https://www.typescriptlang.org/)<br>
+[material-ui](https://material-ui.com/)<br>
+[mui-databales](https://github.com/gregnb/mui-datatables)<br>
+[moment](https://momentjs.com/)<br>
+
+### Up for removal
+
+[Redux React](https://redux.js.org/basics/usage-with-react)<br>
+
+### Backend Tooling
+
 [MongoDB Compass](https://www.mongodb.com/download-center#compass)<br>
 [express](https://expressjs.com/)<br>
 [overnightjs](https://www.npmjs.com/package/@overnightjs/core)<br>
-[material-ui](https://material-ui.com/)<br>
-[moment](https://momentjs.com/)<br>
-[Redux React](https://redux.js.org/basics/usage-with-react)<br>
 
 ## How to run
 
