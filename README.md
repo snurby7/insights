@@ -7,7 +7,7 @@
 [react](https://reactjs.org/)<br>
 [typescript](https://www.typescriptlang.org/)<br>
 [material-ui](https://material-ui.com/)<br>
-[mui-databales](https://github.com/gregnb/mui-datatables)<br>
+[dx-react-grid](https://devexpress.github.io/devextreme-reactive/react/grid/docs/guides/getting-started/)<br>
 [moment](https://momentjs.com/)<br>
 
 ### Up for removal

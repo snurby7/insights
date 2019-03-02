@@ -8,11 +8,11 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createStore } from 'redux';
 
-import AccountView from './accounts/view/account-view';
 import { VisibleUsersComponent } from './admin/management/visible-user-management';
 import { VisibleAdminComponent } from './admin/visible-admin';
 import { VisibleBudgetHomePage } from './budget-home/visible-homepage';
 import { VisibleYnabAppBar } from './common/visible-ynab-app-bar';
+import AccountView from './data-views/accounts/view/AccountView';
 import HomePage from './home/homepage';
 import rootReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
