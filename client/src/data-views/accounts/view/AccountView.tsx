@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 
-import YnabAgent from '../../agents/ynab-agent';
-
-export interface IAccountViewProps {
-  accountId: string;
-}
+import YnabAgent from '../../../agents/ynab-agent';
+import { IAccountViewProps } from './AccountViewProps.interface';
 
 export default class AccountView extends Component<IAccountViewProps> {
   public componentDidMount = () => {
