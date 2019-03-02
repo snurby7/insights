@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 
 import AccountController from './controllers/AccountController';
+import AccountDetailController from './controllers/AccountDetailController';
 import BudgetController from './controllers/BudgetController';
 import BudgetUserProfileController from './controllers/BudgetUserProfileController';
 import CategoryController from './controllers/CategoryController';
@@ -49,6 +50,7 @@ class InsightsServer extends Server {
     private _setupControllers(db: mongoose.Connection): void {
         const controllers: any[] = [
             new AccountController(db),
+            new AccountDetailController(db),
             new BudgetController(db),
             new BudgetUserProfileController(db),
             new CategoryController(db),

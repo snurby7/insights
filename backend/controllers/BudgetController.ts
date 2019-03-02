@@ -11,11 +11,11 @@ class BudgetController {
     this._db = db;
   }
 
-  @Get('years')
+  @Get('years/:budgetId')
   public async getBudgetYears(req: Request, res: Response): Promise<void> {
     const response = await this._db
       .collection('budgets')
-      .findOne({ id: req.query.budgetId });
+      .findOne({ id: req.params.budgetId });
 
     let firstYear = moment(response.first_month).year();
     const finalYear = moment(response.last_month).year();

@@ -10,12 +10,12 @@ class AccountController {
     this._db = db;
   }
 
-  @Get('')
+  @Get(':budgetId')
   public async getAccounts(req: Request, res: Response): Promise<void> {
     const accounts = await this._db
       .collection('accounts')
       .find({
-        budgetId: req.query.budgetId,
+        budgetId: req.params.budgetId,
         closed: false,
       })
       .sort({ name: 1 })

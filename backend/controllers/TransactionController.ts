@@ -23,26 +23,27 @@ class TransactionController {
     res.send(transactions);
   }
 
-  @Get('payee')
+  @Get(':payeeId')
   public async getTransactionsByPayee(req: Request, res: Response): Promise<void> {
     // TODO Add the budgetId onto this so it's not just pulling everything.
-    const query = req.query;
+    const {payeeId: payee_id} = req.params;
     const transactions = await this._db
       .collection('transactions')
       .find({
-        payee_id: query.payeeId
+        payee_id
       })
       .sort({ name: 1 })
       .toArray();
     res.send(transactions);
   }
 
-  @Get('aggregate')
+  @Get(':budgetId/aggregate')
   public async aggregateAllTransactions(req: Request, res: Response): Promise<void> {
+    const {budgetId} = req.params;
     const results = await this._db
       .collection('transactions')
       .find({
-        budgetId: req.query.budgetId
+        budgetId
       })
       .toArray();
     res.send(aggregateTransactionsByDay(results));

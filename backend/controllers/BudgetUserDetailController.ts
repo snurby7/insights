@@ -2,8 +2,8 @@ import { Controller, Get } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { Connection } from 'mongoose';
 
-@Controller('api/payees')
-class PayeeController {
+@Controller('api/users')
+class BudgetUserDetailController {
   private _db: Connection;
 
   constructor(db: Connection) {
@@ -11,17 +11,16 @@ class PayeeController {
   }
 
   @Get(':budgetId')
-  public async getPayeesForBudget(req: Request, res: Response): Promise<void> {
-    const {budgetId} = req.params;
-    const payees = await this._db
-      .collection('payees')
+  public async getUsers(req: Request, res: Response): Promise<void> {
+    const budgetId = req.params.budgetId;
+    const users = await this._db
+      .collection('users')
       .find({
         budgetId,
       })
-      .sort({ name: 1 })
       .toArray();
-    res.send(payees);
+    res.send(users);
   }
 }
 
-export default PayeeController;
+export default BudgetUserDetailController;

@@ -9,6 +9,10 @@ import { ITransactionsAggregate } from '../contracts/transactions-aggregate.inte
 import ApiUtility from '../utilities/api-utility';
 
 const YnabAgent = {
+  getAccountDetails(accountId: string): Promise<any> {
+    return ApiUtility.getRequest(InsightRoutes.getAccountDetails, { accountId });
+  },
+
   getBudgetYears(budgetId: string): Promise<number[]> {
     return ApiUtility.getRequest(InsightRoutes.getBudgetYears, { budgetId });
   },
@@ -39,7 +43,7 @@ const YnabAgent = {
 
   // ! TODO: https://github.com/snurby7/insights/issues/27
   getReportForMonthlyExpenses(request: IMonthlyExpenseRequest): Promise<any> {
-    return ApiUtility.getRequest(InsightRoutes.reportsMonthly, request);
+    return ApiUtility.getRequest(InsightRoutes.reportsMonthly, request, true);
   },
 };
 
