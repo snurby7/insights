@@ -1,20 +1,14 @@
 import { Grid, Table, TableHeaderRow } from '@devexpress/dx-react-grid-material-ui';
 import React, { Component } from 'react';
 
-export default class DxReactGridWrapper extends Component {
+import { IDxReactGridWrapperProps } from './DxReactGridWrapperProps.interface';
+
+export default class DxReactGridWrapper extends Component<IDxReactGridWrapperProps> {
   public render() {
+    const { columns, data } = this.props;
+
     return (
-      <Grid
-        rows={[
-          { id: 0, product: 'DevExtreme', owner: 'DevExpress' },
-          { id: 1, product: 'DevExtreme Reactive', owner: 'DevExpress' },
-        ]}
-        columns={[
-          { name: 'id', title: 'ID' },
-          { name: 'product', title: 'Product' },
-          { name: 'owner', title: 'Owner' },
-        ]}
-      >
+      <Grid rows={data} columns={columns}>
         <Table />
         <TableHeaderRow />
       </Grid>
