@@ -9,7 +9,7 @@ import { ITransactionsAggregate } from '../contracts/transactions-aggregate.inte
 import ApiUtility from '../utilities/api-utility';
 
 const YnabAgent = {
-  getAccountDetails(accountId: string): Promise<any> {
+  getAccountDetails(accountId: string): Promise<ITransaction[]> {
     return ApiUtility.getRequest(InsightRoutes.getAccountDetails, { accountId });
   },
 
