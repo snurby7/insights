@@ -53,6 +53,6 @@
     "tslint-plugin-prettier": "2.0.1",
     "tslint-react": "4.0.0",
     "typeface-roboto": "0.0.54",
-    "ynab": "1.10.0"
+    "ynab": "1.12.0"
   }
 }

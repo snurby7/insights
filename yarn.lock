@@ -10249,9 +10249,9 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
-ynab@1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/ynab/-/ynab-1.10.0.tgz#f0c8f4c0fc315af1553eb46ebe8e1b8b29b7913c"
-  integrity sha512-Ngsffxm8YEbtMZVZAkprb34L5tuN1R+8LOaB1OUe1qP7qsitSzdWxwJlS2U9x+9QiWs5Abj6nWMNHICIFLImGw==
+ynab@1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/ynab/-/ynab-1.12.0.tgz#bbd831dd177aab17325468f109706769bf5efcca"
+  integrity sha512-ldqzxAVfM8DorYMiFj9ig50/rjLvv0XzaZNLQ/muSAzYRqpkmyYJAt1j2OWj16lh0br1U8KNkSDozxBMEjrVLg==
   dependencies:
     portable-fetch "^3.0.0"
