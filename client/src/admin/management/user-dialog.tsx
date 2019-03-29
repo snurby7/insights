@@ -4,8 +4,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 
 import UserAgent from '../../agents/user-agent';
 import { IUser } from '../../contracts/user.interface';
@@ -16,10 +15,6 @@ export interface IDialogState extends IUser {
   open: boolean;
   name: string;
   salary: string;
-}
-
-function Transition(props: void) {
-  return <Slide direction="up" {...props} />;
 }
 
 class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
@@ -75,7 +70,7 @@ class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
   public render() {
     const { open, name, salary } = this.state;
     return (
-      <Dialog open={open} TransitionComponent={Transition} keepMounted={true} onClose={() => this.handleClose()}>
+      <Dialog open={open} keepMounted={true} onClose={() => this.handleClose()}>
         <DialogTitle>User</DialogTitle>
         <DialogContent>
           <DialogContentText>Enter some data about the user to add</DialogContentText>
