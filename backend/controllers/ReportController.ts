@@ -78,7 +78,7 @@ class ReportController {
       results[monthKey][transaction.category_id] = {
         categoryName: Object.keys(transaction).some(x => x === 'category_name')
           ? (<TransactionDetail>transaction).category_name
-          : 'Auto Budgetted',
+          : 'Auto Budgeted',
         outflow: transaction.amount < 0 ? transaction.amount : 0,
         inflow: transaction.amount > 0 ? transaction.amount : 0,
         transactions: [transaction],

@@ -1,16 +1,18 @@
 import { InsightRoutes } from '../common/api-routes';
-import { IAccount } from '../contracts/account.interface';
-import { IBudget } from '../contracts/budget.interface';
-import { ICategory } from '../contracts/category.interface';
-import { IMonthlyExpenseRequest } from '../contracts/monthly-expense-request.interface';
-import { IPayee } from '../contracts/payee.interface';
-import { ITransaction } from '../contracts/transaction.interface';
-import { ITransactionsAggregate } from '../contracts/transactions-aggregate.interface';
+import {
+  IAccount,
+  IBudget,
+  ICategory,
+  IMonthlyExpenseRequest,
+  IPayee,
+  ITransaction,
+  ITransactionsAggregate,
+} from '../contracts';
 import ApiUtility from '../utilities/api-utility';
 
 const YnabAgent = {
-  getAccountDetails(accountId: string): Promise<ITransaction[]> {
-    return ApiUtility.getRequest(InsightRoutes.getAccountDetails, { accountId });
+  getAccountDetails(accountId: string, budgetId: string): Promise<ITransaction[]> {
+    return ApiUtility.getRequest(InsightRoutes.getAccountDetails, { accountId, budgetId });
   },
 
   getBudgetYears(budgetId: string): Promise<number[]> {

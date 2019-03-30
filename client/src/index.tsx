@@ -13,6 +13,7 @@ import { VisibleAdminComponent } from './admin/visible-admin';
 import { VisibleBudgetHomePage } from './budget-home/visible-homepage';
 import { VisibleYnabAppBar } from './common/visible-ynab-app-bar';
 import AccountView from './data-views/accounts/view/AccountView';
+import { VisibleAcountView } from './data-views/accounts/visible/VisibleAccountView';
 import HomePage from './home/homepage';
 import rootReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
@@ -24,7 +25,7 @@ class InsightApp extends React.Component {
   public BudgetHomeRoute = () => <VisibleBudgetHomePage />;
   public HomePageRoute = () => <HomePage />;
   public UserRoute = () => <VisibleUsersComponent />;
-  public AccountView = ({ match }: any) => <AccountView accountId={match.params.accountId} />;
+  public AccountView = ({ match }: any) => <VisibleAcountView accountId={match.params.accountId} />;
 
   // TODO footer component with key metrics, short and sweet high level.
   public render() {
