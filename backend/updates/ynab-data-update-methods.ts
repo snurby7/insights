@@ -1,10 +1,27 @@
 import { Connection } from 'mongoose';
-import * as ynab from 'ynab';
+import { Account, API, api, CategoryGroupWithCategories, Payee, TransactionDetail } from 'ynab';
 
 import { UserConfig } from '../data/user-config.enum';
-import { TransactionDetail } from 'ynab';
+import { FormatUtility } from '../format/format.utility';
 
-const ynabApi: ynab.api = new ynab.API(UserConfig.YnabToken);
+const ynabApi: api = new API(UserConfig.YnabToken);
+
+type ITransactionDetailOmit<TransactionDetail, K extends keyof TransactionDetail> = Pick<TransactionDetail, Exclude<keyof TransactionDetail, K>>;
+
+interface IBudgetId {
+  budgetId?: string;
+}
+interface IMongoMonthYear {
+  date_month: number;
+  date_year: number;
+}
+interface IInsightCategoryGroup extends CategoryGroupWithCategories, IBudgetId {}
+interface IInsightAccount extends Account, IBudgetId {}
+interface IInsightPayee extends Payee, IBudgetId {}
+interface ITransactionDetail extends TransactionDetail, IMongoMonthYear {}
+interface IInsightTransactionDetail extends ITransactionDetailOmit<ITransactionDetail, 'date'>, IBudgetId {
+  date: Date | string;
+}
 
 export const updateBudgets = async function(db: Connection) {
   const response = await ynabApi.budgets.getBudgets();
@@ -28,14 +45,21 @@ export const updateCategories = async function(db: Connection, budgetId: string)
   const categoryGroups = response.data.category_groups;
   await Promise.all(
     categoryGroups.map(
-      async category =>
-        await db.collection('categories').updateOne(
+      async category => {
+          const record = mapOnBudgetId<IInsightCategoryGroup>(category, budgetId);
+          record.categories.forEach(category => {
+            FormatUtility.currencyFormat(category, 'activity');
+            FormatUtility.currencyFormat(category, 'balance');
+            FormatUtility.currencyFormat(category, 'budgeted');
+          });
+          return await db.collection('categories').updateOne(
           {
             id: category.id
           },
-          { $set: mapOnBudgetId(category, budgetId) },
+          { $set: record },
           { upsert: true }
-        )
+        );
+      }
     )
   );
 };
@@ -45,14 +69,16 @@ export const updateAccounts = async function(db: Connection, budgetId: string) {
   const accounts = response.data.accounts;
   await Promise.all(
     accounts.map(
-      async (account) =>
-        await db.collection('accounts').updateOne(
+      async (account) => {
+          const record = FormatUtility.currencyFormat(mapOnBudgetId<IInsightAccount>(account, budgetId), 'balance');
+          return await db.collection('accounts').updateOne(
           {
             id: account.id
           },
-          { $set: mapOnBudgetId(account, budgetId) },
+          { $set: record },
           { upsert: true }
-        )
+        );
+      }
     )
   );
 };
@@ -61,14 +87,14 @@ export const updateAllPayees = async function(db: Connection, budgetId: string) 
   const payees = response.data.payees;
   await Promise.all(
     payees.map(
-      async payee =>
-        await db.collection('payees').updateOne(
+      async payee => {
+        return await db.collection('payees').updateOne(
           {
             id: payee.id
           },
-          { $set: mapOnBudgetId(payee, budgetId) },
+          { $set: mapOnBudgetId<IInsightPayee>(payee, budgetId) },
           { upsert: true }
-        )
+        ); }
     )
   );
 };
@@ -78,28 +104,41 @@ export const updateAllTransactions = async function(db: Connection, budgetId: st
   const transactions = response.data.transactions;
   await Promise.all(
     transactions.map(
-      async transaction =>
-        await db.collection('transactions').updateOne(
+      async transaction => {
+        const record = formatAmount(
+          mapTransactions<IInsightTransactionDetail>(<IInsightTransactionDetail>transaction, budgetId),
+          'amount'
+        );
+        record.subtransactions.forEach(sub => {
+          sub = FormatUtility.currencyFormat(sub, 'amount');
+        });
+        return await db.collection('transactions').updateOne(
           {
             id: transaction.id
           },
-          { $set: mapTransactions(transaction, budgetId) },
+          { $set: record },
           { upsert: true }
-        )
+        );
+      }
     )
   );
 };
 
-function mapOnBudgetId(item: any, budgetId: string) {
+function formatAmount<T>(item: T, key: keyof T): T {
+  return FormatUtility.currencyFormat<T>(item, key);
+}
+
+
+function mapOnBudgetId<T extends IBudgetId>(item: T, budgetId: string): T {
   if (item.budgetId) { throw Error('item has a budgetId'); }
   item.budgetId = budgetId;
   return item;
 }
 
-function mapTransactions(item: TransactionDetail, budgetId: string) {
-  const transaction = mapOnBudgetId(item, budgetId);
-  const dateParts = transaction.date.split('-');
-  transaction.date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+function mapTransactions<T extends IInsightTransactionDetail>(item: T, budgetId: string): IInsightTransactionDetail {
+  const transaction = mapOnBudgetId<IInsightTransactionDetail>(item, budgetId);
+  const dateParts = (transaction.date as string).split('-');
+  transaction.date = new Date(+dateParts[0], +dateParts[1] - 1, +dateParts[2]);
   transaction.date_month = +dateParts[1] - 1;
   transaction.date_year = +dateParts[0];
   return transaction;

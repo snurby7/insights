@@ -11,10 +11,12 @@ class AccountDetailController {
   }
 
   @Get(':accountId')
-  public async getAccounts(req: Request, res: Response): Promise<void> {
+  public async getTransactionsForAccount(req: Request, res: Response): Promise<void> {
     const {accountId: account_id} = req.params;
     const transactions = await this._db.collection('transactions').find({
       account_id
+    }).sort({
+      date: -1
     }).toArray();
     res.send(transactions);
   }

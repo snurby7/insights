@@ -12,8 +12,8 @@ export default class AccountView extends Component<IAccountViewProps, IAccountVi
   public state: IAccountViewState = {} as IAccountViewState;
 
   public componentDidMount = () => {
-    const { accountId } = this.props;
-    YnabAgent.getAccountDetails(accountId).then(details => {
+    const { accountId, budgetId } = this.props;
+    YnabAgent.getAccountDetails(accountId, budgetId).then(details => {
       this.setUpStateFromData(details);
     });
   };

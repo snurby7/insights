@@ -7,7 +7,6 @@
     "indent": false,
     "label-position": true,
     "label-undefined": true,
-    "max-line-length": [true, 100],
     "no-arg": true,
     "no-bitwise": true,
     "no-construct": true,

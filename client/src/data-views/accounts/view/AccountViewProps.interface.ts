@@ -9,4 +9,10 @@ export interface IAccountViewProps {
    * @memberof IAccountViewProps
    */
   accountId: string;
+  /**
+   * @description The budgetId for the current redux state
+   * @type {string} Need the budgetId on here to filter down the transactions to the current budgetId
+   * @memberof IAccountViewProps
+   */
+  budgetId: string;
 }
