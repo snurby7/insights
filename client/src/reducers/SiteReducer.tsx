@@ -1,6 +1,5 @@
 import { SiteActions } from '../actions/site-actions';
-import { IReducerAction } from '../contracts/reducer-action.interface';
-import { ISiteState } from '../contracts/site-state.interface';
+import { IReducerAction, ISiteState } from '../contracts';
 
 function siteState(state: ISiteState = {}, action: IReducerAction) {
   const sessionStorageBudgetId = sessionStorage.getItem('budgetId');

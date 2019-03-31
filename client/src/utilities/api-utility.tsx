@@ -2,7 +2,7 @@ import urlFormatter from 'url';
 
 import { UrlFormatUtility } from './url-format-utility';
 
-const ApiUtility = {
+export const ApiUtility = {
   /**
    * @description A wrapper around the fetch operation in case my needs ever hange
    *
@@ -50,5 +50,3 @@ const ApiUtility = {
     return await response.json();
   },
 };
-
-export default ApiUtility;
