@@ -1,14 +1,14 @@
-import { InsightRoutes } from '../common/api-routes';
 import {
   IAccount,
   IBudget,
-  ICategory,
+  ICategoryGroupWithCategories,
   IMonthlyExpenseRequest,
   IPayee,
   ITransaction,
   ITransactionsAggregate,
 } from '../contracts';
-import ApiUtility from '../utilities/api-utility';
+import { InsightRoutes } from '../routes/api-routes';
+import { ApiUtility } from '../utilities';
 
 const YnabAgent = {
   getAccountDetails(accountId: string, budgetId: string): Promise<ITransaction[]> {
@@ -35,7 +35,7 @@ const YnabAgent = {
     return ApiUtility.getRequest(InsightRoutes.getPayees, { budgetId });
   },
 
-  getCategoriesByBudgetId(budgetId: string): Promise<ICategory[]> {
+  getCategoriesByBudgetId(budgetId: string): Promise<ICategoryGroupWithCategories[]> {
     return ApiUtility.getRequest(InsightRoutes.getCategories, { budgetId });
   },
 

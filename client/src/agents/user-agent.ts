@@ -1,6 +1,6 @@
-import { InsightRoutes } from '../common/api-routes';
-import { IUser } from '../contracts/user.interface';
-import ApiUtility from '../utilities/api-utility';
+import { IUser } from '../contracts';
+import { InsightRoutes } from '../routes/api-routes';
+import { ApiUtility } from '../utilities';
 
 const UserAgent = {
   getUsers(budgetId: string): Promise<IUser[]> {

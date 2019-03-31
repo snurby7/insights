@@ -1,5 +1,5 @@
-import { InsightRoutes } from '../common/api-routes';
-import ApiUtility from '../utilities/api-utility';
+import { InsightRoutes } from '../routes/api-routes';
+import { ApiUtility } from '../utilities';
 
 const AdminAgent = {
   updatePayees(budgetId: string): Promise<void> {
