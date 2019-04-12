@@ -1,7 +1,7 @@
 import React from 'react';
 import { Category } from 'ynab';
 
-import { SiteUtility, YnabDataUtility } from '../../../utilities';
+import { FormatUtility, SiteUtility } from '../../../utilities';
 import SubCategory from './sub-category';
 
 export interface CategoryHandlerProps {
@@ -15,7 +15,7 @@ class CategoryGroupHandler extends React.Component<CategoryHandlerProps> {
     return (
       <React.Fragment>
         <h3>
-          {name}- ({YnabDataUtility.format(SiteUtility.accumulate(categories.map(x => x.activity)))})
+          {name}- ({FormatUtility.toUSD(SiteUtility.accumulate(categories.map(x => x.activity)))})
         </h3>
         <SubCategory subCategories={categories} />
       </React.Fragment>

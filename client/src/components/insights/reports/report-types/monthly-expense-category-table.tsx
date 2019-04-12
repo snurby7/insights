@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { OverflowAnchorProperty } from 'csstype';
 import React from 'react';
 
-import { YnabDataUtility } from '../../../../utilities';
+import { FormatUtility } from '../../../../utilities';
 
 export interface IMonthlyExpenseCategoryTableProps {
   classes: any;
@@ -54,8 +54,8 @@ class MonthlyExpenseCategoryTable extends React.Component<IMonthlyExpenseCategor
                     <TableCell component="th" scope="payee">
                       {monthData[categoryId].categoryName}
                     </TableCell>
-                    <TableCell component="th">{YnabDataUtility.format(monthData[categoryId].outflow)}</TableCell>
-                    <TableCell component="th">{YnabDataUtility.format(monthData[categoryId].inflow)}</TableCell>
+                    <TableCell component="th">{FormatUtility.toUSD(monthData[categoryId].outflow)}</TableCell>
+                    <TableCell component="th">{FormatUtility.toUSD(monthData[categoryId].inflow)}</TableCell>
                     <TableCell component="th">{monthData[categoryId].transactions.length}</TableCell>
                   </TableRow>
                 );

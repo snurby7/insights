@@ -8,7 +8,7 @@ import Slide from '@material-ui/core/Slide';
 import React from 'react';
 
 import { ITransaction } from '../../../../contracts';
-import { YnabDataUtility } from '../../../../utilities';
+import { FormatUtility } from '../../../../utilities';
 
 export interface ITransactionsDialogProps {
   payeeName: string;
@@ -27,7 +27,7 @@ function renderTransactions(transaction: ITransaction) {
       <div>Account - {transaction.account_name}</div>
       <div>Date - {transaction.date}</div>
       <div>Category - {transaction.category_name}</div>
-      <div>Amount - ({YnabDataUtility.format(transaction.amount)})</div>
+      <div>Amount - ({FormatUtility.toUSD(transaction.amount)})</div>
     </li>
   );
 }

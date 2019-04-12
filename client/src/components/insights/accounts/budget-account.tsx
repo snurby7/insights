@@ -5,7 +5,7 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { IAccount } from '../../../contracts';
-import { YnabDataUtility } from '../../../utilities';
+import { FormatUtility } from '../../../utilities';
 
 export interface IBudgetAccount extends RouteComponentProps<any>, IAccount {}
 
@@ -41,7 +41,7 @@ class BudgetAccount extends React.Component<IBudgetAccount> {
         className={className}
       >
         {' '}
-        ({YnabDataUtility.format(balance)}){' '}
+        ({FormatUtility.toUSD(balance)}){' '}
       </span>
     );
   }

@@ -1,26 +1,21 @@
 import React from 'react';
-import { Category } from 'ynab';
 
-import { YnabDataUtility } from '../../../utilities';
+import { FormatUtility } from '../../../utilities';
+import RoutingButton, { ButtonDisplayType } from '../../common';
+import { ICategoryItemProps } from './category-item-props.interface';
 
-export interface CategoryItemProps extends Category {
-  biggestCategoryId: string;
-}
-
-class CategoryItem extends React.Component<CategoryItemProps> {
-  constructor(props: CategoryItemProps) {
-    super(props);
-  }
-
-  public itemStyles = (categoryId: string) => ({
+class CategoryItem extends React.Component<ICategoryItemProps> {
+  public itemStyles = (categoryId: string): React.CSSProperties => ({
     color: categoryId === this.props.biggestCategoryId ? 'red' : 'black',
   });
 
   public render() {
-    const props = this.props;
+    const { activity, id: categoryId, name: categoryName } = this.props;
     return (
       <React.Fragment>
-        {props.name} - <strong style={this.itemStyles(props.id)}> ({YnabDataUtility.format(props.activity)})</strong>
+        <RoutingButton displayType={ButtonDisplayType.Node} route={`/category/${categoryId}`}>
+          {categoryName} - <strong style={this.itemStyles(categoryId)}> ({FormatUtility.toUSD(activity)})</strong>
+        </RoutingButton>
       </React.Fragment>
     );
   }
