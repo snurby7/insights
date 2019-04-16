@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FormatUtility } from '../../../utilities';
-import RoutingButton, { ButtonDisplayType } from '../../common';
+import { ButtonDisplayType, RoutingButton } from '../../common';
 import { ICategoryItemProps } from './category-item-props.interface';
 
 class CategoryItem extends React.Component<ICategoryItemProps> {
