@@ -14,4 +14,4 @@ export const DxReactGridWrapper = class DxReactGridWrapperClass extends Componen
       </Grid>
     );
   }
-}
+};
