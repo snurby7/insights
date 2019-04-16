@@ -1,11 +1,7 @@
 import React from 'react';
 import { Category } from 'ynab';
 
-<<<<<<< HEAD:client/src/components/insights/categories/category-group-handler.tsx
-import { SiteUtility, YnabDataUtility } from '../../../utilities';
-=======
 import { FormatUtility, SiteUtility } from '../../../utilities';
->>>>>>> categories-building-36:client/src/components/insights/categories/category-group-handler.tsx
 import SubCategory from './sub-category';
 
 export interface CategoryHandlerProps {

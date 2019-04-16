@@ -8,11 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { OverflowAnchorProperty } from 'csstype';
 import React from 'react';
 
-<<<<<<< HEAD:client/src/components/insights/reports/report-types/monthly-expense-category-table.tsx
-import { YnabDataUtility } from '../../../../utilities';
-=======
 import { FormatUtility } from '../../../../utilities';
->>>>>>> categories-building-36:client/src/components/insights/reports/report-types/monthly-expense-category-table.tsx
 
 export interface IMonthlyExpenseCategoryTableProps {
   classes: any;

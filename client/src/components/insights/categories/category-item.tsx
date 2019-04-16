@@ -1,7 +1,7 @@
 import React from 'react';
 import { Category } from 'ynab';
 
-import { YnabDataUtility } from '../../../utilities';
+import { FormatUtility } from '../../../utilities';
 
 export interface CategoryItemProps extends Category {
   biggestCategoryId: string;
@@ -20,7 +20,7 @@ class CategoryItem extends React.Component<CategoryItemProps> {
     const props = this.props;
     return (
       <React.Fragment>
-        {props.name} - <strong style={this.itemStyles(props.id)}> ({YnabDataUtility.format(props.activity)})</strong>
+        {props.name} - <strong style={this.itemStyles(props.id)}> ({FormatUtility.toUSD(props.activity)})</strong>
       </React.Fragment>
     );
   }

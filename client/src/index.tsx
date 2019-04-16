@@ -10,14 +10,6 @@ import { createStore } from 'redux';
 
 import { VisibleYnabAppBar } from './components/common/visible-ynab-app-bar';
 import {
-<<<<<<< HEAD
-  VisibleAcountView,
-  VisibleAdminComponent,
-  VisibleBudgetHomePage,
-  VisibleUsersComponent,
-} from './components/insights';
-import HomePage from './components/insights/home/homepage';
-=======
   HomePage,
   VisibleAcountView,
   VisibleAdminComponent,
@@ -25,7 +17,6 @@ import HomePage from './components/insights/home/homepage';
   VisibleCategoryView,
   VisibleUsersComponent,
 } from './components/insights';
->>>>>>> categories-building-36
 import rootReducer from './reducers';
 import * as serviceWorker from './serviceWorker';
 

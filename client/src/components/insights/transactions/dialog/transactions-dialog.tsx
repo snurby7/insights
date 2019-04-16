@@ -8,11 +8,7 @@ import Slide from '@material-ui/core/Slide';
 import React from 'react';
 
 import { ITransaction } from '../../../../contracts';
-<<<<<<< HEAD:client/src/components/insights/transactions/dialog/transactions-dialog.tsx
-import { YnabDataUtility } from '../../../../utilities';
-=======
 import { FormatUtility } from '../../../../utilities';
->>>>>>> categories-building-36:client/src/components/insights/transactions/dialog/transactions-dialog.tsx
 
 export interface ITransactionsDialogProps {
   payeeName: string;
