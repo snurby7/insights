@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { ISiteReducers } from '../../../../../contracts';
-import CategoryView from '../category-view';
+import CategoryView from '../display/category-view';
 
 const mapStateToProps = (reducers: ISiteReducers) => {
   const { budgetId = '' } = reducers.siteState;
