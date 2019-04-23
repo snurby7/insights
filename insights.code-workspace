@@ -43,6 +43,9 @@
 			"titleBar.inactiveBackground": "#00b3e699",
 			"titleBar.activeForeground": "#15202b",
 			"titleBar.inactiveForeground": "#15202b99"
-		}
+		},
+		"prettier.jsxSingleQuote": true,
+		"prettier.singleQuote": true,
+		"editor.formatOnSave": true
 	}
 }
