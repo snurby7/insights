@@ -8,7 +8,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { SiteActions } from '../../../actions/site-actions';
 import YnabAgent from '../../../agents/ynab-agent';
 import { IBudget, ICardDisplay, IReducerAction } from '../../../contracts';
-import GridDisplay from '../../common/grid-display';
+import { GridDisplay } from '../../common/grid-display';
 
 export interface IHomePageProps extends RouteComponentProps<any> {
   classes: any;
