@@ -13,7 +13,7 @@ class CategoryItem extends React.Component<CategoryItemProps> {
   }
 
   public itemStyles = (categoryId: string) => ({
-    color: categoryId === this.props.biggestCategoryId ? 'red' : 'black',
+    color: categoryId === this.props.biggestCategoryId ? '#b53f49' : 'black',
   });
 
   public render() {

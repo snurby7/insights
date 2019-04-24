@@ -1,5 +1,5 @@
 export const SiteUtility = {
   accumulate(values: number[]) {
-    return values.reduce((accumulator, currentValue) => accumulator + currentValue);
+    return values.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
   },
 };
