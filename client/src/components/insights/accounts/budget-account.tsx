@@ -14,10 +14,9 @@ class BudgetAccount extends React.Component<IBudgetAccount> {
     const { id, name, balance, match } = this.props;
     return (
       <Button
-        style={{ display: 'block' }}
+        style={{ display: 'block', color: 'white' }}
         type="button"
         key={name}
-        color="primary"
         onClick={() => this.props.history.push(`/account/${id}`)}
       >
         <span>
@@ -28,20 +27,19 @@ class BudgetAccount extends React.Component<IBudgetAccount> {
   }
 
   public formatAccountBalance(balance: number) {
-    const className = balance < 0 ? ' negative-balance' : '';
+    const className = balance < 0 ? ' negative-balance' : 'default-balance';
     return (
       <span
         style={{
+          backgroundColor: 'white',
           display: 'inline-block',
           borderRadius: 15,
-          padding: 4,
+          padding: '2px 4px',
           boxShadow: '0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)',
-          transition: '0.2s ease-out',
         }}
         className={className}
       >
-        {' '}
-        ({FormatUtility.toUSD(balance)}){' '}
+        {FormatUtility.toUSD(balance)}
       </span>
     );
   }

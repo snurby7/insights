@@ -4,8 +4,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { IReducerAction } from '../../../contracts';
-import Accounts from '../accounts/accounts';
-import ActionBarComponent, { IActionBarAction } from '../action-bar/action-bar';
+import AccountsContainer from '../accounts/accounts';
+import ActionBarComponent from '../action-bar/ActionBarComponent';
+import { IActionBarAction } from '../action-bar/IActionBarAction';
 import CategoryGroupWithCategories from '../categories/category-group-with-categories';
 import LifeEnergy from '../life-energy/life-energy';
 import Payees from '../payees/payees';
@@ -28,25 +29,23 @@ const styles: StyleRulesCallback<string> | StyleRules<string> = (theme: Theme) =
     display: 'flex',
     overflowX: 'hidden',
   },
-  accountsContainer: {
+  mainContainer: {
+    marginLeft: '315px',
+    overflowY: 'auto',
+    width: '100%',
+  },
+  sideBarContainer: {
     width: '300px',
     position: 'fixed' as 'fixed',
     height: '100vh',
     boxShadow: `2px 2px 5px ${fade(theme.palette.common.black, 0.4)}`,
-    paddingRight: 10,
-    paddingLeft: 10,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.primary.main, 0.9),
-    color: theme.palette.common.white,
-  },
-  categoriesContainer: {
-    marginLeft: '315px',
-    width: '100%',
-    overflowY: 'auto',
+    color: theme.palette.primary.contrastText,
   },
 });
 
@@ -87,15 +86,16 @@ class BudgetHome extends React.Component<IBudgetHomeProps, IBudgetHomeState> {
     const { selectedSection } = this.state;
     const { budgetId, classes } = this.props;
     return (
-      <div>
-        <h3>Welcome to your budget Home</h3>
+      <React.Fragment>
         <div className={classes.elementContainer}>
-          <ActionBarComponent actionItems={this.actionItems}>
-            <Accounts budgetId={budgetId} />
-          </ActionBarComponent>
-          {this.getVisibleSection(selectedSection)}
+          <div className={classes.sideBarContainer}>
+            <ActionBarComponent actionItems={this.actionItems}>
+              <AccountsContainer budgetId={budgetId} />
+            </ActionBarComponent>
+          </div>
+          <main className={classes.mainContainer}>{this.getVisibleSection(selectedSection)}</main>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 

@@ -1,3 +1,5 @@
+import { StyleRulesCallback, Theme } from '@material-ui/core';
+import { StyleRules, withStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 import YnabAgent from '../../../agents/ynab-agent';
@@ -6,22 +8,31 @@ import BudgetAccount from './budget-account';
 
 export interface IAccountsProps {
   budgetId: string;
+  classes: Record<string, string>;
 }
 
 export interface IAccountsState {
   accounts: IAccount[];
 }
 
-class Accounts extends React.Component<IAccountsProps, IAccountsState> {
+const styles: StyleRulesCallback<string> | StyleRules<string> = (theme: Theme) => ({
+  accountLabel: {
+    color: theme.palette.primary.contrastText,
+    fontSize: 20,
+  },
+});
+
+class AccountsContainer extends React.Component<IAccountsProps, IAccountsState> {
   public state = {
     accounts: [] as IAccount[],
   };
 
   public render() {
+    const { classes } = this.props;
     const { accounts } = this.state;
     return (
       <div>
-        <h3>Accounts</h3>
+        <div className={classes.accountLabel}>Accounts</div>
         {accounts.map(props => (
           <BudgetAccount key={props.id} {...props} />
         ))}
@@ -37,4 +48,4 @@ class Accounts extends React.Component<IAccountsProps, IAccountsState> {
   }
 }
 
-export default Accounts;
+export default withStyles(styles, { withTheme: true })(AccountsContainer);

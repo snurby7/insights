@@ -1,4 +1,9 @@
 .negative-balance {
-  color: red;
+  color: #b53f49;
+  font-weight: bold;
+}
+
+.default-balance {
+  color: black;
   font-weight: bold;
 }
