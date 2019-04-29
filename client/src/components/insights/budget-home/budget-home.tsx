@@ -58,26 +58,31 @@ class BudgetHome extends React.Component<IBudgetHomeProps, IBudgetHomeState> {
     {
       id: `694a09f5-57f4-4aa6-abe7-93b9a3f7d801`,
       displayName: 'Home',
+      iconName: 'home',
       onClick: () => this.updateStateIfDifferent(BudgetActions.Home),
     },
     {
       id: `1a562f70-9738-493d-bcb3-42b732a87c53`,
       displayName: 'View Life Energy',
+      iconName: 'transfer_within_a_station',
       onClick: () => this.updateStateIfDifferent(BudgetActions.LifeEnergy),
     },
     {
       id: `3a9a0381-1cc7-4a5a-96f3-cf9f734d45c7`,
       displayName: 'View Payees',
+      iconName: 'people',
       onClick: () => this.updateStateIfDifferent(BudgetActions.Payees),
     },
     {
       id: `f0b3df29-a6c8-490d-b0bf-1394aebb364e`,
       displayName: 'View Transactions',
+      iconName: 'attach_money',
       onClick: () => this.updateStateIfDifferent(BudgetActions.Transactions),
     },
     {
       id: `a0bf194a-de88-4c21-bdb6-5708af9e7117`,
       displayName: 'View Reports',
+      iconName: 'compare_arrows',
       onClick: () => this.updateStateIfDifferent(BudgetActions.Reports),
     },
   ];
