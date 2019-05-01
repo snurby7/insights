@@ -7,10 +7,10 @@ import {
   ITransaction,
   ITransactionsAggregate,
 } from '../contracts';
-import { InsightRoutes } from '../routes/api-routes';
 import { ApiUtility } from '../utilities';
+import { InsightRoutes } from './routes';
 
-const YnabAgent = {
+export const YnabAgent = {
   getAccountDetails(accountId: string, budgetId: string): Promise<ITransaction[]> {
     return ApiUtility.getRequest(InsightRoutes.getAccountDetails, { accountId, budgetId });
   },
@@ -48,5 +48,3 @@ const YnabAgent = {
     return ApiUtility.getRequest(InsightRoutes.reportsMonthly, request, true);
   },
 };
-
-export default YnabAgent;

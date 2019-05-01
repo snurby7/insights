@@ -1,7 +1,7 @@
-import { InsightRoutes } from '../routes/api-routes';
 import { ApiUtility } from '../utilities';
+import { InsightRoutes } from './routes';
 
-const AdminAgent = {
+export const AdminAgent = {
   updatePayees(budgetId: string): Promise<void> {
     return ApiUtility.postRequest(InsightRoutes.syncPayees, { budgetId });
   },
@@ -18,4 +18,3 @@ const AdminAgent = {
     return ApiUtility.postRequest(InsightRoutes.syncBudgets, { budgetId });
   },
 };
-export default AdminAgent;

@@ -1,8 +1,8 @@
 import { IUser } from '../contracts';
-import { InsightRoutes } from '../routes/api-routes';
 import { ApiUtility } from '../utilities';
+import { InsightRoutes } from './routes';
 
-const UserAgent = {
+export const UserAgent = {
   getUsers(budgetId: string): Promise<IUser[]> {
     return ApiUtility.getRequest(InsightRoutes.users, { budgetId });
   },
@@ -16,4 +16,3 @@ const UserAgent = {
     return ApiUtility.postRequest(InsightRoutes.addUser, request);
   },
 };
-export default UserAgent;

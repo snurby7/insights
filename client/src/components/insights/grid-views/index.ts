@@ -1,1 +1,1 @@
-export * from './accounts/visible/VisibleAccountView';
+export * from './accounts';
