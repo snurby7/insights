@@ -8,13 +8,13 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createStore } from 'redux';
 
-import { VisibleYnabAppBar } from './components/common/visible-ynab-app-bar';
+import { VisibleYnabAppBar } from './components/common';
 import {
   HomePage,
-  VisibleAcountView,
-  VisibleAdminComponent,
+  VisibleAccountView,
+  VisibleAdminPage,
   VisibleBudgetHomePage,
-  VisibleCategoryView,
+  VisibleCategoryViewPage,
   VisibleUsersComponent,
 } from './components/insights';
 import rootReducer from './reducers';
@@ -23,12 +23,12 @@ import * as serviceWorker from './serviceWorker';
 class InsightApp extends React.Component {
   public store = createStore(rootReducer);
 
-  public AdminRoute = () => <VisibleAdminComponent />;
+  public AdminRoute = () => <VisibleAdminPage />;
   public BudgetHomeRoute = () => <VisibleBudgetHomePage />;
   public HomePageRoute = () => <HomePage />;
   public UserRoute = () => <VisibleUsersComponent />;
-  public AccountView = ({ match }: any) => <VisibleAcountView accountId={match.params.accountId} />;
-  public CategoryView = ({ match }: any) => <VisibleCategoryView categoryId={match.params.categoryId} />;
+  public AccountView = ({ match }: any) => <VisibleAccountView accountId={match.params.accountId} />;
+  public CategoryView = ({ match }: any) => <VisibleCategoryViewPage categoryId={match.params.categoryId} />;
 
   // TODO footer component with key metrics, short and sweet high level.
   public render() {

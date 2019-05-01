@@ -9,9 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import { OverflowAnchorProperty } from 'csstype';
 import React from 'react';
 
-import YnabAgent from '../../../agents/ynab-agent';
+import { YnabAgent } from '../../../agents';
 import { IPayee, ITransaction } from '../../../contracts';
-import TransactionsDialog from '../transactions/dialog/transactions-dialog';
+import { TransactionsDialog } from '../transactions';
 
 export interface IPayeeProps {
   classes: any;
