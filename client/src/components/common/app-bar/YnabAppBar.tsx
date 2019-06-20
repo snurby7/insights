@@ -11,7 +11,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
@@ -111,122 +111,113 @@ export interface IYnabAppBarProps extends RouteComponentProps<any> {
 export interface IYnabAppBarState {
   anchorEl: any;
   mobileMoreAnchorEl: any;
-  open: boolean;
 }
 
-class YnabAppBar extends React.Component<IYnabAppBarProps, IYnabAppBarState> {
-  public state = {
-    open: false,
-    anchorEl: null,
-    mobileMoreAnchorEl: null,
+const YnabAppBar = (props: IYnabAppBarProps) => {
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+  const handleMenuClose = () => {
+    handleMobileMenuClose();
   };
 
-  public handleMenuClose = () => {
-    this.setState({ anchorEl: null });
-    this.handleMobileMenuClose();
+  const handleMobileMenuOpen = (event: any) => {
+    setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  public handleMobileMenuOpen = (event: any) => {
-    this.setState({ mobileMoreAnchorEl: event.currentTarget });
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
   };
 
-  public handleMobileMenuClose = () => {
-    this.setState({ mobileMoreAnchorEl: null });
-  };
-
-  public closeBudget() {
-    this.props.dispatch({
+  const closeBudget = () => {
+    props.dispatch({
       type: SiteActions.UPDATE_SELECTED_BUDGET,
       payload: { budgetId: '' },
     });
-    this.props.history.push('/');
-  }
+    props.history.push('/');
+  };
 
-  public render() {
-    const { budgetId, classes } = this.props;
-    const { mobileMoreAnchorEl, open } = this.state;
+  const { budgetId, classes } = props;
 
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    const hasBudgetSelection = budgetId && budgetId.length > 0;
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const hasBudgetSelection = budgetId && budgetId.length > 0;
 
-    const renderMobileMenu = hasBudgetSelection && (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMobileMenuOpen}
-        onClose={this.handleMobileMenuClose}
-      >
-        <MenuItem onClick={() => this.props.history.push(`/budget`)}>
-          <IconButton color="inherit">
-            <Icon>home</Icon>
-          </IconButton>
-          <p>Home</p>
-        </MenuItem>
-        <MenuItem onClick={() => this.props.history.push(`/budget/update`)}>
-          <IconButton color="inherit">
-            <Icon>sync</Icon>
-          </IconButton>
-          <p>Sync</p>
-        </MenuItem>
-        <MenuItem onClick={() => this.closeBudget()}>
-          <IconButton color="inherit">
-            <Icon>close</Icon>
-          </IconButton>
-          <p>Logout</p>
-        </MenuItem>
-      </Menu>
-    );
+  const renderMobileMenu = hasBudgetSelection && (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem onClick={() => props.history.push(`/budget`)}>
+        <IconButton color="inherit">
+          <Icon>home</Icon>
+        </IconButton>
+        <p>Home</p>
+      </MenuItem>
+      <MenuItem onClick={() => props.history.push(`/budget/update`)}>
+        <IconButton color="inherit">
+          <Icon>sync</Icon>
+        </IconButton>
+        <p>Sync</p>
+      </MenuItem>
+      <MenuItem onClick={closeBudget}>
+        <IconButton color="inherit">
+          <Icon>close</Icon>
+        </IconButton>
+        <p>Logout</p>
+      </MenuItem>
+    </Menu>
+  );
 
-    return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar position="static" className={classes.appBar}>
-          <Toolbar>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap={true}>
-              Insights
-            </Typography>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar position="static" className={classes.appBar}>
+        <Toolbar>
+          <Typography className={classes.title} variant="h6" color="inherit" noWrap={true}>
+            Insights
+          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
             </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              {hasBudgetSelection && (
-                <React.Fragment>
-                  <IconButton onClick={() => this.props.history.push(`/budget`)} color="inherit">
-                    <Icon>home</Icon>
-                  </IconButton>
-                  <IconButton onClick={() => this.props.history.push(`/budget/update`)} color="inherit">
-                    <Icon>sync</Icon>
-                  </IconButton>
-                  <IconButton onClick={() => this.closeBudget()} color="inherit">
-                    <Icon>close</Icon>
-                  </IconButton>
-                </React.Fragment>
-              )}
-            </div>
-            <div className={classes.sectionMobile}>
-              {hasBudgetSelection && (
-                <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                  <MoreIcon />
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+            />
+          </div>
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            {hasBudgetSelection && (
+              <React.Fragment>
+                <IconButton onClick={() => props.history.push(`/budget`)} color="inherit">
+                  <Icon>home</Icon>
                 </IconButton>
-              )}
-            </div>
-          </Toolbar>
-        </AppBar>
-        {renderMobileMenu}
-      </div>
-    );
-  }
-}
+                <IconButton onClick={() => props.history.push(`/budget/update`)} color="inherit">
+                  <Icon>sync</Icon>
+                </IconButton>
+                <IconButton onClick={closeBudget} color="inherit">
+                  <Icon>close</Icon>
+                </IconButton>
+              </React.Fragment>
+            )}
+          </div>
+          <div className={classes.sectionMobile}>
+            {hasBudgetSelection && (
+              <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
+                <MoreIcon />
+              </IconButton>
+            )}
+          </div>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+    </div>
+  );
+};
 
 export const YnabAppBarComponent = withStyles(styles, { withTheme: true })(connect()(withRouter(YnabAppBar)));

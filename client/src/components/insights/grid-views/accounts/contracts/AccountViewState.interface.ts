@@ -1,4 +1,4 @@
-import { IDxReactGridWrapperProps } from '../../../../common/grid/DxReactGridWrapperProps.interface';
+import { IDxReactGridWrapperProps } from '../../../../common';
 
 export interface IAccountViewState {
   gridProps: IDxReactGridWrapperProps;

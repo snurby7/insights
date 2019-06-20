@@ -8,7 +8,7 @@ export const AdminAgent = {
   updateAccounts(budgetId: string): Promise<void> {
     return ApiUtility.postRequest(InsightRoutes.syncAccounts, { budgetId });
   },
-  udateTransactions(budgetId: string): Promise<void> {
+  updateTransactions(budgetId: string): Promise<void> {
     return ApiUtility.postRequest(InsightRoutes.syncTransactions, { budgetId });
   },
   updateCategories(budgetId: string): Promise<void> {

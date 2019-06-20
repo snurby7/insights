@@ -2,7 +2,7 @@ import { PropTypes } from '@material-ui/core';
 import Button, { ButtonProps } from '@material-ui/core/Button';
 import React from 'react';
 
-export interface IRbButtonOptions {
+export interface IRbButtonProps {
   style?: React.CSSProperties;
   type?: ButtonProps['type'];
   variant?: ButtonProps['variant'];
@@ -11,15 +11,10 @@ export interface IRbButtonOptions {
   onClick: () => void;
 }
 
-class RbButton extends React.Component<IRbButtonOptions> {
-  public render() {
-    const { variant, color, onClick, type, displayName } = this.props;
-    return (
-      <Button type={type} variant={variant} color={color} onClick={() => onClick()}>
-        {displayName}
-      </Button>
-    );
-  }
-}
-
-export default RbButton;
+export const RbButton = ({ variant, color, onClick, type, displayName }: IRbButtonProps) => {
+  return (
+    <Button type={type} variant={variant} color={color} onClick={() => onClick()}>
+      {displayName}
+    </Button>
+  );
+};

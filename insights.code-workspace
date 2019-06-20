@@ -1,51 +1,47 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"extensions": {
-		"recommendations": [
-			"kisstkondoros.vscode-codemetrics",
-		]
-	},
-	"settings": {
-		"files.exclude": {
-			"**/.git": true,
-			"**/.svn": true,
-			"**/.hg": true,
-			"**/CVS": true,
-			"**/.DS_Store": true,
-			"**/*.js.map": true,
-			"**/*.js": {"when": "$(basename).ts"},
-		},
-		"typescriptHero.imports.organizeOnSave": true,
-		"typescript.updateImportsOnFileMove.enabled": "always",
-		"typescriptHero.imports.disableImportRemovalOnOrganize": false,
-		"typescriptHero.imports.insertSemicolons": true,
-		"emmet.includeLanguages": {
-			"javascript": "javascriptreact"
-		},
-		"eslint.autoFixOnSave": true,
-		"eslint.alwaysShowStatus": true,
-		"codemetrics.basics.ComplexityLevelExtremeDescription": "😱",
-		"codemetrics.basics.ComplexityLevelHighDescription": "😳",
-		"codemetrics.basics.ComplexityLevelLowDescription": "🤓",
-		"codemetrics.basics.ComplexityLevelNormalDescription": "🤔",
-		"codemetrics.basics.ComplexityTemplate": "Complexity is {0} {1}",
-		"workbench.colorCustomizations": {
-			"activityBar.background": "#1accff",
-			"activityBar.foreground": "#15202b",
-			"activityBar.inactiveForeground": "#15202b99",
-			"activityBarBadge.background": "#df00ad",
-			"activityBarBadge.foreground": "#e7e7e7",
-			"titleBar.activeBackground": "#00b3e6",
-			"titleBar.inactiveBackground": "#00b3e699",
-			"titleBar.activeForeground": "#15202b",
-			"titleBar.inactiveForeground": "#15202b99"
-		},
-		"prettier.jsxSingleQuote": true,
-		"prettier.singleQuote": true,
-		"editor.formatOnSave": true
-	}
+    "folders": [{
+        "path": "."
+    }],
+    "extensions": {
+        "recommendations": [
+
+        ]
+    },
+    "settings": {
+        "files.exclude": {
+            "**/.git": true,
+            "**/.svn": true,
+            "**/.hg": true,
+            "**/CVS": true,
+            "**/.DS_Store": true,
+            "**/*.js.map": true,
+            "**/*.js": {
+                "when": "$(basename).ts"
+            },
+        },
+        "typescriptHero.imports.organizeOnSave": true,
+        "tslint.autoFixOnSave": true,
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "typescriptHero.imports.disableImportRemovalOnOrganize": false,
+        "typescriptHero.imports.insertSemicolons": true,
+        "emmet.includeLanguages": {
+            "javascript": "javascriptreact"
+        },
+        "eslint.autoFixOnSave": true,
+        "eslint.alwaysShowStatus": true,
+        "workbench.colorCustomizations": {
+            "activityBar.background": "#1accff",
+            "activityBar.foreground": "#15202b",
+            "activityBar.inactiveForeground": "#15202b99",
+            "activityBarBadge.background": "#df00ad",
+            "activityBarBadge.foreground": "#e7e7e7",
+            "titleBar.activeBackground": "#00b3e6",
+            "titleBar.inactiveBackground": "#00b3e699",
+            "titleBar.activeForeground": "#15202b",
+            "titleBar.inactiveForeground": "#15202b99"
+        },
+        "prettier.jsxSingleQuote": true,
+        "prettier.singleQuote": true,
+        "editor.formatOnSave": true
+    }
 }

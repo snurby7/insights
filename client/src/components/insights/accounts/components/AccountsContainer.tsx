@@ -1,6 +1,6 @@
 import { StyleRulesCallback, Theme } from '@material-ui/core';
 import { StyleRules, withStyles } from '@material-ui/core/styles';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { YnabAgent } from '../../../../agents';
 import { IAccount } from '../../../../contracts';
@@ -11,10 +11,6 @@ export interface IAccountsProps {
   classes: Record<string, string>;
 }
 
-export interface IAccountsState {
-  accounts: IAccount[];
-}
-
 const styles: StyleRulesCallback<string> | StyleRules<string> = (theme: Theme) => ({
   accountLabel: {
     color: theme.palette.primary.contrastText,
@@ -22,30 +18,23 @@ const styles: StyleRulesCallback<string> | StyleRules<string> = (theme: Theme) =
   },
 });
 
-class AccountsContainer extends React.Component<IAccountsProps, IAccountsState> {
-  public state = {
-    accounts: [] as IAccount[],
-  };
+const AccountsContainer = ({ classes, budgetId }: IAccountsProps) => {
+  const [accounts, setAccounts] = useState<IAccount[]>([]);
 
-  public render() {
-    const { classes } = this.props;
-    const { accounts } = this.state;
-    return (
-      <div>
-        <div className={classes.accountLabel}>Accounts</div>
-        {accounts.map(props => (
-          <BudgetAccount key={props.id} {...props} />
-        ))}
-      </div>
-    );
-  }
-
-  public componentDidMount() {
-    const { budgetId } = this.props;
-    YnabAgent.getAccounts(budgetId).then(accounts => {
-      this.setState({ accounts });
+  useEffect(() => {
+    YnabAgent.getAccounts(budgetId).then(results => {
+      setAccounts(results);
     });
-  }
-}
+  }, []);
+
+  return (
+    <div>
+      <div className={classes.accountLabel}>Accounts</div>
+      {accounts.map(account => (
+        <BudgetAccount key={account.id} {...account} />
+      ))}
+    </div>
+  );
+};
 
 export default withStyles(styles, { withTheme: true })(AccountsContainer);

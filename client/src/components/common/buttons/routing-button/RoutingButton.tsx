@@ -1,41 +1,41 @@
-import Button from '@material-ui/core/Button';
+import { PropTypes } from '@material-ui/core';
+import Button, { ButtonProps } from '@material-ui/core/Button';
 import React, { ReactNode } from 'react';
 import { Route } from 'react-router-dom';
 
 import { ButtonDisplayType } from './enum/button-display-type.enum';
-import { IRoutingButtonProps } from './IRoutingButtonProps';
 
-export const RoutingButton = class RoutingButtonClass extends React.Component<IRoutingButtonProps> {
-  public render() {
-    const { variant, color, displayType, route } = this.props;
-    return (
-      <Route
-        render={({ history }) => (
-          <Button
-            variant={variant}
-            color={color}
-            onClick={() => {
-              history.push(route);
-            }}
-          >
-            {this.getDisplayValue(displayType)}
-          </Button>
-        )}
-      />
-    );
-  }
+export interface IRoutingButtonProps {
+  variant?: ButtonProps['variant'];
+  color?: PropTypes.Color;
+  displayType: ButtonDisplayType;
+  route: string;
+  displayName?: string;
+  children?: ReactNode;
+}
 
-  /**
-   * @description Function to get a variable display type since Children can be passed it needs to render them also
-   * @param {ButtonDisplayType} displayType The display type
-   * @returns {(ReactNode | string)} Either the children or a string
-   */
-  private getDisplayValue(displayType: ButtonDisplayType): ReactNode | string {
+export const RoutingButton = ({ variant, color, displayType, route, children, displayName }: IRoutingButtonProps) => {
+  const getDisplayValue = (): ReactNode | string => {
     switch (displayType) {
       case ButtonDisplayType.Node:
-        return this.props.children;
+        return children;
       default:
-        return this.props.displayName;
+        return displayName;
     }
-  }
+  };
+  return (
+    <Route
+      render={({ history }) => (
+        <Button
+          variant={variant}
+          color={color}
+          onClick={() => {
+            history.push(route);
+          }}
+        >
+          {getDisplayValue()}
+        </Button>
+      )}
+    />
+  );
 };

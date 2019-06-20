@@ -32,7 +32,7 @@ class AdminPage extends React.Component<IAdminProps> {
         id: 'c359aa34-36e8-495b-b8dd-03369dca603b',
         cardTitle: 'Transactions',
         subTitles: ['Refresh all transactions from YNAB and store results'],
-        onAsyncClick: () => AdminAgent.udateTransactions(budgetId),
+        onAsyncClick: () => AdminAgent.updateTransactions(budgetId),
         buttonText: 'Update',
       },
       {
