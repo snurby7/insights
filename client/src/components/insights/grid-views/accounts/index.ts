@@ -1,1 +1,1 @@
-export { VisibleAccountView } from './page/VisibleAccountView';
+export * from './AccountView';

@@ -7,13 +7,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { StyleRules, StyleRulesCallback, Theme, withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { UserAgent } from '../../../../../agents';
 import { IUser } from '../../../../../contracts';
 import UserDialog from './UserDialog';
 
-const styles: StyleRulesCallback<string> | StyleRules<string> = (theme: Theme) => ({
+const styles: StyleRulesCallback<string> | StyleRules<string> = (
+  theme: Theme
+) => ({
   root: {
     width: '100%',
     maxWidth: 360,
@@ -22,98 +24,98 @@ const styles: StyleRulesCallback<string> | StyleRules<string> = (theme: Theme) =
 });
 
 export interface IUserManagementProps {
-  classes: any;
   budgetId: string;
+  classes: any;
 }
 
-export interface IUserManagementState {
-  openDialog: boolean;
-  users: IUser[];
-  selectedUser: IUser | undefined;
-}
+const ListItemWrapper = ({
+  user,
+  editUser,
+  deleteUser,
+}: {
+  user: IUser;
+  editUser: (user: IUser) => void;
+  deleteUser: (userId: string | undefined) => void;
+}) => {
+  const onDeleteClick = () => deleteUser(user._id);
+  const onEditClick = () => editUser(user);
+  return (
+    <>
+      <ListItem>
+        <ListItemText>{user.name}</ListItemText>
+        <IconButton aria-label="Edit" onClick={onEditClick}>
+          <Icon>edit_icon</Icon>
+        </IconButton>
+        <IconButton aria-label="Delete" onClick={onDeleteClick}>
+          <DeleteIcon />
+        </IconButton>
+      </ListItem>
+      <Divider />
+    </>
+  );
+};
 
-class UserManagement extends React.Component<IUserManagementProps, IUserManagementState> {
-  public state = {
-    openDialog: false,
-    users: [] as IUser[],
-    selectedUser: undefined,
+const UserManagement = ({ classes, budgetId }: IUserManagementProps) => {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
+
+  const getLatestUsers = () => {
+    UserAgent.getUsers(budgetId).then(users => setUsers(users));
   };
 
-  public render() {
-    const { classes } = this.props;
-    const { openDialog, selectedUser, users } = this.state;
-    return (
-      <div>
-        <div className={classes.root}>
-          <List component="nav">
-            {users.map(user => (
-              <React.Fragment key={user._id}>
-                <ListItem>
-                  <ListItemText>{user.name}</ListItemText>
-                  <IconButton aria-label="Edit" onClick={() => this.editUser(user)}>
-                    <Icon>edit_icon</Icon>
-                  </IconButton>
-                  <IconButton aria-label="Delete" onClick={() => this.deleteUser(user._id)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItem>
-                <Divider />
-              </React.Fragment>
-            ))}
-          </List>
-          {openDialog && (
-            <UserDialog
-              budgetId={this.props.budgetId}
-              open={openDialog}
-              user={selectedUser}
-              onClose={data => this.onDialogClose(data)}
+  useEffect(() => {
+    getLatestUsers();
+  }, []);
+
+  const addUser = () => {
+    setSelectedUser(null);
+    setIsDialogOpen(true);
+  };
+
+  const onDialogClose = (fireRefresh?: boolean) => {
+    setIsDialogOpen(false);
+    setSelectedUser(null);
+    fireRefresh && getLatestUsers();
+  };
+
+  const deleteUser = (userId: string | undefined) => {
+    userId &&
+      UserAgent.deleteUser(userId).then(() => {
+        getLatestUsers();
+      });
+  };
+
+  const editUser = (userSelected: IUser) => {
+    setSelectedUser(userSelected);
+    setIsDialogOpen(true);
+  };
+
+  return (
+    <div>
+      <div className={classes.root}>
+        <List component="nav">
+          {users.map(user => (
+            <ListItemWrapper
+              key={user._id}
+              editUser={editUser}
+              deleteUser={deleteUser}
+              user={user}
             />
-          )}
-          <Button onClick={() => this.addUser()}>Add User</Button>
-        </div>
+          ))}
+        </List>
+        {isDialogOpen && (
+          <UserDialog
+            budgetId={budgetId}
+            open={isDialogOpen}
+            user={selectedUser}
+            onClose={onDialogClose}
+          />
+        )}
+        <Button onClick={() => addUser()}>Add User</Button>
       </div>
-    );
-  }
-
-  public componentDidMount() {
-    this.getUsersForDisplay();
-  }
-
-  public getUsersForDisplay() {
-    UserAgent.getUsers(this.props.budgetId).then(users => {
-      this.setState({ users });
-    });
-  }
-
-  public addUser() {
-    this.setState({
-      selectedUser: undefined,
-      openDialog: true,
-    });
-  }
-
-  public onDialogClose(fireRefresh?: boolean) {
-    this.setState({
-      openDialog: false,
-      selectedUser: undefined,
-    });
-    if (fireRefresh) {
-      this.getUsersForDisplay();
-    }
-  }
-
-  public deleteUser(userId: string | undefined) {
-    if (!userId) {
-      return;
-    }
-    UserAgent.deleteUser(userId).then(() => {
-      this.getUsersForDisplay();
-    });
-  }
-
-  public editUser(selectedUser: IUser) {
-    this.setState({ selectedUser, openDialog: true });
-  }
-}
+    </div>
+  );
+};
 
 export default withStyles(styles)(UserManagement);

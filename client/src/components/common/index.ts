@@ -4,4 +4,3 @@ export * from './buttons/routing-button/RoutingButton';
 export * from './grid/DxReactGridWrapper';
 export * from './GridDisplay';
 export * from './IGridDisplayProps';
-export * from './app-bar/VisibleYnabAppBar';

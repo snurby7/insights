@@ -8,13 +8,19 @@ import React from 'react';
 
 import { UserAgent } from '../../../../../agents';
 import { IUser } from '../../../../../contracts';
-import { IUserDialogProps } from './IUserDialogProps';
 
 export interface IDialogState extends IUser {
   budgetId?: string;
   open: boolean;
   name: string;
   salary: string;
+}
+
+export interface IUserDialogProps {
+  budgetId: string;
+  open: boolean;
+  user: IUser | null;
+  onClose: (refresh?: boolean) => void;
 }
 
 class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
@@ -31,7 +37,7 @@ class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
     const target = event.currentTarget;
     const value = target.value;
     const name = target.name as keyof IDialogState;
-    const state = this.state as IDialogState;
+    const state: any = this.state as IDialogState;
     state[name] = value;
     if (target.validity.valid) {
       this.setState(state);
@@ -39,11 +45,12 @@ class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
   }
 
   public handleSubmit() {
-    (this.props.user ? UserAgent.updateUser(this.formatRequest()) : UserAgent.saveUser(this.formatRequest())).then(
-      () => {
-        this.handleClose(true);
-      }
-    );
+    (this.props.user
+      ? UserAgent.updateUser(this.formatRequest())
+      : UserAgent.saveUser(this.formatRequest())
+    ).then(() => {
+      this.handleClose(true);
+    });
   }
 
   public handleClose(refresh?: boolean): void {
@@ -73,11 +80,17 @@ class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
       <Dialog open={open} keepMounted={true} onClose={() => this.handleClose()}>
         <DialogTitle>User</DialogTitle>
         <DialogContent>
-          <DialogContentText>Enter some data about the user to add</DialogContentText>
+          <DialogContentText>
+            Enter some data about the user to add
+          </DialogContentText>
           <form onSubmit={() => this.handleSubmit()}>
             <label>
               Name:
-              <input name="name" value={name} onChange={event => this.handleChange(event)} />
+              <input
+                name="name"
+                value={name}
+                onChange={event => this.handleChange(event)}
+              />
             </label>
             <br />
             <label>
@@ -95,10 +108,18 @@ class UserDialog extends React.Component<IUserDialogProps, IDialogState> {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button type="submit" onClick={() => this.handleSubmit()} color="primary">
+          <Button
+            type="submit"
+            onClick={() => this.handleSubmit()}
+            color="primary"
+          >
             Save
           </Button>
-          <Button type="button" onClick={() => this.handleClose()} color="primary">
+          <Button
+            type="button"
+            onClick={() => this.handleClose()}
+            color="primary"
+          >
             Close
           </Button>
         </DialogActions>

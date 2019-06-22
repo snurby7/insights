@@ -19,16 +19,19 @@
                 "when": "$(basename).ts"
             },
         },
+        "[typescript]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        },
         "typescriptHero.imports.organizeOnSave": true,
-        "tslint.autoFixOnSave": true,
         "typescript.updateImportsOnFileMove.enabled": "always",
         "typescriptHero.imports.disableImportRemovalOnOrganize": false,
         "typescriptHero.imports.insertSemicolons": true,
         "emmet.includeLanguages": {
             "javascript": "javascriptreact"
         },
-        "eslint.autoFixOnSave": true,
-        "eslint.alwaysShowStatus": true,
         "workbench.colorCustomizations": {
             "activityBar.background": "#1accff",
             "activityBar.foreground": "#15202b",
@@ -42,6 +45,5 @@
         },
         "prettier.jsxSingleQuote": true,
         "prettier.singleQuote": true,
-        "editor.formatOnSave": true
     }
 }

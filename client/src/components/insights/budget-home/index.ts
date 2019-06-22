@@ -1,1 +1,1 @@
-export { default as VisibleBudgetHomePage } from './page/VisibleBudgetHomePage';
+export { default as BudgetHome } from './BudgetHomePage';

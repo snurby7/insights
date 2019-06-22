@@ -4,13 +4,10 @@
   "license": "MIT",
   "dependencies": {
     "@types/classnames": "2.2.7",
-    "@types/react-redux": "7.0.5",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-redux": "6.0.1",
     "react-scripts": "2.1.8",
-    "redux": "4.0.1",
-    "redux-devtools": "3.5.0"
+    "rxjs": "^6.5.2"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,1 +1,1 @@
-export * from './page/VisibleUserManagement';
+export * from './user-management/UserManagement';

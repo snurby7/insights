@@ -24,7 +24,7 @@
 
 ### Running the UI
 
-See `yarn dev` down below
+See `yarn start` down below
 
 ### Running the Server
 
@@ -32,8 +32,7 @@ See `yarn dev` down below
 - Add a file to 'data' called user-config.js which looks something like
 
 ```js
-  exports.userConfigToken =
-  "<YOUR TOKEN HERE>";
+exports.userConfigToken = '<YOUR TOKEN HERE>';
 ```
 
 - You can find how to get a token from [here](https://api.youneedabudget.com/#getting-started)
@@ -51,7 +50,7 @@ See `yarn dev` down below
 
 In the project directory, you can run:
 
-### `yarn dev`
+### `yarn start`
 
 Runs the app in the development mode and using `concurrently` it will live reload the server/UI.<br>
 This will open [localhost:3000](http://localhost:3000) in the browser.<br>

@@ -12,11 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { SiteActions } from '../../../actions/site-actions';
-import { IReducerAction } from '../../../contracts';
+import { setBudgetId } from '../../../api/BudgetApi';
+
 
 const styles = (theme: Theme) => ({
   grow: {
@@ -103,9 +102,8 @@ const styles = (theme: Theme) => ({
 
 export interface IYnabAppBarProps extends RouteComponentProps<any> {
   classes: any;
+  budgetId: string;
   theme: Theme;
-  budgetId: string | undefined;
-  dispatch: (action: IReducerAction) => void;
 }
 
 export interface IYnabAppBarState {
@@ -113,12 +111,12 @@ export interface IYnabAppBarState {
   mobileMoreAnchorEl: any;
 }
 
-const YnabAppBar = (props: IYnabAppBarProps) => {
+const YnabAppBarComponent = ({
+  classes,
+  budgetId,
+  history,
+}: IYnabAppBarProps) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
-  const handleMenuClose = () => {
-    handleMobileMenuClose();
-  };
 
   const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -129,14 +127,9 @@ const YnabAppBar = (props: IYnabAppBarProps) => {
   };
 
   const closeBudget = () => {
-    props.dispatch({
-      type: SiteActions.UPDATE_SELECTED_BUDGET,
-      payload: { budgetId: '' },
-    });
-    props.history.push('/');
+    setBudgetId('');
+    history.push('/');
   };
-
-  const { budgetId, classes } = props;
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const hasBudgetSelection = budgetId && budgetId.length > 0;
@@ -149,13 +142,13 @@ const YnabAppBar = (props: IYnabAppBarProps) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={() => props.history.push(`/budget`)}>
+      <MenuItem onClick={() => history.push(`/budget`)}>
         <IconButton color="inherit">
           <Icon>home</Icon>
         </IconButton>
         <p>Home</p>
       </MenuItem>
-      <MenuItem onClick={() => props.history.push(`/budget/update`)}>
+      <MenuItem onClick={() => history.push(`/budget/update`)}>
         <IconButton color="inherit">
           <Icon>sync</Icon>
         </IconButton>
@@ -175,7 +168,12 @@ const YnabAppBar = (props: IYnabAppBarProps) => {
       <CssBaseline />
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
-          <Typography className={classes.title} variant="h6" color="inherit" noWrap={true}>
+          <Typography
+            className={classes.title}
+            variant="h6"
+            color="inherit"
+            noWrap={true}
+          >
             Insights
           </Typography>
           <div className={classes.search}>
@@ -194,10 +192,16 @@ const YnabAppBar = (props: IYnabAppBarProps) => {
           <div className={classes.sectionDesktop}>
             {hasBudgetSelection && (
               <React.Fragment>
-                <IconButton onClick={() => props.history.push(`/budget`)} color="inherit">
+                <IconButton
+                  onClick={() => history.push(`/budget`)}
+                  color="inherit"
+                >
                   <Icon>home</Icon>
                 </IconButton>
-                <IconButton onClick={() => props.history.push(`/budget/update`)} color="inherit">
+                <IconButton
+                  onClick={() => history.push(`/budget/update`)}
+                  color="inherit"
+                >
                   <Icon>sync</Icon>
                 </IconButton>
                 <IconButton onClick={closeBudget} color="inherit">
@@ -208,7 +212,11 @@ const YnabAppBar = (props: IYnabAppBarProps) => {
           </div>
           <div className={classes.sectionMobile}>
             {hasBudgetSelection && (
-              <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
+              <IconButton
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
                 <MoreIcon />
               </IconButton>
             )}
@@ -220,4 +228,6 @@ const YnabAppBar = (props: IYnabAppBarProps) => {
   );
 };
 
-export const YnabAppBarComponent = withStyles(styles, { withTheme: true })(connect()(withRouter(YnabAppBar)));
+export const YnabAppBar = withStyles(styles, { withTheme: true })(
+  withRouter(YnabAppBarComponent)
+);

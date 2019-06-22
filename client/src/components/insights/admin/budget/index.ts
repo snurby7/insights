@@ -1,1 +1,1 @@
-export * from './page/VisibleAdminPage';
+export * from './BudgetSync';
